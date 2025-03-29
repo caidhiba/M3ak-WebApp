@@ -1,0 +1,62 @@
+header{
+    background-color: #325343;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 300px;
+    margin: 0;
+    padding-right: 90px;
+    color: #FFE4DD;
+    padding-left: 30px;
+    
+
+}
+.dark-logo-holder > img{
+    width: 60px;
+    height: 60px;
+    /* background-color: #325343; */
+}
+.header-elements{
+    display: flex;
+    gap: 30px;
+}
+.Login-button{
+    width:70px ;
+    height:25px ;
+    background-color: #325343;
+    border: 1px solid #FFE4DD;
+    color: #FFE4DD;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
+    text-align: center;
+    transition: background-color 0.4s ease-in-out;
+}
+.Login-button:hover{
+    background-color: #FFE4DD;
+    border: 1px solid #325343;
+    color: #325343;
+}
+.Signin-button{
+    width:70px ;
+    height:26px ;
+    background-color: #FFE4DD;
+    border: 1px solid #325343;
+    color: #325343;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
+    text-align: center;
+    transition: background-color 0.1s ease-in-out;
+}
+.Signin-button:hover{
+    background-color: #325343;
+    border: 1px solid #FFE4DD;
+    color: #FFE4DD;
+}
+.header-element{
+    padding: 5px 5px;
+    cursor: pointer;
+}
+.header-element:hover{
+    background-color: #1e392c;
+}
