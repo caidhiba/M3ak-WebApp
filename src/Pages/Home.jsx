@@ -4,7 +4,8 @@ import Header from '../Components/Header/Header'
 import { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import TeamSection from '../Components/Header/TeamSection';
+import TeamSection from '../Components/team-section/TeamSection';
+import BookSection from '../Components/book-section/BookSection';
 
 
 const testimonials = [
@@ -136,6 +137,8 @@ const Home = () => {
     </section>
     {/* ___________our team section__________ */}
     <TeamSection />
+    {/* ________Book section_________---- */}
+    <BookSection />
 
   </>
   )
