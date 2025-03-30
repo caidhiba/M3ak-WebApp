@@ -24,6 +24,7 @@
     border-radius: 10px;
     max-width: 200px;
     cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(50,83,67,0.3);
   }
   .team-card:hover{
     background-color: #C7E1C2;
