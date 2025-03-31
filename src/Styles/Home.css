@@ -16,14 +16,14 @@
     align-items: flex-start; 
   }
   
-  .hero h1 {
-    font-size: 48px;
-    font-weight: bold;
+  .hero-content h1 {
+    font-size: 60px !important;
+    font-weight: 800;
     margin-bottom: 20px;
   }
   
   .hero p {
-    font-size: 16px;
+    font-size: 19px !important;
     line-height: 1.6;
     margin-bottom: 20px;
   }
@@ -37,7 +37,7 @@
     background: transparent;
     color: white;
     border: 1px solid white;
-    padding: 10px 20px;
+    padding: 10px 23px;
     cursor: pointer;
     font-size: 16px;
     transition: 0.3s;
@@ -53,7 +53,7 @@
     background: #FFE4DD; 
     color: black;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 23px;
     cursor: pointer;
     font-size: 16px;
     transition: 0.3s;

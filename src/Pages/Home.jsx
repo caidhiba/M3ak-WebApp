@@ -6,6 +6,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import TeamSection from '../Components/team-section/TeamSection';
 import BookSection from '../Components/book-section/BookSection';
+import Footer from '../Components/Footer/Footer';
 
 
 const testimonials = [
@@ -139,6 +140,8 @@ const Home = () => {
     <TeamSection />
     {/* ________Book section_________---- */}
     <BookSection />
+    {/* ___________Footer section__________ */}
+    <Footer />
 
   </>
   )
