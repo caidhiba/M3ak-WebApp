@@ -1,6 +1,6 @@
 .footer {
     background-color: #325343;
-    color: #C7E1C2;
+    color: #F8FFF6 !important;
     padding: 50px;
     text-align: left;
   }
@@ -74,7 +74,9 @@
     color: #f5f5f5;
     text-decoration: none;
   }
-  
+  .footer-bottom .links a:hover {
+    color: #f7a995;
+  }
   .social-icons a {
     margin-left: 10px;
     color: #f5f5f5;
@@ -87,5 +89,8 @@
     font-size: 12px;
   }
   .footer-bottom .links a{
+    color: #C7E1C2;
+  }
+  .social-icons{
     color: #C7E1C2;
   }
