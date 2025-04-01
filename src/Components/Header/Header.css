@@ -16,7 +16,7 @@
     right: 0;
     left: 0;
     /* box-shadow: 1px 1px 5px rgba(255,228,221,0.2); */
-    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    /* box-shadow: 1px 1px 5px rgba(0,0,0,0.2); */
 
 }
 .dark-logo-holder{
@@ -89,7 +89,7 @@ align-items: center;
   .header.scrolled {
     background-color: #F8FFF6; 
     color: #325343; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); */
     width: auto;
     right: 0;
     left: 0;
