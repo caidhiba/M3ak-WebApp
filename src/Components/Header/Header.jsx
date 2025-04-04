@@ -1,5 +1,6 @@
  import './Header.css'
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./Header.css"; 
 
 export default function Header(){
@@ -25,7 +26,7 @@ export default function Header(){
                 <span className="logo-text">M3ak</span>
             </div>
             <div className="header-elements">
-                <span className="header-element">Therapists List</span>
+                <Link to="/therapists-list" className="header-element">Therapists List</Link>
                 <span className="header-element">Find A Therapist</span>
                 <span className="header-element">Contact</span>
                 <span className="header-element">Business</span>
