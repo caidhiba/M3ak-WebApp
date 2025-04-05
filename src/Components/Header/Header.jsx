@@ -30,7 +30,7 @@ export default function Header(){
                 <span className="header-element">Find A Therapist</span>
                 <span className="header-element">Contact</span>
                 <span className="header-element">Business</span>
-                <span className="header-element">Shop books</span>
+                <Link to="/BookShop" className="header-element">Shop books</Link>
                 <button className="Login-button">Log In</button>
                 <button className="Signin-button">Sign In</button>
             </div>

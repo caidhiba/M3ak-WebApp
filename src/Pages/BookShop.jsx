@@ -9,7 +9,7 @@ import wissam from '../Assets/Wissam_Shaath.webp';
 import sophie from '../Assets/Team-member.png'
 import marwa from '../Assets/Marwa_Azab.jpg'
 
-const TherapistsList = () => {
+const BookShop = () => {
   return (
     <>
       <Header />
@@ -24,9 +24,9 @@ const TherapistsList = () => {
           <div className="right-part">
             
             <div className="title">
-              Find your Therapist:
+               Our Book Collection:
               <div className="t2">
-                Empowering you to heal, grow, and thrive with personalized support.
+              Explore our carefully curated collection of books designed to help you on your journey of healing, self-discovery, and personal growth.
               </div>
             </div>
 
@@ -40,10 +40,10 @@ const TherapistsList = () => {
             <select className="sort-dropdown">
               <option>Sort by</option>
               <option>Category</option>
-              <option>Gender</option>
-              <option>Language spoker</option>
-              <option>Availability</option>
-              <option>Experience</option>
+              <option>Target Audience</option>
+              <option>Language</option>
+              <option>Purpose</option>
+              <option>Price Range</option>
             </select>
             </div>
 
@@ -83,4 +83,4 @@ const TherapistsList = () => {
   )
 }
 
-export default TherapistsList
+export default BookShop

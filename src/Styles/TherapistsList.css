@@ -44,8 +44,9 @@
 
 .title .t2{
     color: black;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
+    margin-top: 20px;
 }
 
 .search-bar {
@@ -64,3 +65,57 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
 }
+
+.search-sort {
+    display: flex;
+    align-items: center;
+    gap: 100px;
+    margin: 20px 0;
+    width: 80%;
+    justify-content: flex-start;
+}
+
+.search-wrapper {
+    position: relative;
+    flex: 1;
+    max-width: 600px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    border: 2px solid #a4a8a3;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: white;
+    color: #333;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #8a8a8a;
+    font-size: 18px;
+}
+
+.sort-dropdown {
+    padding: 12px 16px;
+    border: 2px solid  #a4a8a3;
+    border-radius: 10px;
+    background-color: white;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+}
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: flex-start;
+    padding: 20px;
+  }
+  
