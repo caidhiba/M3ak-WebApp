@@ -97,3 +97,47 @@
     color: #325343;
     transition: background 0.5s ease-in-out;
 }
+
+/* Mobile Styles (applies below 768px) */
+
+@media (max-width: 767px) {
+    .books-section {
+      padding: 30px 20px;
+    }
+  
+    .books-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 25px;
+      margin-top: 15px;
+      justify-items: center; 
+    }
+  
+    .book-card {
+      width: 90%; 
+      max-width: none; 
+      padding: 12px;
+      height: 100%; 
+    }
+  
+    .book-card h3 {
+      font-size: 14px; 
+      padding-right: 5px;
+    }
+  
+    .price {
+      font-size: 15px;
+      padding-top: 10px;
+    }
+  
+    .add-to-cart {
+      padding: 10px 12px; 
+      font-size: 14px;
+    }
+  
+    .view-all {
+      padding: 12px 25px;
+      font-size: 16px;
+      margin-top: 50px;
+    }
+  }

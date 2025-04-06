@@ -8,7 +8,6 @@ import TeamSection from '../Components/team-section/TeamSection';
 import BookSection from '../Components/book-section/BookSection';
 import Footer from '../Components/Footer/Footer';
 
-
 const testimonials = [
   {
     id: 1,
@@ -35,18 +34,49 @@ const testimonials = [
     image: "/src/assets/pfp-therapist.avif",
   },
 ];
+
+ 
+
 const Home = () => {
 
+  // const [index, setIndex] = useState(0);
+
+  // const prevSlide = () => {
+  //   setIndex((prev) => (prev === 0 ? testimonials.length - 3 : prev - 1));
+  // };
+
+  // const nextSlide = () => {
+  //   setIndex((prev) => (prev >= testimonials.length - 3 ? 0 : prev + 1));
+  // };
+
   const [index, setIndex] = useState(0);
+  const [visibleCards, setVisibleCards] = useState(3);
+
+  
+  useEffect(() => {
+    const updateCards = () => {
+      const width = window.innerWidth;
+      if (width < 640) setVisibleCards(1);
+      else if (width < 1024) setVisibleCards(1);
+      else setVisibleCards(3);
+    };
+
+    updateCards();
+    window.addEventListener("resize", updateCards);
+    return () => window.removeEventListener("resize", updateCards);
+  }, []);
 
   const prevSlide = () => {
-    setIndex((prev) => (prev === 0 ? testimonials.length - 3 : prev - 1));
+    if (index > 0) setIndex(index - 1);
   };
 
   const nextSlide = () => {
-    setIndex((prev) => (prev >= testimonials.length - 3 ? 0 : prev + 1));
+    if (index + visibleCards < testimonials.length) {
+      setIndex(index + 1);
+    }else {
+      setIndex(0); // loop back to start
+    }
   };
-
   return (
     <>
     
@@ -80,7 +110,7 @@ const Home = () => {
         </div>
 
         <div className="therapy-card">
-          <img src="/src/assets/couples-therapy.png" alt="Adult Therapy" />
+          <img src="/src/assets/adult-therapy.png" alt="Adult Therapy" />
           <h3>Adult Therapy</h3>
         </div>
 
@@ -91,37 +121,53 @@ const Home = () => {
       </div>
     </section>
     {/* ___________ratings section_____________ */}
+
     <div className="testimonials-container">
-  <h2 className="testimonials-title">Customer Testimonials</h2>
-  <p className="testimonials-subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-  <div className="testimonials-wrapper">
-    <button onClick={prevSlide} className="arrow-button arrow-left">
-      <ChevronLeft size={24} />
-    </button>
-    <div className="testimonials-cards">
-      {testimonials.slice(index, index + 3).map((t, i) => (
-        <div key={i} className="testimonial-card">
-          <div className="testimonial-stars">
-            {Array.from({ length: 5 }).map((_, starIndex) => (
-              <span key={starIndex} className={starIndex < t.rating ? "text-yellow-400" : "text-gray-300"}>★</span>
-            ))}
-          </div>
-          <p className="testimonial-text">"{t.text}"</p>
-          <div className="testimonial-user">
-            <img src={t.image} alt={t.name} />
-            <div className="testimonial-user-info">
-              <p className="testimonial-user-name">{t.name}</p>
-              <p className="testimonial-user-position">{t.position}</p>
+      <h2 className="testimonials-title">Customer Testimonials</h2>
+      <p className="testimonials-subtitle">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+
+      <div className="testimonials-wrapper">
+        <button onClick={prevSlide} className="arrow-button arrow-left">
+          <ChevronLeft size={24} />
+        </button>
+
+        <div className="testimonials-cards">
+          {testimonials.slice(index, index + visibleCards).map((t, i) => (
+            <div key={i} className="testimonial-card">
+              <div className="testimonial-stars">
+                {Array.from({ length: 5 }).map((_, starIndex) => (
+                  <span
+                    key={starIndex}
+                    className={
+                      starIndex < t.rating
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                    }
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <p className="testimonial-text">"{t.text}"</p>
+              <div className="testimonial-user">
+                <img src={t.image} alt={t.name} />
+                <div className="testimonial-user-info">
+                  <p className="testimonial-user-name">{t.name}</p>
+                  <p className="testimonial-user-position">{t.position}</p>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      ))}
+
+        <button onClick={nextSlide} className="arrow-button arrow-right">
+          <ChevronRight size={24} />
+        </button>
+      </div>
     </div>
-    <button onClick={nextSlide} className="arrow-button arrow-right">
-      <ChevronRight size={24} />
-    </button>
-  </div>
-</div>
+  
 {/* _______________booking section_____________ */}
   <section className="hero">
       <div className="hero-content">
@@ -147,4 +193,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Home;

@@ -1,285 +1,440 @@
 
 .hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #325343;
-    padding: 80px 10%;
-    color: #FFE4DD;
-  }
-  
-  .hero-content {
-    max-width: 60%;
-    text-align: left; 
-    display: flex;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #325343;
+  padding: 80px 10%;
+  flex-wrap: wrap;
+  color: #FFE4DD;
+  width: 100%;
+  margin: 0;
+}
+
+.hero-content {
+  max-height: 60%;
+  width: 100%;
+  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+}
+
+.hero-content h1 {
+  font-size: 60px !important;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 19px !important;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.login-btn {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 10px 23px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  box-shadow: 1px 1px 5px rgba(255,228,221,0.3);
+}
+
+.login-btn:hover {
+  background: #FFE4DD;
+  color: #325343;
+}
+
+.signup-btn {
+  background: #FFE4DD; 
+  color: black;
+  border: none;
+  padding: 10px 23px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  box-shadow: 1px 1px 5px rgba(255,228,221,0.3);
+}
+
+.signup-btn:hover {
+  background: #325343;
+}
+
+.hero-image img {
+  width: 300px; 
+  padding-top: 60px;
+}
+
+/* ______________________________ */
+/* @media (max-width: 700px) {
+  .hero {
     flex-direction: column;
-    align-items: flex-start; 
-  }
-  
-  .hero-content h1 {
-    font-size: 60px !important;
-    font-weight: 800;
-    margin-bottom: 20px;
-  }
-  
-  .hero p {
-    font-size: 19px !important;
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-  
-  .hero-buttons {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .login-btn {
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 10px 23px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-    box-shadow: 1px 1px 5px rgba(255,228,221,0.3);
-  }
-  
-  .login-btn:hover {
-    background: #FFE4DD;
-    color: #325343;
-  }
-  
-  .signup-btn {
-    background: #FFE4DD; 
-    color: black;
-    border: none;
-    padding: 10px 23px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-    box-shadow: 1px 1px 5px rgba(255,228,221,0.3);
-  }
-  
-  .signup-btn:hover {
-    background: #325343;
-  }
-  
-  .hero-image img {
-    width: 300px; 
-    padding-top: 60px;
-  }
-  
-/* -------------therapy options styling--------------- */
-  .therapy-options {
-    text-align: left;
-    padding: 50px 10%;
-    background-color: #F8FFF6; 
-    cursor: pointer;
-  }
-  
-  .therapy-options h2 {
-    margin-bottom: 5px;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .therapy-subtitle {
-    margin-top: 10px;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .therapy-cards {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
-  .therapy-card {
-    background-color: #7D7C9D; 
-    width: 250px;
-    padding: 20px;
-    border-radius: 10px;
+    align-items: center;
     text-align: center;
-    transition: 0.3s;
-  }
-  
-  .therapy-card:nth-child(1) { background-color: #7D7C9D; } 
-  .therapy-card:nth-child(2) { background-color: #AC7F94; } 
-  .therapy-card:nth-child(3) { background-color: #979772; } 
-  
-  .therapy-card img {
+    padding: 40px 5%;
     width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
   }
-  
-  .therapy-card h3 {
-    font-size: 18px;
-    color: #FEF0EC;
-    font-weight: bold;
+
+  .hero-content {
+    align-items: center;
+    text-align: center;
   }
-  
-  /* Hover Effect */
-  .therapy-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+  .hero-content h1 {
+    font-size: 40px !important;
   }
-  
+
+  .hero p {
+    font-size: 17px !important;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .login-btn, .signup-btn {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .hero-image {
+    margin-top: 30px;
+  }
+
+  .hero-image img {
+    width: 18.75rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .hero-content h1 {
+    font-size: 28px !important;
+  }
+
+  .hero p {
+    font-size: 15px !important;
+  }
+
+  .hero-image img {
+    width: 80%;
+    max-width: 200px;
+  }
+}
+ */
+
+
+/* -------------therapy options styling--------------- */
+.therapy-options {
+  text-align: left;
+  padding: 50px 10%;
+  background-color: #F8FFF6; 
+  cursor: pointer;
+  max-width: 100%;
+}
+
+.therapy-options h2 {
+  margin-bottom: 5px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.therapy-subtitle {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.therapy-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;         
+  justify-content: center;
+}
+
+.therapy-card {
+  background-color: #7D7C9D; 
+  width: 250px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.3s;
+  flex: 1 1 250px;          /* ✅ lets it grow/shrink with base width of 250px */
+  max-width: 300px;         /* ✅ prevents stretching too far */
+  min-width: 200px;  
+}
+
+.therapy-card:nth-child(1) { background-color: #7D7C9D; } 
+.therapy-card:nth-child(2) { background-color: #AC7F94; } 
+.therapy-card:nth-child(3) { background-color: #979772; } 
+
+.therapy-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.therapy-card h3 {
+  font-size: 18px;
+  color: #FEF0EC;
+  font-weight: bold;
+}
+
+/* Hover Effect */
+.therapy-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ____________________ */
+@media (max-width: 768px) {
+  .therapy-subtitle {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .therapy-options h2 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .therapy-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
 /* __________reviews section____________ */
 .testimonials-container {
-    background-color: #F8FFF6;
-    padding: 2.5rem 0;
-    text-align: center;
-    cursor: pointer;
-  }
-  
+  background-color: #F8FFF6;
+  padding: 2.5rem 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.testimonials-title {
+  font-size: 1.875rem;
+  font-weight: bold;
+}
+
+.testimonials-subtitle {
+  color: #4b5563;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.testimonials-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 950px;
+  flex-wrap: wrap;
+padding: 0 1rem;
+  margin: auto;
+}
+
+.testimonials-cards {
+  display: flex;
+  gap: 1rem;
+  /* overflow: hidden; */
+  transition: transform 0.5s ease-in-out;
+  flex-wrap: nowrap; 
+  justify-content: center;
+  width: 100%;
+}
+
+.testimonial-card {
+  background-color: white;
+  padding: 1.5rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  /* width: 30%;
+  min-width: 250px; */
+  flex: 1 1 300px;      /* Allows growing and shrinking */
+max-width: 300px;
+min-width: 250px;
+margin: 0.5rem;
+}
+
+.testimonial-stars {
+  color: #facc15;
+  margin-bottom: 0.5rem;
+}
+
+.testimonial-text {
+  color: #374151;
+  font-style: italic;
+}
+
+.testimonial-user {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.testimonial-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.testimonial-user-info {
+  text-align: left;
+}
+
+.testimonial-user-name {
+  font-weight: bold;
+}
+
+.testimonial-user-position {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.arrow-button {
+  position: absolute;
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.arrow-left {
+  left: -40px;
+}
+
+.arrow-right {
+  right: -40px;
+}
+
+@media (max-width: 768px) {
   .testimonials-title {
-    font-size: 1.875rem;
-    font-weight: bold;
+    font-size: 1.5rem;
   }
-  
+
   .testimonials-subtitle {
-    color: #4b5563;
-    margin: 0.5rem 0 1.5rem;
+    font-size: 0.9rem;
+    padding: 0 1rem;
   }
-  
-  .testimonials-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 950px;
-    margin: auto;
-  }
-  
-  .testimonials-cards {
-    display: flex;
-    gap: 1rem;
-    overflow: hidden;
-    transition: transform 0.5s ease-in-out;
-  }
-  
+
   .testimonial-card {
-    background-color: white;
-    padding: 1.5rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    width: 30%;
-    min-width: 250px;
+    flex: 1 1 90%;
+    max-width: 100%;
   }
-  
-  .testimonial-stars {
-    color: #facc15;
-    margin-bottom: 0.5rem;
-  }
-  
-  .testimonial-text {
-    color: #374151;
-    font-style: italic;
-  }
-  
-  .testimonial-user {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .testimonial-user img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .testimonial-user-info {
-    text-align: left;
-  }
-  
-  .testimonial-user-name {
-    font-weight: bold;
-  }
-  
-  .testimonial-user-position {
-    color: #6b7280;
-    font-size: 0.875rem;
-  }
-  
+
   .arrow-button {
-    position: absolute;
-    background-color: #16a34a;
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    border-radius: 50%;
-    cursor: pointer;
+    padding: 0.5rem;
   }
-  
+
   .arrow-left {
-    left: -40px;
+    left: 0;
   }
-  
+
   .arrow-right {
-    right: -40px;
+    right: 0;
   }
-  /* ________booking section__________ */
+}
 
-  .hero {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 50px 10%;
-    background: #325343;
-    color: #FFE4DD;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  .hero-content {
-    flex: 1;
-    padding-right: 20px;
-  }
-  
-  .hero-content h1 {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  .hero-content p {
-    font-size: 16px;
-    color: #FFE4DD;
-    margin-bottom: 20px;
-  }
-  
-  .hero-button {
-    background: #FFE4DD;
-    color: #2f4c3a;
-    padding: 10px 20px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: 0.3s;
-  }
-  
-  .hero-button:hover {
-    background: #e6b5a8;
-  }
-  
-  .hero-image {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .hero-image img {
-    width: 100%;
-    max-width: 450px;
-    border-radius: 20px 100px 0px 0px;
-  }
-  
+/* ________booking section__________ */
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 10%;
+  background: #325343;
+  color: #FFE4DD;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content {
+  flex: 1;     /*auto to make the pic under and flex 1 to make the pic and text side by side*/
+  padding-right: 20px;
+}
+
+.hero-content h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.hero-content p {
+  font-size: 16px;
+  color: #FFE4DD;
+  margin-bottom: 20px;
+}
+
+.hero-button {
+  background: #FFE4DD;
+  color: #2f4c3a;
+  padding: 10px 20px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.hero-button:hover {
+  background: #e6b5a8;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 20px 100px 0px 0px;
+}
 
 
+/* Mobile Styles (applies below 768px) */
+@media (max-width: 767px) {
+.hero {
+  /* flex-direction: column; */
+  padding: 90px 5%;
+  text-align: center;
+}
 
+.hero-content {
+  padding-right: 0;
+  margin-bottom: 30px;
+}
+
+.hero-content h1 {
+  font-size: 48px !important;
+}
+
+.hero-content p {
+  font-size: 15px;
+}
+
+.hero-button {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.hero-image img {
+  width: 100% !important;
+  border-radius: 10px 50px 0px 0px;
+}
+}
 
