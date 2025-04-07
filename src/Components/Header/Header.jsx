@@ -1,10 +1,6 @@
 import './Header.css'
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-
-
-
 import { Menu, X } from "lucide-react";
 
 
@@ -32,17 +28,18 @@ export default function Header() {
 
       {/* Desktop Navigation */}
       <nav className="nav-links">
-        <span className="header-element">Therapists List</span>
-        <span className="header-element">Find A Therapist</span>
-        <span className="header-element">Contact</span>
-        <span className="header-element">Business</span>
-        <span className="header-element">Shop books</span>
+        <Link to="/therapists-list" className="header-element">Therapist List</Link> 
+        <Link to="/FindATherapist" className="header-element">Find A Therapist</Link> 
+        <Link to="/contact" className="header-element">Contact</Link> 
+        <Link to="/Business" className="header-element">Business</Link> 
+        <Link to="/Bookshop" className="header-element">Shop Books</Link> 
+       
       </nav>
 
       {/* Desktop Auth Buttons */}
       <div className="auth-buttons">
-        <button className="Login-button">Log In</button>
-        <button className="Signin-button">Sign In</button>
+        <Link to="/login" className="Login-button">Log In</Link> 
+        <Link to="/signup" className="Signin-button">Sign In</Link>
       </div>
 
       {/* Mobile Menu Toggle */}

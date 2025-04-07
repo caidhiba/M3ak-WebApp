@@ -85,7 +85,7 @@
   }
   
   .copyright {
-    margin-top: 10px;
+    margin-top: 10px !important;
     font-size: 12px;
   }
   .footer-bottom .links a{
@@ -93,6 +93,9 @@
   }
   .social-icons{
     color: #C7E1C2;
+  }
+  .logo{
+    width: 100px;
   }
    /* Mobile Styles (below 768px) */
 @media (max-width: 767px) {
@@ -129,7 +132,7 @@
 
   .newsletter-input button {
     margin-left: 0;
-    width: 90%;
+    width: 80%;
   }
 
   .newsletter-input small {
