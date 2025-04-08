@@ -2,12 +2,12 @@ import React from 'react'
 import '../Styles/TherapistsList.css'
 import Header from '../Components/Header/Header.jsx'
 import Footer from '../Components/Footer/Footer.jsx'
-import Filters from '../Components/filters/Filters.jsx'
-import TherapistCard from '../Components/TherapistCard/TherapistCard.jsx'
-import hatim from '../Assets/Hatim_Alzahim.webp'
-import wissam from '../Assets/Wissam_Shaath.webp';
-import sophie from '../Assets/Team-member.png'
-import marwa from '../Assets/Marwa_Azab.jpg'
+import BookCard from '../Components/BookCard/BookCard.jsx'
+import book1 from '../Assets/book1.png'
+import book2 from '../Assets/book2.png'
+import book3 from '../Assets/book3.png'
+import book4 from '../Assets/book4.png'
+import FiltersBook from '../Components/filtersBook/FiltersBook.jsx'
 
 const BookShop = () => {
   return (
@@ -18,7 +18,7 @@ const BookShop = () => {
       </div>
       <div className="middle">
           <div className="left-menu">
-            <Filters/>
+            <FiltersBook />
           </div>
 
           <div className="right-part">
@@ -48,32 +48,35 @@ const BookShop = () => {
             </div>
 
             <div className="cards">
-            <TherapistCard
-              name="Dr. Hatim Alzahim"
-              categories={["Cognitive Behavioral", "Anxiety", "Teens"]}
-              description="Passionate about guiding young people through mental health challenges."
-              image={hatim}
-            />
-
-            <TherapistCard
-              name="Wissam Shaath"
-              categories={["Depression", "Couples", "Stress"]}
-              description="Helping couples and individuals find emotional balance."
-              image={wissam}
-            />
-            <TherapistCard
-              name=" Dr. Sophie Cheval"
-              categories={["Cognitive Behavioral", "Anxiety", "Teens"]}
-              description="Passionate about guiding young people through mental health challenges."
-              image={sophie}
-            />
-
-            <TherapistCard
-              name="Dr. Marwa Azab"
-              categories={["Depression", "Couples", "Stress"]}
-              description="Helping couples and individuals find emotional balance."
-              image={marwa}
-            />
+              <BookCard
+              name="The Autistic Survival Guide To Therapy"
+              category="Mental Health"
+              author="Dr. Steph Jones"
+              price={2000}
+              image={book3}
+              />
+              <BookCard
+              name="Choosing Therapy"
+              category="Psychology"
+              author="Dr. Ilyana Romoanovsky"
+              price={1500}
+              image={book4}
+              />
+              <BookCard
+              name="Change your lfe in 30 days"
+              category="Personal Development"
+              author="Dr. Joseph Murphy"
+              price={900}
+              image={book1}
+              />
+              <BookCard
+              name="The Power of Your Subconscious Mind"
+              category="Spiritual Growth"
+              author="Dr. Joseph Murphy"
+              price={1800}
+              image={book2}
+              />
+             
             </div>
 
           </div>
