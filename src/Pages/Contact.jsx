@@ -8,10 +8,9 @@ const Contact = () => {
 return ( 
 <div className="bg-[#D3E0C6] min-h-screen"> 
 <Header /> 
-{/* Contact Section */} 
 <div className="contact-container"> 
-{/* Contenu global : infos + formulaire */} 
 <div className="contact-content"> 
+    
 {/* Partie gauche : Informations de contact */} 
 <div className="contact-info"> 
 <h1 className="contact-title">Contact us</h1> 
