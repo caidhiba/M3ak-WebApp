@@ -141,3 +141,80 @@
       margin-top: 50px;
     }
   }
+
+
+  /* __________ */
+  /* Carousel arrows and slider styling for mobile */
+.slider-container {
+  position: relative;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.book-card {
+  transition: transform 0.5s ease;
+}
+
+.book-card.hidden {
+  display: none;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 2;
+  background: #C7E1C2;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  color: #004d40;
+}
+
+.arrow.left {
+  left: -55px;
+}
+
+.arrow.right {
+  right: -85px;
+}
+
+/* Only show carousel on mobile */
+@media (min-width: 768px) {
+  .slider-container {
+    display: none;
+  }
+
+  .books-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .book-card {
+    display: flex !important;
+  }
+}
+
+/* Hide desktop layout on mobile */
+@media (max-width: 767px) {
+  .books-container {
+    display: none;
+  }
+
+  .view-all {
+    margin-top: 40px;
+  }
+}

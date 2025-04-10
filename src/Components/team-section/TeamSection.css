@@ -130,5 +130,54 @@
     margin-bottom: 20px;
   }
 }
+/* ____________ */
+/* Mobile Slider */
+.slider-container {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 20px 0;
+}
+
+.team-card-slider {
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.arrow {
+  background: #C7E1C2;
+  border: none;
+  font-size: 24px;
+  color: #2f4c3a;
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.arrow.left {
+  left: 0px;
+}
+
+.arrow.right {
+  right: 0px;
+}
+
+/* Hide grid on mobile */
+@media (max-width: 767px) {
+  .team-grid {
+    display: none;
+  }
+
+  .slider-container {
+    display: flex;
+  }
+
+  .team-card-slider .team-card {
+    margin: 0 auto;
+  }
+}
 
   
