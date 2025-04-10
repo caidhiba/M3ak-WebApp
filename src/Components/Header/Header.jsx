@@ -48,7 +48,7 @@ export default function Header() {
       </button>
 
       {/* Mobile Dropdown */}
-      {menuOpen ? (
+      {/* {menuOpen ? (
         <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
           <span className="mobile-menu-item">Therapists List</span>
           <span className="mobile-menu-item">Find A Therapist</span>
@@ -58,7 +58,46 @@ export default function Header() {
           <button className="Login-button">Log In</button>
           <button className="Signin-button">Sign In</button>
         </div>
-      ) : null}
+      ) : null} */}
+
+      {/* {menuOpen && (
+        <div className="mobile-sidebar">
+          <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
+            <X size={28} />
+          </button>
+          <span className="mobile-sidebar-item">Home</span>
+          <span className="mobile-sidebar-item">Therapists List <span className="badge">24</span></span>
+          <span className="mobile-sidebar-item">Find A Therapist</span>
+          <span className="mobile-sidebar-item">Contact</span>
+          <span className="mobile-sidebar-item">Business</span>
+          <span className="mobile-sidebar-item">Shop books</span>
+          <span className="mobile-sidebar-item">Support</span>
+          <span className="mobile-sidebar-item">Settings</span>
+          <button className="Login-button">Log In</button>
+          <button className="Signin-button">Sign In</button>
+        </div>
+      )} */}
+         {menuOpen && (
+          <div className="mobile-sidebar">
+            <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
+              <X size={28} />
+            </button>
+            <Link to="/" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link to="/therapists-list" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
+              Therapists List <span className="badge">24</span>
+            </Link>
+            <Link to="/FindATherapist" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Find A Therapist</Link>
+            <Link to="/contact" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Contact</Link>
+            <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
+            <Link to="/Bookshop" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Shop books</Link>
+            <Link to="/Support" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Support</Link>
+            <Link to="/Settings" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Settings</Link>
+            <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>
+            <Link to="/signup" className="Signin-button" onClick={() => setMenuOpen(false)}>Sign In</Link>
+          </div>
+        )}
+
+
     </header>
   );
 }

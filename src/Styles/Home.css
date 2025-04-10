@@ -412,11 +412,13 @@ margin: 0.5rem;
   /* flex-direction: column; */
   padding: 90px 5%;
   text-align: center;
+ 
 }
 
 .hero-content {
   padding-right: 0;
   margin-bottom: 30px;
+  flex: auto;
 }
 
 .hero-content h1 {
@@ -435,6 +437,7 @@ margin: 0.5rem;
 .hero-image img {
   width: 100% !important;
   border-radius: 10px 50px 0px 0px;
+  display: none;
 }
 }
 
