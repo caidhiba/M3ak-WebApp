@@ -1,6 +1,4 @@
-/* SignUp.css with scoped class names */ 
- 
-/* Main structure */ 
+
 .signup-page-wrapper { 
     min-height: 100vh; 
     display: flex; 
@@ -27,6 +25,7 @@
     display: flex; 
     flex-direction: column; 
     justify-content: center; 
+    z-index: 2;
   } 
   
   .signup-page-content-wrapper { 
@@ -198,24 +197,91 @@
   /* Responsive adjustments */ 
   @media (max-width: 992px) { 
     .signup-page-container { 
-      flex-direction: column; 
+      position: relative;
+      min-height: calc(100vh - 85px);
     } 
     
-    .signup-page-form-side,  
-    .signup-page-image-side { 
+    .signup-page-form-side { 
       width: 100%; 
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: calc(100vh - 85px);
     } 
+    .signup-page-content-wrapper {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
     
     .signup-page-image-side { 
-      order: -1; 
-      height: 40vh; 
-      min-height: 300px; 
-      position: relative; 
-    } 
-    
-    .signup-page-hero-image { 
-      width: 100%; 
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
       height: 100%; 
-      object-fit: cover; 
+      z-index: 1;
     } 
-  }
+
+    .signup-page-password-strength {
+        position: relative;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+} 
+    @media (max-width: 768px) {
+        .signup-page-form-side {
+          padding: 1.5rem;
+        }
+        
+        .signup-page-title {
+          font-size: 2rem;
+          margin-bottom: 2rem;
+        }
+        
+        .signup-page-form {
+          gap: 1.5rem;
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .signup-page-content {
+            padding-top: 70px;
+        }
+          
+        .signup-page-container {
+            min-height: calc(100vh - 70px);
+        }
+
+        .signup-page-form-side {
+          padding: 1rem;
+          min-height: calc(100vh - 70px);
+        }
+        
+        .signup-page-content-wrapper {
+            padding: 20px 15px;
+        }
+
+        .signup-page-title {
+          font-size: 1.8rem;
+          margin-bottom: 1.5rem;
+        }
+        
+        .signup-page-form-group label {
+          font-size: 0.95rem;
+        }
+        
+        .signup-page-input-field {
+          padding: 0.8rem;
+        }
+        
+        .signup-page-btn {
+          padding: 0.8rem;
+          font-size: 1rem;
+        }
+
+        .signup-page-password-strength li {
+            font-size: 0.85rem;
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+        }
+      }

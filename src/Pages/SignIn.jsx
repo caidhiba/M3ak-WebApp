@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'; 
 import { Link } from 'react-router-dom';  
-import '../Styles/SignIn.css'; // Renamed CSS file
+import '../Styles/SignIn.css'; 
 import Header from "../Components/Header/Header"; 
  
 const SignIn = () => {  

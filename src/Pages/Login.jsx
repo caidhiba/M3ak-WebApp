@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; 
 import { Link } from 'react-router-dom'; 
-import '../Styles/Login.css'; // Renamed CSS file
+import '../Styles/Login.css'; 
 import Header from "../Components/Header/Header"; 
  
 const Login = () => { 
