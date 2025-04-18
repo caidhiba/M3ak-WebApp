@@ -1,0 +1,293 @@
+/* 
+.payment-container {
+    display: flex;
+    gap: 40px;
+    padding: 40px;
+    background: #f7fdf5;
+    font-family: sans-serif;
+
+    padding: 2rem;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .payment-form-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .payment-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 80px;
+  }
+  
+  .card-image {
+    width: 250px;
+    height: auto;
+    align-self: center;
+  }
+  
+  .payment-form input,
+  .payment-form select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .input-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .input-row input {
+    flex: 1;
+  }
+  
+  .icon {
+    font-size: 18px;
+    background: #eee;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cancel {
+    background: #FFE4DD;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  .cancel:hover{
+    background-color: black;
+    color: #FFE4DD;
+  }
+  .pay {
+    background: black;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  .pay:hover{
+    background-color: #FFE4DD;
+    color: black;
+  }
+  
+  .plan-selection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .plan-option {
+    display: flex;
+    gap: 17px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #C7E1C2;
+  }
+  
+  .plan-option input[type="radio"] {
+    margin-top: 5px;
+  }
+    */
+
+    .payment-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 2rem;
+      background-color: #f7fdf5;
+      font-family: sans-serif;
+      gap: 2rem;
+      margin-top: 60px;
+    }
+    
+    /* Left side: form */
+    .form-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .form-section form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    
+    form label {
+      font-weight: 500;
+      margin-right: 0px;
+      display: flex;
+      justify-content: flex-start;
+    }
+    
+    form input,
+    form select {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #000;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+      background: white;
+    }
+    
+    .row {
+      display: flex;
+      gap: 6.8rem;
+      box-sizing: border-box;
+      margin: 0;
+    }
+    
+    .row input {
+      flex: 1;
+    }
+    
+    .cancel {
+      background: #FFE4DD;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .cancel:hover{
+      background-color: black;
+      color: #FFE4DD;
+    }
+    .pay {
+      background: black;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    .pay:hover{
+      background-color: #FFE4DD;
+      color: black;
+    }
+    
+    
+    .form-buttons {
+      display: flex;
+      justify-content: flex-start;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    /* Right side: card + plan */
+    .side-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      /* gap: 2rem; */
+    }
+    
+    .card-image {
+      width: 450px;
+      align-self: center;
+      padding: 0px;
+      margin: 0px;
+    }
+    
+    /* Plan section */
+    .plan-section h4 {
+      margin-bottom: 0.5rem;
+    }
+    
+    .plan-section p {
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      color: #444;
+    }
+    
+    .plan-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      border: 1px solid #000;
+      border-radius: 4px;
+      padding: 1rem;
+      background-color: #C7E1C2;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    
+    .plan-box input[type="radio"] {
+      margin-top: 6px;
+    }
+    
+    .plan-box strong {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    
+
+    @media screen and (max-width: 768px) {
+      .payment-container {
+        flex-direction: column;
+        padding: 3rem;
+        
+      }
+    
+      .row {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+    
+      .card-image {
+        width: 100%;
+        max-width: 100%;
+        /* margin: 1rem 0; */
+        display: none;
+      }
+    
+      .form-buttons {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+    
+      .form-buttons button {
+        width: 100%;
+      }
+    
+      .side-section {
+        align-items: center;
+      }
+    
+      .plan-box {
+        flex-direction: row;
+        align-items: flex-start;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    

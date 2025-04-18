@@ -7,6 +7,7 @@ import Contact from "./Pages/Contact"; 
 import Login from "./Pages/Login"; 
 import SignIN from "./Pages/SignIn"; 
 import TherapistsList from "./Pages/TherapistsList";
+import PaymentPage from "./Pages/PaymentPage";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/contact" element={<Contact />} /> 
         <Route path="/login" element={<Login />} /> 
         <Route path="/signup" element={<SignIN />} /> 
+        <Route path="/payment" element={<PaymentPage role="therapist" />} />
       </Routes>
     </Router>
   );

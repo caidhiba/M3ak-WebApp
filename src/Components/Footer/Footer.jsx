@@ -1,7 +1,15 @@
 import React from "react";
 import './Footer.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleSubscribe = () => {
+    // You can also pass role info here, e.g. navigate("/payment", { state: { role: 'therapist' } });
+    navigate("/payment");
+  };
+
     return (
       <footer className="footer">
         <div className="footer-top">
@@ -16,7 +24,7 @@ const Footer = () => {
           <div className="newsletter-input">
             <div>
             <input type="email" placeholder="Enter your email" />
-            <button>Subscribe</button>
+            <button onClick={handleSubscribe}>Subscribe</button>
             </div>
            <div>
            <small>
