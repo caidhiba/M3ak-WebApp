@@ -1,5 +1,5 @@
 import React from 'react'  
-import '../Styles/Contact.css'  // Renamed CSS file
+import '../Styles/Contact.css'  
 import Header from "../Components/Header/Header"  
 import Footer from "../Components/Footer/Footer"
 
@@ -20,7 +20,8 @@ const Contact = () => {
             </div>  
           </div>  
           {/* Right side: Contact form */}  
-          <div className="contact-form-wrapper">  
+          <div className="contact-form-wrapper">
+           <h1 className="contact-form-title">Contact us</h1>  
             <form className="contact-form">  
               <div className="contact-form-row">  
                 <div className="contact-form-group">  
@@ -60,6 +61,13 @@ const Contact = () => {
               </div>  
               <button type="submit" className="contact-submit-button">Submit</button>  
             </form>  
+            {/* Mobile contact info - shows only on mobile */}
+            <div className="mobile-contact-info">
+              <p>Our friendly team would love to hear from you.</p>
+              <p>📧 TherapyDZ@gmail.com</p>  
+              <p>📞 +216554088761</p>  
+              <p>📍 123 Sample St, Sydney NSW 2000 AU</p>
+            </div>
           </div>  
         </div>  
       </div>  

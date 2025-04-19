@@ -1,6 +1,4 @@
-/* LoginPage.css with scoped class names */ 
- 
-/* Main container */ 
+
 .login-page-wrapper { 
     min-height: 100vh; 
     display: flex; 
@@ -28,6 +26,7 @@
     justify-content: center; 
     padding: 2rem; 
     background-color: white; 
+    z-index: 2;
   } 
   
   .login-page-form-wrapper { 
@@ -77,7 +76,8 @@
   
   .login-page-form-input:focus { 
     border-color: #325343; 
-    outline: none; 
+    outline: none;
+    box-shadow: 0 2px 8px rgba(50, 83, 67, 0.15); 
   } 
   
   .login-page-forgot-password { 
@@ -164,20 +164,73 @@
   /* Responsive adjustments */ 
   @media (max-width: 768px) { 
     .login-page-container { 
-      flex-direction: column-reverse; 
-      height: auto; 
+      position: relative;
+      min-height: calc(100vh - 85px);
     } 
     
-    .login-page-form-container, 
-    .login-page-image-container { 
+    .login-page-form-container { 
       width: 100%; 
+      background-color: rgba(255, 255, 255, 0.9);
+      min-height: calc(100vh - 85px);
     } 
     
     .login-page-image-container { 
-      height: 200px; 
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
     } 
     
+    .login-page-cover-image {
+        object-position: center;
+    }
+
     .login-page-form-wrapper { 
-      padding: 1rem 0; 
+        max-width: 450px;
+        width: 100%;
+       padding: 30px 20px; 
+       background-color: rgba(255, 255, 255, 0.9);
+       border-radius: 12px;
+       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     } 
+
   }
+
+  @media (max-width: 480px) {
+  .login-page-content{
+        padding-top: 70px;
+    }
+
+    .login-page-container{
+        min-height: calc(100vh - 70px);
+    }
+
+    .login-page-form-container{
+        padding: 1rem;
+        min-height: calc(100vh - 70px);
+    }
+
+    .login-page-form-wrapper{
+        padding: 20px 15px;
+    }
+
+    .login-page-title{
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    } 
+
+    .login-page-form{
+        gap: 1.2rem;
+    }
+
+    .login-page-form-input{
+     padding: 0.7rem;
+    }
+
+    .login-page-button{
+      padding: 0.7rem;
+    }
+}

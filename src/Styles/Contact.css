@@ -55,7 +55,11 @@
     flex: 2; 
     background: transparent; 
   } 
-  
+
+  .contact-form-title{
+   display: none;
+ }
+
   .contact-form { 
     display: flex; 
     flex-direction: column; 
@@ -144,18 +148,31 @@
     background-color: #244D3B; 
   } 
   
+  /* Mobile Contact Info */ 
+ .mobile-contact-info {
+    display: none;
+  }
+
   @media (max-width: 768px) { 
     .contact-content { 
       flex-direction: column; 
-      gap: 40px; 
-      padding: 0 20px; 
+      gap: 30px; 
+      padding: 0 15px; 
     } 
     
     .contact-info { 
       max-width: 100%; 
       padding-right: 0; 
       margin-left: 0; 
+      display: none;
     } 
+
+    .contact-form-title {
+     display: block;
+     text-align: center;
+     margin-bottom: 10px;
+     font-size: 28px;
+    }
     
     .contact-form-row { 
       flex-direction: column; 
@@ -163,6 +180,71 @@
     } 
     
     .contact-container { 
-      padding: 20px; 
+      padding: 20px 10px; 
     } 
+
+    .contact-info {
+        display: none;
+    }
+
+    .mobile-contact-info {
+        display: block;
+        margin-top: 30px;
+        width: 100%;
+        border-top: 1px solid rgba(50, 83, 67, 0.2);
+    }
+      
+      
+    .mobile-contact-info p {
+        font-size: 16px;
+        margin: 12px 0;
+        display: flex;
+       align-items: center;
+       color: #325343;
+    }
+      
+    .contact-form-wrapper {
+        width: 100%;
+    }
+      
+    .contact-submit-button {
+        align-self: center;
+        width: 100%;
+    }
+      
+ }
+    
+    @media (max-width: 480px) {
+    .contact-container {
+        padding: 15px 10px;
+        margin-top: 70px;
+    }
+      
+    .contact-content {
+        gap: 20px;
+        padding: 0 10px;
+    }
+      
+    .contact-form-title {
+        font-size: 24px;
+    }
+      
+    .contact-subtitle {
+        font-size: 16px;
+    }
+
+    .contact-form-group label {
+        font-size: 14px;
+      }
+      
+      .contact-input-field, 
+      .contact-textarea-field {
+        padding: 12px;
+        font-size: 14px;
+      }
+      
+      .contact-submit-button {
+        padding: 10px 20px;
+        font-size: 14px;
+      } 
   }
