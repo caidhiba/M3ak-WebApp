@@ -8,6 +8,7 @@ import Login from "./Pages/Login"; 
 import SignIN from "./Pages/SignIn"; 
 import TherapistsList from "./Pages/TherapistsList";
 import PaymentPage from "./Pages/PaymentPage";
+import Business from "./Pages/Business";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/login" element={<Login />} /> 
         <Route path="/signup" element={<SignIN />} /> 
         <Route path="/payment" element={<PaymentPage role="therapist" />} />
+        <Route path="/Business" element={<Business/>} /> 
       </Routes>
     </Router>
   );
