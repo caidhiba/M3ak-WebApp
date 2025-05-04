@@ -33,6 +33,10 @@ export default function Header() {
         <Link to="/contact" className="header-element">Contact</Link> 
         <Link to="/Business" className="header-element">Business</Link> 
         <Link to="/Bookshop" className="header-element">Shop Books</Link> 
+        {/* {isTherapist && (
+        <Link to="/recommendation" className="header-element">Recommendation</Link>
+        )} */}
+
        
       </nav>
 
@@ -47,36 +51,9 @@ export default function Header() {
         {menuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
-      {/* Mobile Dropdown */}
-      {/* {menuOpen ? (
-        <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-          <span className="mobile-menu-item">Therapists List</span>
-          <span className="mobile-menu-item">Find A Therapist</span>
-          <span className="mobile-menu-item">Contact</span>
-          <span className="mobile-menu-item">Business</span>
-          <span className="mobile-menu-item">Shop books</span>
-          <button className="Login-button">Log In</button>
-          <button className="Signin-button">Sign In</button>
-        </div>
-      ) : null} */}
+      
 
-      {/* {menuOpen && (
-        <div className="mobile-sidebar">
-          <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
-            <X size={28} />
-          </button>
-          <span className="mobile-sidebar-item">Home</span>
-          <span className="mobile-sidebar-item">Therapists List <span className="badge">24</span></span>
-          <span className="mobile-sidebar-item">Find A Therapist</span>
-          <span className="mobile-sidebar-item">Contact</span>
-          <span className="mobile-sidebar-item">Business</span>
-          <span className="mobile-sidebar-item">Shop books</span>
-          <span className="mobile-sidebar-item">Support</span>
-          <span className="mobile-sidebar-item">Settings</span>
-          <button className="Login-button">Log In</button>
-          <button className="Signin-button">Sign In</button>
-        </div>
-      )} */}
+     
          {menuOpen && (
           <div className="mobile-sidebar">
             <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
@@ -90,6 +67,12 @@ export default function Header() {
             <Link to="/contact" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Contact</Link>
             <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
             <Link to="/Bookshop" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Shop books</Link>
+            {/* {isTherapist && (
+            <Link to="/recommendation" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
+             Recommendation
+             </Link> */}
+            {/* )} */}
+
             <Link to="/Support" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Support</Link>
             <Link to="/Settings" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Settings</Link>
             <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>

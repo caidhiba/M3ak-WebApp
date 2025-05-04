@@ -1,0 +1,81 @@
+/* .recommendation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #cfead1;
+    padding: 40px;
+    min-height: 100vh;
+  }
+  
+  .recommendation-form {
+    background: white;
+    padding: 30px;
+    width: 45%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommendation-form h2 {
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+  }
+  
+  .subtitle {
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: #444;
+  }
+  
+  .recommendation-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+  }
+  
+  .recommendation-form input,
+  .recommendation-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    background-color: #d6f0d6;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .recommendation-form textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    gap: 10px;
+  }
+  
+  .button-group button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button-group button[type="button"] {
+    background-color: #eee;
+  }
+  
+  .button-group button[type="submit"] {
+    background-color: #1a472a;
+    color: white;
+  }
+  
+  .recommendation-image {
+    margin-left: 40px;
+    width: 40%;
+  }
+  
+  .recommendation-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+   */

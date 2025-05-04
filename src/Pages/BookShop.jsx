@@ -49,13 +49,16 @@ const BookShop = () => {
 
             <div className="cards">
               <BookCard
+               id="1"
               name="The Autistic Survival Guide To Therapy"
               category="Mental Health"
               author="Dr. Steph Jones"
               price={2000}
               image={book3}
+              
               />
               <BookCard
+              id="2"
               name="Choosing Therapy"
               category="Psychology"
               author="Dr. Ilyana Romoanovsky"
@@ -63,6 +66,7 @@ const BookShop = () => {
               image={book4}
               />
               <BookCard
+               id="3"
               name="Change your lfe in 30 days"
               category="Personal Development"
               author="Dr. Joseph Murphy"
@@ -70,6 +74,7 @@ const BookShop = () => {
               image={book1}
               />
               <BookCard
+              id="4"
               name="The Power of Your Subconscious Mind"
               category="Spiritual Growth"
               author="Dr. Joseph Murphy"
