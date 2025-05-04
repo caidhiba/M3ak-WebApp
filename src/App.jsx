@@ -14,7 +14,7 @@ export default function App() {
   return (
     <Router>
       <Header />
-      <Router>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/therapists-list" element={<TherapistsList />} />
         <Route path="/BookShop" element={<BookShop />} />
@@ -29,7 +29,7 @@ export default function App() {
 
       <Route path="/recommendation" element={<Recommendation />} />
 
-      </Router>
+      </Routes>
     </Router>
   );
 }
