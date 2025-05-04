@@ -33,6 +33,10 @@ export default function Header() {
         <Link to="/contact" className="header-element">Contact</Link> 
         <Link to="/Business" className="header-element">Business</Link> 
         <Link to="/Bookshop" className="header-element">Shop Books</Link> 
+        {isTherapist && (
+        <Link to="/recommendation" className="header-element">Recommendation</Link>
+        )}
+
        
       </nav>
 
@@ -90,6 +94,12 @@ export default function Header() {
             <Link to="/contact" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Contact</Link>
             <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
             <Link to="/Bookshop" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Shop books</Link>
+            {isTherapist && (
+            <Link to="/recommendation" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
+             Recommendation
+             </Link>
+            )}
+
             <Link to="/Support" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Support</Link>
             <Link to="/Settings" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Settings</Link>
             <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>
