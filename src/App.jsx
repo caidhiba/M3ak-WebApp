@@ -8,12 +8,13 @@ import Login from "./Pages/Login"; 
 import SignIN from "./Pages/SignIn"; 
 import TherapistsList from "./Pages/TherapistsList";
 import PaymentPage from "./Pages/PaymentPage";
-
+import BookDetail from "./Components/BookDetail/BookDetail";
+import Recommendation from "./Pages/recommendation";
 export default function App() {
   return (
     <Router>
       <Header />
-      <Routes>
+      <Router>
         <Route path="/" element={<Home />} />
         <Route path="/therapists-list" element={<TherapistsList />} />
         <Route path="/BookShop" element={<BookShop />} />
@@ -21,7 +22,14 @@ export default function App() {
         <Route path="/login" element={<Login />} /> 
         <Route path="/signup" element={<SignIN />} /> 
         <Route path="/payment" element={<PaymentPage role="therapist" />} />
-      </Routes>
+
+        <Route path="/book/:id" element={<BookDetail />} />
+       
+
+
+      <Route path="/recommendation" element={<Recommendation />} />
+
+      </Router>
     </Router>
   );
 }
