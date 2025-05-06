@@ -1,119 +1,4 @@
-/* 
-.payment-container {
-    display: flex;
-    gap: 40px;
-    padding: 40px;
-    background: #f7fdf5;
-    font-family: sans-serif;
 
-    padding: 2rem;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .payment-form-section {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-  .payment-form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin: 80px;
-  }
-  
-  .card-image {
-    width: 250px;
-    height: auto;
-    align-self: center;
-  }
-  
-  .payment-form input,
-  .payment-form select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 100%;
-    font-size: 14px;
-    box-sizing: border-box;
-  }
-  
-  .input-row {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-  }
-  
-  .input-row input {
-    flex: 1;
-  }
-  
-  .icon {
-    font-size: 18px;
-    background: #eee;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  
-  .button-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-  }
-  
-  .cancel {
-    background: #FFE4DD;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  .cancel:hover{
-    background-color: black;
-    color: #FFE4DD;
-  }
-  .pay {
-    background: black;
-    color: white;
-    padding: 8px 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  .pay:hover{
-    background-color: #FFE4DD;
-    color: black;
-  }
-  
-  .plan-selection {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .plan-option {
-    display: flex;
-    gap: 17px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    cursor: pointer;
-    background-color: #C7E1C2;
-  }
-  
-  .plan-option input[type="radio"] {
-    margin-top: 5px;
-  }
-    */
 
     .payment-container {
       display: flex;
@@ -211,7 +96,7 @@
     }
     
     .card-image {
-      width: 450px;
+      width: 400px;
       align-self: center;
       padding: 0px;
       margin: 0px;
