@@ -10,24 +10,49 @@ import TherapistsList from "./Pages/TherapistsList";
 import PaymentPage from "./Pages/PaymentPage";
 import Business from "./Pages/Business";
 import BookDetail from "./Components/BookDetail/BookDetail";
-//import Recommendation from "./Pages/recommendation";
+import Recommendation from "./Pages/recommendation";
+import { RoleProvider } from "./Pages/RoleContext";
 
+//  const userRole = "therapist"
+// export default function App() {
+ 
+//   return (
+//     <Router>
+      
+//       <Header  role={userRole}/>
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/therapists-list" element={<TherapistsList />} />
+//         <Route path="/BookShop" element={<BookShop />} />
+//         <Route path="/contact" element={<Contact />} /> 
+//         <Route path="/login" element={<Login />} /> 
+//         <Route path="/signup" element={<SignIN />} /> 
+//         <Route path="/payment" element={<PaymentPage role="therapist" />} />
+//        <Route path="/Business" element={<Business/>} /> 
+//         <Route path="/book/:id" element={<BookDetail />} />
+//        <Route path="/recommendation" element={<Recommendation />} />
+//       </Routes>
+//     </Router>
+//   );
+// }
 export default function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/therapists-list" element={<TherapistsList />} />
-        <Route path="/BookShop" element={<BookShop />} />
-        <Route path="/contact" element={<Contact />} /> 
-        <Route path="/login" element={<Login />} /> 
-        <Route path="/signup" element={<SignIN />} /> 
-        <Route path="/payment" element={<PaymentPage role="therapist" />} />
-       <Route path="/Business" element={<Business/>} /> 
-        <Route path="/book/:id" element={<BookDetail />} />
-       {/*<Route path="/recommendation" element={<Recommendation />} />*/}
-      </Routes>
-    </Router>
+    <RoleProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/therapists-list" element={<TherapistsList />} />
+          <Route path="/BookShop" element={<BookShop />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignIN />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/Business" element={<Business />} />
+          <Route path="/book/:id" element={<BookDetail />} />
+          <Route path="/recommendation" element={<Recommendation />} />
+        </Routes>
+      </Router>
+    </RoleProvider>
   );
 }
