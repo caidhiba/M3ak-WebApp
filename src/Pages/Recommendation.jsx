@@ -1,58 +1,35 @@
+import React from 'react';
+import '../Styles/Recommendation.css'; // Create this CSS file
 
-// import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import "../Styles/Recommendation.css";
+export default function Recommendation() {
+  return (
+    <div className="recommendation-container">
+      <div className="recommendation-form">
+        <h2>Let’s start the book recommendation</h2>
+        <p className="subtitle">One book can change a mind—recommend yours</p>
 
-// export default function Recommendation() {
-//   const [form, setForm] = useState({
-//     title: '',
-//     author: '',
-//     date: '',
-//     reason: ''
-//   });
+        <label>Enter title of the book</label>
+        <input type="text" />
 
-//   const navigate = useNavigate();
+        <label>Enter author of the book</label>
+        <input type="text" />
 
-//   const handleChange = (e) => {
-//     setForm({ ...form, [e.target.name]: e.target.value });
-//   };
+        <label>Enter Date of book publishing</label>
+        <input type="text" />
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     console.log('Recommendation Submitted:', form);
-//     // Add actual submit logic here (e.g., API call)
-//     navigate('/');
-//   };
+        <label>
+          
+          enter the raison of your recommendation: why are you suggesting this book?
+        </label>
+        <textarea rows="4"></textarea>
 
-//   return (
-//     <div className="recommendation-container">
-//       <form className="recommendation-form" >
-//         <h2>Let's start the book recommendation</h2>
-//         <p className="subtitle">One book can change a mind—recommend yours</p>
+        <div className="buttons">
+          <button className="cancel-button">Cancel</button>
+          <button className="save-button">Save</button>
+        </div>
+      </div>
 
-//         <label>Enter title de livre</label>
-//         <input type="text" name="title" value={form.title} onChange={handleChange} required />
-
-//         <label>Enter author de livre</label>
-//         <input type="text" name="author" value={form.author} onChange={handleChange} required />
-
-//         <label>Enter Date publication du livre</label>
-//         <input type="date" name="date" value={form.date} onChange={handleChange} required />
-
-//         <label>
-//           Entrez la raison de la recommandation : pourquoi proposez-vous ce livre ?
-//         </label>
-//         <textarea name="reason" value={form.reason} onChange={handleChange} required />
-
-//         <div className="button-group">
-//           <button type="button" onClick={() => navigate('/')}>Cancel</button>
-//           <button type="submit">Save</button>
-//         </div>
-//       </form>
-
-//       <div className="recommendation-image">
-//         <img src="/assets/book-stack.jpg" alt="Stack of books" />
-//       </div>
-//     </div>
-//   );
-// }
+      <div className="recommendation-image" />
+    </div>
+  );
+}

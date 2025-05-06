@@ -2,7 +2,7 @@
 
 // import React from "react";
 // import '../Styles/PaymentPage.css';
-// import cardImage from "../assets/visa-card.png"; // make sure the path is correct
+// import cardImage from "../assets/visa-card.png"; 
 
 // const PaymentPage = ({ role }) => {
 //   return (
@@ -11,7 +11,7 @@
 //       <div className="form-section">
 //         <h2>Payment method</h2>
 //         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        
+
 //         <form>
 //           <label>Name on invoice</label>
 //           <input type="text" placeholder="Full Name" />
@@ -46,18 +46,21 @@
 //             <input type="text" placeholder="State / Province" />
 //             <input type="text" placeholder="ZIP / Postal Code" />
 //           </div>
+//         </form>
 
+//         {/* Show buttons here only if role is not therapist */}
+//         {role !== "therapist" && (
 //           <div className="form-buttons">
 //             <button type="button" className="cancel">Cancel</button>
 //             <button type="submit" className="pay">Pay</button>
 //           </div>
-//         </form>
+//         )}
 //       </div>
 
 //       {/* Right side: image + plan */}
 //       <div className="side-section">
 //         <img src={cardImage} alt="Card" className="card-image" />
-        
+
 //         {role === "therapist" && (
 //           <div className="plan-section">
 //             <h4>Choose your plan</h4>
@@ -78,6 +81,12 @@
 //                 <p>Lorem ipsum dolor sit amet.</p>
 //               </div>
 //             </div>
+
+//             {/* Buttons appear here only for therapist */}
+//             <div className="form-buttons">
+//               <button type="button" className="cancel">Cancel</button>
+//               <button type="submit" className="pay">Pay</button>
+//             </div>
 //           </div>
 //         )}
 //       </div>
@@ -86,13 +95,14 @@
 // };
 
 // export default PaymentPage;
-
-
 import React from "react";
-import '../Styles/PaymentPage.css';
-import cardImage from "../assets/visa-card.png"; // make sure the path is correct
+import "../Styles/PaymentPage.css";
+import cardImage from "../assets/visa-card.png";
+import { useRole } from "../Pages/RoleContext"; // ✅ Make sure path is correct
 
-const PaymentPage = ({ role }) => {
+const PaymentPage = () => {
+  const { role } = useRole(); // ✅ Get role from context
+
   return (
     <div className="payment-container">
       {/* Left side: the form */}
@@ -136,7 +146,7 @@ const PaymentPage = ({ role }) => {
           </div>
         </form>
 
-        {/* Show buttons here only if role is not therapist */}
+        {/* Show buttons here only if role is NOT therapist */}
         {role !== "therapist" && (
           <div className="form-buttons">
             <button type="button" className="cancel">Cancel</button>
@@ -170,7 +180,6 @@ const PaymentPage = ({ role }) => {
               </div>
             </div>
 
-            {/* Buttons appear here only for therapist */}
             <div className="form-buttons">
               <button type="button" className="cancel">Cancel</button>
               <button type="submit" className="pay">Pay</button>
