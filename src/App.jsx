@@ -11,6 +11,10 @@ import PaymentPage from "./Pages/PaymentPage";
 import Business from "./Pages/Business";
 import BookDetail from "./Components/BookDetail/BookDetail";
 //import Recommendation from "./Pages/recommendation";
+import VideoCall from "./Pages/InVideoCall";
+import ChatApp from "./Pages/ChatApp";
+
+import PrivateRoute from "./auth/PrivateRoute";
 
 export default function App() {
   return (
@@ -27,6 +31,9 @@ export default function App() {
        <Route path="/Business" element={<Business/>} /> 
         <Route path="/book/:id" element={<BookDetail />} />
        {/*<Route path="/recommendation" element={<Recommendation />} />*/}
+
+       <Route path="/VideoCall" element={<VideoCall />} />
+       <Route path="/MyContactes" element={<ChatApp />} />
       </Routes>
     </Router>
   );

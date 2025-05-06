@@ -1,9 +1,13 @@
-import React, { useState } from 'react'; 
+import React, { useState, useContext } from 'react'; 
 import { Link } from 'react-router-dom'; 
 import '../Styles/Login.css'; 
 import Header from "../Components/Header/Header"; 
- 
+import { AuthContext } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 const Login = () => { 
+  const { login } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ 
     email: '', 
     password: '' 
@@ -17,9 +21,23 @@ const Login = () => {
     }); 
   }; 
   
-  const handleSubmit = (e) => { 
+  const handleSubmit = async (e) => { 
     e.preventDefault(); 
-    console.log('Login submitted:', formData); 
+    //console.log('Login submitted:', formData); 
+    setError('');
+    try {
+      console.log('Form data:', formData); // Log the form data
+      const result = await login(formData.email, formData.password); // fait login avec le context
+      console.log('Login result:', result); // Log the login result
+      if (result.success) {
+        navigate('/');
+        console.log('Login submitted:', formData); 
+      } else {
+        setError('Login failed');
+      }
+    } catch (err) {
+      setError(err?.detail || 'An unexpected error occurred');
+    }
   }; 
  
   return ( 
@@ -63,6 +81,7 @@ const Login = () => {
                   <button type="submit" className="login-page-button"> 
                     Log In 
                   </button> 
+                  {error && <p className="text-red-500">{error}</p>}
                 </form> 
                 <div className="login-page-divider"> 
                   <span>Or</span> 
