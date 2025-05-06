@@ -1,0 +1,353 @@
+
+/* Styles globaux pour l'application de chat */
+  .ChatApp {
+    margin-top: 100px;
+    display: flex;
+    height: 80vh; /* Prend toute la hauteur de l'écran */
+    /*width: 100vw; /* Prend toute la largeur de l'écran */
+    overflow: hidden; /* Empêche le débordement */
+    padding: 10px;
+  }
+  .ChatApp > div {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border-radius: 0.5rem; /* rounded-lg */
+    display: flex; /* flex */
+    overflow: hidden; /* overflow-hidden */
+    margin: auto; /* pour centrer si nécessaire */
+  }
+
+
+/*****************************************************************/
+
+  /* Styles pour la liste de contacts (LeftSide) */
+  .ChatApp .LeftSide {
+    width: 30%; /* 40% de la largeur de l'écran */
+    height: 100%; /* Prend toute la hauteur disponible */
+    border-right: 1px solid #ccc; /* Séparation visuelle */
+    overflow-y: auto; /* Permet le scroll si nécessaire */
+    display: flex;
+    flex-direction: column;
+    background-color: #C7E1C2;
+  }
+  
+/*****************************************************************************/
+  /*rigth side*/
+  .ChatApp .RightSide {
+    width: 65%; /* 60% de la largeur de l'écran */
+    height: 100%; /* Prend toute la hauteur disponible */
+    display: flex;
+    flex-direction: column;
+    background-color: #F8FFF6;
+    position: relative; /* Important pour le positionnement */
+  }
+  
+  
+  
+  /* Style pour la fenêtre de chat */
+  .ChatWindowRightSide {
+    flex: 1; /* Prend tout l'espace disponible entre le header et l'input */
+    overflow-y: auto; /* Permet le scroll des messages */
+    padding: 10px;
+  }
+  .ChatWindowRightSide .BoxMessage{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligne les messages à gauche */
+    margin-bottom: 10px; /* Espace entre les messages */
+  }
+
+  .ChatWindowRightSide .BoxMessage .messageContent {  /*pour le user corant */
+    background-color:#C7E1C2;  /* Couleur de fond des messages */
+    padding: 10px;
+    color: #325343;
+    border-radius: 10px;
+    max-width: 70%; /* Limite la largeur des messages */
+    word-wrap: break-word; /* Permet le retour à la ligne si le texte est trop long */
+  }
+  .ChatWindowRightSide .BoxMessage .messageContent.autreUser{
+    background-color:#F1F1F1;  /* Couleur de fond des messages */
+  }
+
+
+  /* Conteneur du composant vidéo en position absolue */
+.BoxCreateVideoCall .CreateVideoCall {
+  position: absolute; /* Position absolue pour le centrer */
+  top: 50%; /* Centré verticalement */
+  left: 50%; /* Centré horizontalement */
+  padding: 1rem; /* p-4 */
+  max-width: 28rem; /* max-w-md */
+  margin-left: auto; /* mx-auto */
+  margin-right: auto;
+  background-color: white; /* bg-white */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow */
+  border-radius: 0.375rem; /* rounded */
+  border:1px solid #325343; /* border */
+}
+
+
+.CreateVideoCall h2 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 700; /* font-bold */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.CreateVideoCall label {
+  display: block; /* block */
+  margin-bottom: 0.5rem; /* mb-2 */
+  font-weight: 500;
+}
+
+.CreateVideoCall input {
+  width: 100%; /* w-full */
+  padding: 0.5rem; /* p-2 */
+  border: 1px solid #e2e8f0; /* border */
+  border-radius: 0.25rem; /* rounded */
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+.CreateVideoCall input:focus {
+  outline: none;
+  border-color: #3b82f6; /* focus:border-blue-500 */
+  box-shadow: 0 0 0 1px #3b82f6; /* focus:ring */
+}
+
+.CreateVideoCall button[type="submit"]:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.CreateVideoCall button[onClick] {
+  margin-top: 1rem; /* mt-4 */
+  color: #ef4444; /* text-red-500 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.CreateVideoCall button[onClick]:hover {
+  color: #dc2626; /* hover:text-red-700 */
+}
+
+.CreateVideoCall p {
+  margin-top: 1rem; /* mt-4 */
+  text-align: center; /* text-center */
+  color: #4b5563;
+}
+
+
+  /* Style pour la zone d'input */
+  .InputChatRightSide{
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding:20px 10px;
+    border-top: 1px solid #325343;
+    border-radius:10px ;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;   
+  }
+  .InputChatRightSide input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  }
+  .InputChatRightSide button {
+    background-color: #325343;
+    color: #FFE4DD;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  /* Styles optionnels pour les autres éléments */
+  .HeaderRightSide {
+    padding: 10px;
+    border-bottom: 1px solid #325343;
+    border-radius:10px ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  
+  .HeaderRightSide > div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .HeaderRightSide button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .HeaderRightSide button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /*****************************************************************/
+  
+  /* list de contact */
+
+  /* Élément de contact individuel */
+ .contact {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 0.25rem 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+}
+
+ .contact:hover {
+  background-color: #f3f4f6;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Image de profil */
+ .contact img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  grid-row: span 3;
+  object-fit: cover;
+}
+
+/* Nom de la room */
+ .contact h1 {
+  font-weight: 500;
+  color: #374151;
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Dernier message et métadonnées */
+ .contact p {
+  font-size: 0.75rem;
+  color: #6b7280;
+  grid-column: 2;
+  display: flex;
+}
+
+  /* Style pour le titre de la fenêtre de chat */
+  .Titre {
+    padding: 20px 10px;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+  hr {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid #325343;
+  }
+  .iconChat {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    color:#325343 ;
+  }
+  .ChatApp img {/*.HeaderRightSide*/
+    width: 50px;
+    height: 50px;
+    border-radius: 30%;
+    margin-right: 10px;
+  }
+  .ChatApp .ButtonClick {/*.HeaderRightSide*/
+    background-color: #325343;
+    color: #FFE4DD;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 3px;
+  }
+  .ButtonClick:hover {
+    background-color: #498b8b;
+  }
+
+
+
+
+
+  /* === Responsive pour les tablettes (768px et moins) === */
+@media (max-width: 768px) {
+  .ChatApp {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .ChatApp > div {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .ChatApp .LeftSide .ContactList h1,.ChatApp .LeftSide .ContactList p{
+    display: none;
+  }
+
+
+  .InputChatRightSide {
+    padding: 10px;
+  }
+}
+
+/* === Responsive pour les téléphones mobiles (480px et moins) === */
+@media (max-width: 480px) {
+  .ChatApp .LeftSide {
+    height: 35vh;
+  }
+
+  .ChatApp .RightSide {
+    height: 65vh;
+  }
+
+  .ChatWindowRightSide .BoxMessage .messageContent {
+    max-width: 90%;
+    font-size: 0.875rem;
+  }
+
+  .ChatApp img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .CreateVideoCall {
+    max-width: 90%;
+  }
+
+  .CreateVideoCall h2 {
+    font-size: 1rem;
+  }
+}

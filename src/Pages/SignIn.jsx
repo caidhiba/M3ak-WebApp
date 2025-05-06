@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useRef, useContext  } from 'react'; 
 import { Link } from 'react-router-dom';  
 import '../Styles/SignIn.css'; 
 import Header from "../Components/Header/Header"; 
- 
+
+import axios from 'axios';
+import { AuthContext } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 const SignIn = () => {  
   const [formData, setFormData] = useState({ 
-    email: '', 
-    name: '', 
-    password: '', 
-    confirmPassword: '', 
+    email: '',
+    firstName: '',
+    lastName: '',
+    password: '',
+    confirmPassword: '',
+    code: '',
+    //sexe: '' 
   }); 
   const [passwordError, setPasswordError] = useState(''); 
   const [passwordStrength, setPasswordStrength] = useState({ 
@@ -19,6 +26,12 @@ const SignIn = () => {
     special: false 
   }); 
   const [showPasswordRules, setShowPasswordRules] = useState(false); 
+  
+  const [verifiedEmail, setVerifiedEmail] = useState(""); // Stocke l'email validé
+  const [expiresAt, setExpiresAt] = useState(null); // conserne le code de vérification
+  const [timeLeft, setTimeLeft] = useState(0);
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
   
   const handleChange = (e) => { 
     const { name, value } = e.target; 
@@ -39,6 +52,31 @@ const SignIn = () => {
     }); 
   }, [formData.password]); 
   
+  
+  // 🔁 Timer qui met à jour le temps restant toutes les secondes
+  useEffect(() => {
+    let timer;
+
+    if (expiresAt) {
+      timer = setInterval(() => {
+        const now = new Date();
+        const expires = new Date(expiresAt);
+        const secondsLeft = Math.floor((expires - now) / 1000);
+
+        if (secondsLeft <= 0) {
+          clearInterval(timer);
+          setTimeLeft(0);// Temps expiré
+          setExpiresAt(null); // Réactive le bouton
+        } else {
+          setTimeLeft(secondsLeft);
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(timer);
+  }, [expiresAt]);
+
+
   const validatePasswords = () => { 
     const { password, confirmPassword } = formData; 
     if (confirmPassword && password !== confirmPassword) { 
@@ -50,16 +88,59 @@ const SignIn = () => {
     } 
   }; 
   
-  const handleSubmit = (e) => { 
+  const handleSubmit =async(e) => { 
     e.preventDefault(); 
+    const { email, password, confirmPassword, code, firstName, lastName } = formData;//, sexe
     if (!validatePasswords()) return; 
     const { length, uppercase, lowercase, number, special } = passwordStrength; 
     if (!(length && uppercase && lowercase && number && special)) { 
       setPasswordError('Password does not meet all requirements'); 
       return; 
-    } 
+    } else{
+        if (email !== verifiedEmail) {
+            alert("L'email ne correspond pas à celui utilisé pour recevoir le code.");
+            return;
+          }else{
+             const response = await register(email, firstName, lastName, password,code);//,sexe
+             console.log('Inscription réussie:', response); // Log the response data
+             if (response.success) {
+               alert(response.data.message);
+               navigate('/'); // Rediriger vers la page de connexion après l'inscription réussie           
+             }else {
+                alert(response.data.error?.non_field_errors?.[0] || response.data.error || "Erreur inconnue");
+             }
+           }  
+    }
     console.log('Form submitted:', formData); 
   }; 
+
+
+
+  const sendVerificationCode = async () => {
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/GestionAccounts/send-code/", { email: formData.email });
+      //setIsCodeSent(true);
+      setVerifiedEmail(formData.email); // L'email devient celui qui est validé par le code
+      // Récupérer le message et expires_at depuis la réponse
+      const { message, expires_at } = response.data;
+      //alert("Code envoyé avec succès. Vérifiez votre email.");
+      
+      setExpiresAt(new Date(expires_at)); // Convertir en objet Date
+      alert(`${message}\nCe code expirera à : ${new Date(expires_at).toLocaleString()}`);
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du code:", error);
+        if (axios.isAxiosError(error)) {
+            // Vérifier l'erreur du backend et afficher le message approprié
+            if (error.response && error.response.data && error.response.data.non_field_errors) {
+              alert(error.response.data.non_field_errors[0]); // Affiche le message d'erreur
+            } else {
+              alert("Erreur lors de l'envoi du code.");
+            }
+          } else {
+            alert("Une erreur inconnue s'est produite.");
+          }
+    }
+  };
   
   return ( 
     <div className="signup-page-wrapper"> 
@@ -83,18 +164,46 @@ const SignIn = () => {
                     required 
                   /> 
                 </div> 
-                <div className="signup-page-form-group"> 
-                  <label>Full Name</label> 
-                  <input 
-                    type="text" 
-                    name="name" 
-                    placeholder="Enter your full name" 
-                    className="signup-page-input-field" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    required 
-                  /> 
-                </div> 
+                <div className="signup-page-form-group">
+                  <label>First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="Enter your first name"
+                    className="signup-page-input-field"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className="signup-page-form-group">
+                  <label>Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Enter your last name"
+                    className="signup-page-input-field"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                
+               { /*<div className="signup-page-form-group">
+                  <label>Sexe</label>
+                  <select
+                    name="sexe"
+                    className="signup-page-input-field"
+                    value={formData.sexe}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Sélectionnez votre sexe</option>
+                    <option value="homme">Homme</option>
+                    <option value="femme">Femme</option>
+                  </select>
+                </div>*/}
+
                 <div className="signup-page-form-group signup-page-password-container"> 
                   <label>Password</label> 
                   <input 
@@ -132,6 +241,31 @@ const SignIn = () => {
                   /> 
                   {passwordError && <div className="signup-page-password-feedback">{passwordError}</div>} 
                 </div> 
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div className="signup-page-form-group">
+                  <label>Verification Code</label>
+                  <input
+                    type="text"
+                    name="code"
+                    placeholder="Enter the code"
+                    className="signup-page-input-field"
+                    value={formData.code}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                {/*!isCodeSent && (*/}
+                    <button
+                      type="button"
+                      className="signup-page-btn"
+                      onClick={sendVerificationCode}
+                      disabled={timeLeft > 0} // désactiver si le code n’est pas encore expiré
+                    >
+                       {timeLeft > 0 ? `Réessayez dans ${timeLeft}s` : "Envoyer le code"}
+                    </button>
+                 {/* )*/}
+                </div>
+
                 <button type="submit" className="signup-page-btn"> 
                   Sign Up 
                 </button> 

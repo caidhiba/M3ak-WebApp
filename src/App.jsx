@@ -13,6 +13,9 @@ import BookDetail from "./Components/BookDetail/BookDetail";
 import Recommendation from "./Pages/recommendation";
 import { RoleProvider } from "./Pages/RoleContext";
 
+import VideoCall from "./Pages/InVideoCall";
+import ChatApp from "./Pages/ChatApp";
+import PrivateRoute from "./auth/PrivateRoute";
 //  const userRole = "therapist"
 // export default function App() {
  
@@ -35,6 +38,9 @@ import { RoleProvider } from "./Pages/RoleContext";
 //     </Router>
 //   );
 // }
+//import Recommendation from "./Pages/recommendation";
+
+
 export default function App() {
   return (
     <RoleProvider>
@@ -51,6 +57,8 @@ export default function App() {
           <Route path="/Business" element={<Business />} />
           <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/recommendation" element={<Recommendation />} />
+          <Route path="/VideoCall" element={<VideoCall />} />
+          <Route path="/MyContactes" element={<ChatApp />} />
         </Routes>
       </Router>
     </RoleProvider>
