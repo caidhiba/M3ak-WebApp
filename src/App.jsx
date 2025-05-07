@@ -47,9 +47,8 @@ import PrivateRoute from "./auth/PrivateRoute";//pour que le user si il est auth
 
 export default function App() {
   return (
-    //<RoleProvider>
+   
 
-<RoleProvider>
       <Router>
         <Header />
         <Routes>
@@ -60,36 +59,32 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignIN />} />
           <Route path="/book/:id" element={<BookDetail />} />
+          <Route path="/FindATherapist" element={<FindATherapist />} />
           
           
-          {/** pour les page qui sont accessible par le user si il est authentifié */}
+          {/**************************************************** */}  
+          {/** pour les page qui sont accessible par le user si il est authentifié */}         
           {/*<Route element={<PrivateRoute />}>  🗒️ decommente le PrivateRoute pour que le user si il est authentifié ou pas*/}
            
-            <Route path="/payment" element={<PaymentPage />} />
-             {/* Route réservée aux clients */}
-             <Route element={<RoleProvider allowedRoles={["patient"]} />}>
-                <Route path="/Business" element={<Business />} />
-             </Route>
-             {/*<Route path="/recommendation" element={<Recommendation />} />*/}
+                 <Route path="/payment" element={<PaymentPage />} />
+                 {/* Route réservée aux clients */}
+                 <Route element={<RoleProvider allowedRoles={["patient"]} />}>
+                      <Route path="/Business" element={<Business />} />
+                 </Route>
          
-             {/* Routes réservées aux thérapeutes */}
-             <Route element={<RoleProvider allowedRoles={["therapeute"]} />}>
-                <Route path="/recommendation" element={<Recommendation />} />
-             </Route>
+                 {/* Routes réservées aux thérapeutes */}
+                 <Route element={<RoleProvider allowedRoles={["therapeute"]} />}>
+                     <Route path="/recommendation" element={<Recommendation />} />
+                 </Route>
 
-             <Route path="/VideoCall" element={<VideoCall />} />
-             <Route path="/MyContactes" element={<ChatApp />} />
+                 <Route path="/VideoCall" element={<VideoCall />} />
+                 <Route path="/MyContactes" element={<ChatApp />} />
           
           {/*</Route>*/}
-        
-          <Route path="/recommendation" element={<Recommendation />} />
-          <Route path="/VideoCall" element={<VideoCall />} />
-          <Route path="/MyContactes" element={<ChatApp />} />
-          <Route path="/FindATherapist" element={<FindATherapist />} />
-        </Routes>
+          {/**************************************************** */}     
+        </Routes>     
       </Router>
-    //</RoleProvider>
-    </RoleProvider>
+
 
   );
 }
