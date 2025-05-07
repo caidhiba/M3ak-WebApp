@@ -80,6 +80,10 @@
   color: #F8FFF6;
 }
 
+.header.scrolled .icon-notification-bell{
+  color: #325343; 
+}
+
 .header.scrolled .logo img {
   opacity: 0.8;
 }
@@ -133,6 +137,10 @@
   right: 3.125rem;
   top: 1.25rem;
   z-index: 1500;
+}
+
+.mobile-sidebar .notification-dropdown{
+  left: 0;
 }
 
 /* Mobile Menu */

@@ -276,6 +276,13 @@
     cursor: pointer;
     color:#325343 ;
   }
+  .iconChat {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    color:#F8FFF6 ;
+  }
   .ChatApp img {/*.HeaderRightSide*/
     width: 50px;
     height: 50px;

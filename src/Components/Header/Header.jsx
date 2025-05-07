@@ -1,22 +1,28 @@
 import './Header.css'
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useRole } from "../../Pages/RoleContext";
+//import { useRole } from "../auth/RoleContext";
 
-
+import { AuthContext } from '../../auth/AuthContext';
+import NotificationBell from '../Notification/Notification';
 export default function Header() {
-  const { role } = useRole();
+  //const { role } = useRole();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  // 🗒️ le userinfo contient les informations de l'utilisateur connecté (first_name,last_name,role,user_id)
+  const {userinfo ,isLoading,isAuthenticated,logout} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
+  
   useEffect(() => {
-    const handleScroll = () => {
+    if (!isLoading ) {
+      
+      const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+     };
+     window.addEventListener("scroll", handleScroll);
+     return () => window.removeEventListener("scroll", handleScroll);
+    }  
+  }, [isLoading]);
 
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>
@@ -36,7 +42,7 @@ export default function Header() {
         <Link to="/Business" className="header-element">Business</Link> 
         <Link to="/Bookshop" className="header-element">Shop Books</Link> 
       
-        {role === "therapist" && (
+        {userinfo && userinfo.role === "therapeute" && (
         <Link to="/recommendation" className="header-element">Recommendation</Link>
         )}
        
@@ -44,8 +50,19 @@ export default function Header() {
 
       {/* Desktop Auth Buttons */}
       <div className="auth-buttons">
-        <Link to="/login" className="Login-button">Log In</Link> 
-        <Link to="/signup" className="Signin-button">Sign In</Link>
+      {isLoading ? null : (
+          !isAuthenticated ? (
+         <>  
+           <Link to="/login" className="Login-button">Log In</Link> 
+           <Link to="/signup" className="Signin-button">Sign In</Link>
+        </>
+       ) : (
+        <>
+          <button onClick={logout} className="Login-button">Log Out</button>
+          <NotificationBell />
+        </>
+      )
+      )}
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -58,9 +75,17 @@ export default function Header() {
      
          {menuOpen && (
           <div className="mobile-sidebar">
+           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            {isLoading ? null : (
+               isAuthenticated ? (
+                <NotificationBell />
+               ) :null
+            )}
             <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
               <X size={28} />
             </button>
+            
+          </div> 
             <Link to="/" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Home</Link>
             <Link to="/therapists-list" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
               Therapists List <span className="badge">24</span>
@@ -70,7 +95,7 @@ export default function Header() {
             <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
             <Link to="/Bookshop" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Shop books</Link>
             
-            {role === "therapist" && (
+            {userinfo && userinfo.role === "therapeute" && (
             <Link to="/recommendation" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
              Recommendation
              </Link>
@@ -78,8 +103,21 @@ export default function Header() {
 
             <Link to="/Support" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Support</Link>
             <Link to="/Settings" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Settings</Link>
-            <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>
-            <Link to="/signup" className="Signin-button" onClick={() => setMenuOpen(false)}>Sign In</Link>
+            {console.log('isAuthenticated:', isAuthenticated)}
+            
+            {isLoading ? null : (
+               !isAuthenticated ? (
+                <>                
+                    <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>
+                    <Link to="/signup" className="Signin-button" onClick={() => setMenuOpen(false)}>Sign In</Link>
+                </>
+            ) : (
+              <>
+                <button onClick={logout} className="Login-button">Log Out</button>
+                <NotificationBell />
+              </>
+            )
+          )}
           </div>
         )}
 
