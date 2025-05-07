@@ -10,6 +10,7 @@ import TherapistsList from "./Pages/TherapistsList";
 import PaymentPage from "./Pages/PaymentPage";
 import Business from "./Pages/Business";
 import BookDetail from "./Components/BookDetail/BookDetail";
+import FindATherapist from "./Pages/FindATherapist";
 //import Recommendation from "./Pages/recommendation";
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
        <Route path="/Business" element={<Business/>} /> 
         <Route path="/book/:id" element={<BookDetail />} />
        {/*<Route path="/recommendation" element={<Recommendation />} />*/}
+       <Route path="/FindATherapist" element={<FindATherapist />} />
       </Routes>
     </Router>
   );
