@@ -10,6 +10,9 @@ import TherapistsList from "./Pages/TherapistsList";
 import PaymentPage from "./Pages/PaymentPage";
 import Business from "./Pages/Business";
 import BookDetail from "./Components/BookDetail/BookDetail";
+
+import FindATherapist from "./Pages/FindATherapist";
+
 import Recommendation from "./Pages/recommendation";
 import { RoleProvider } from "./Pages/RoleContext";
 
@@ -38,12 +41,14 @@ import PrivateRoute from "./auth/PrivateRoute";
 //     </Router>
 //   );
 // }
+
 //import Recommendation from "./Pages/recommendation";
 
 
 export default function App() {
   return (
-    <RoleProvider>
+
+<RoleProvider>
       <Router>
         <Header />
         <Routes>
@@ -59,8 +64,10 @@ export default function App() {
           <Route path="/recommendation" element={<Recommendation />} />
           <Route path="/VideoCall" element={<VideoCall />} />
           <Route path="/MyContactes" element={<ChatApp />} />
+          <Route path="/FindATherapist" element={<FindATherapist />} />
         </Routes>
       </Router>
     </RoleProvider>
+
   );
 }
