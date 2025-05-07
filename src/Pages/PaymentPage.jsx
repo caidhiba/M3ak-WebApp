@@ -95,13 +95,17 @@
 // };
 
 // export default PaymentPage;
-import React from "react";
+import React,{useContext } from "react";
 import "../Styles/PaymentPage.css";
+import { AuthContext } from '../auth/AuthContext';
 import cardImage from "../assets/visa-card.png";
-import { useRole } from "../Pages/RoleContext"; // ✅ Make sure path is correct
+//import { useRole } from "../auth/RoleContext"; // ✅ Make sure path is correct
 
 const PaymentPage = () => {
-  const { role } = useRole(); // ✅ Get role from context
+  //const { role } = useRole(); // ✅ Get role from context
+
+   // 🗒️ le userinfo contient les informations de l'utilisateur connecté (first_name,last_name,role,user_id)  fait userinfo.role
+   const {userinfo,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
 
   return (
     <div className="payment-container">
@@ -147,7 +151,7 @@ const PaymentPage = () => {
         </form>
 
         {/* Show buttons here only if role is NOT therapist */}
-        {role !== "therapist" && (
+        {userinfo.role !== "therapeute" && (
           <div className="form-buttons">
             <button type="button" className="cancel">Cancel</button>
             <button type="submit" className="pay">Pay</button>
@@ -159,7 +163,7 @@ const PaymentPage = () => {
       <div className="side-section">
         <img src={cardImage} alt="Card" className="card-image" />
 
-        {role === "therapist" && (
+        {userinfo.role === "therapeute" && (
           <div className="plan-section">
             <h4>Choose your plan</h4>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
