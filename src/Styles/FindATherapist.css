@@ -122,7 +122,7 @@ body {
 
 .step-circle.active {
   background-color: #4a614d;
-  border-color: #4a614d;
+  border-color: #4a614d; 
 }
 
 .step-circle.active .step-number {
