@@ -1,0 +1,31 @@
+import hatim from '../Assets/Hatim_Alzahim.webp';
+import wissam from '../Assets/Wissam_Shaath.webp';
+import sophie from '../Assets/Team-member.png';
+import marwa from '../Assets/Marwa_Azab.jpg';
+
+export const therapistsData = [
+  {
+    name: "Dr. Hatim Alzahim",
+    categories: ["Cognitive Behavioral", "Anxiety", "Teens"],
+    description: "Passionate about guiding young people through mental health challenges.",
+    image: hatim,
+  },
+  {
+    name: "Wissam Shaath",
+    categories: ["Depression", "Couples", "Stress"],
+    description: "Helping couples and individuals find emotional balance.",
+    image: wissam,
+  },
+  {
+    name: "Dr. Sophie Cheval",
+    categories: ["Cognitive Behavioral", "Anxiety", "Teens"],
+    description: "Passionate about guiding young people through mental health challenges.",
+    image: sophie,
+  },
+  {
+    name: "Dr. Marwa Azab",
+    categories: ["Depression", "Couples", "Stress"],
+    description: "Helping couples and individuals find emotional balance.",
+    image: marwa,
+  },
+];
