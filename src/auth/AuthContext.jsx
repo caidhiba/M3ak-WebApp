@@ -12,22 +12,41 @@ function AuthProvider({ children }) {
   
   const [userinfo, setUserinfo] = useState(null); // 👈 Ajoute un état pour stocker les infos utilisateur
 
-
+  
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     if (currentUser) {
-      setUser(currentUser);
+      /*setUser(currentUser);
       //const tokenData = JSON.parse(currentUser);
       const userinfo = jwtDecode(currentUser.access);  // 
       setUserinfo(userinfo); // 👈 stocké directement dans le state
-      setIsAuthenticated(true);
+      setIsAuthenticated(true);*/
+
+      if (authService.isTokenExpired(currentUser.access)) {
+        const refreshedUser = authService.refreshToken();
+
+        if (refreshedUser) {
+          setUser(refreshedUser);
+          console.log(refreshedUser)
+          const userinfo = jwtDecode(refreshedUser.access);
+          setUserinfo(userinfo);
+          setIsAuthenticated(true);
+        } else {
+          authService.logout();
+        }
+      } else {
+        setUser(currentUser);
+        const userinfo = jwtDecode(currentUser.access);
+        setUserinfo(userinfo);
+        setIsAuthenticated(true);
+      }
     }
     setIsLoading(false);
   }, []);
 
-  const register = async (email, firstName,lastName ,password ,code) => {//,sexe
+  const register = async (email, firstName,lastName ,password ,code) => {//,sexe,,birthDate
     try {
-      const response =await authService.register(email, firstName,lastName, password ,code);//,sexe
+      const response =await authService.register(email, firstName,lastName, password ,code);//,sexe,birthDate
       const user = await authService.login(email, password);
       setUser(user);
 

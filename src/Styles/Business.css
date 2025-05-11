@@ -50,7 +50,47 @@
     justify-content: center;
     gap: 0.5rem;
   }
+
+  .checkbox-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
   
+  .checkbox-option input[type="checkbox"] {
+    accent-color:#4a614d; /* #007BFF Couleur personnalisée de la case cochée */
+    width: 16px;
+    height: 16px;
+  }
+  
+  .checkbox-option label {
+    cursor: pointer;
+  }
+  .dropdown-toggle {
+    /*padding: 10px;
+    width: 100%;
+    text-align: left;
+    background-color:  #f9f9f9;
+    border: 1px solid #ccc;*/
+    cursor: pointer;
+  }
+  
+  /*.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 99;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: 90%;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }*/
   .step-indicator {
     width: 36px;
     height: 36px;
@@ -128,7 +168,8 @@
   
   .form-input,
   .form-select,
-  .form-textarea {
+  .form-textarea,
+  .dropdown-toggle{
     width: 100%;
     padding: 0.8rem;
     border: 1px solid #ddd;

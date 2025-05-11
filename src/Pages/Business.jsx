@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef,useContext  } from 'react';
+import axios from 'axios';
 import '../Styles/Business.css';
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
-
+import { AuthContext } from '../auth/AuthContext';
 const Business = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 7;
@@ -10,6 +11,12 @@ const Business = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: false, message: '' });
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  const {userinfo ,user,isLoading} = useContext(AuthContext);
+  const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  const [availableSpecializations, setAvailableSpecializations] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -20,10 +27,11 @@ const Business = () => {
     licenseNumber: '',
     issuingOrganization: '',
     issueDate: '',
-    specializations: '',
+    specializations: [],//specializations: '',
+    otherSpecialization: '', // 👈 ajouté ici
     yearsOfExperience: '',
     availability: '',
-    languages: '',
+    languages: [],//languages: '',
     certifications: '',
     resume: null,
     motivationText: '',
@@ -47,7 +55,8 @@ const Business = () => {
     resume: false,
     motivationText: false,
     clientType: false,
-    consentAgreement: false
+    consentAgreement: false,
+    languages: false,
   });
 
   useEffect(() => {
@@ -63,6 +72,20 @@ const Business = () => {
     if (savedData) {
       setFormData(JSON.parse(savedData));
     }
+  }, []);
+
+  useEffect(() => {
+    /*const fetchSpecializations = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/gestion-mental-health/specialites/');
+        const data = await response.json();
+        setAvailableSpecializations(data); // assure-toi que data est un tableau d'objets ou de strings
+      } catch (error) {
+        console.error('Erreur lors du chargement des spécialisations:', error);
+      }
+    };
+  
+    fetchSpecializations();*/
   }, []);
 
   useEffect(() => {
@@ -91,18 +114,46 @@ const Business = () => {
     }
   };
 
+  const handleCheckboxChange = (e, langue) => {
+    const isChecked = e.target.checked;
+    const updatedLanguages = isChecked
+      ? [...formData.languages, langue]
+      : formData.languages.filter((l) => l !== langue);
+  
+    setFormData({ ...formData, languages: updatedLanguages });
+  
+    if (errors.languages) {
+      setErrors({ ...errors, languages: false });
+    }
+  };
+
+  const handleSpecializationChange = (e, specialization) => {
+    const isChecked = e.target.checked;
+    const updatedSpecs = isChecked
+      ? [...formData.specializations, specialization]//specialization.id
+      : formData.specializations.filter((s) => s !== specialization);//specialization.id
+  
+    setFormData({ ...formData, specializations: updatedSpecs });
+  
+    if (errors.specializations) {
+      setErrors({ ...errors, specializations: false });
+    }
+  };
+  
+
+
   const validateStep = () => {
     let isValid = true;
     const newErrors = {...errors};
 
     switch (currentStep) {
       case 1:
-        newErrors.fullName = !formData.fullName;
-        newErrors.email = !formData.email;
-        newErrors.dateOfBirth = !formData.dateOfBirth;
+        //newErrors.fullName = !formData.fullName;
+        //newErrors.email = !formData.email;
+        //newErrors.dateOfBirth = !formData.dateOfBirth;
         newErrors.city = !formData.city;
-        isValid = !newErrors.fullName && !newErrors.email && 
-                  !newErrors.dateOfBirth && !newErrors.city;
+        isValid =!newErrors.city; //!newErrors.fullName && !newErrors.email && 
+                  //!newErrors.dateOfBirth && !newErrors.city;
         break;
       case 2:
         newErrors.licenseNumber = !formData.licenseNumber;
@@ -112,7 +163,10 @@ const Business = () => {
                   !newErrors.issueDate;
         break;
       case 3:
-        newErrors.specializations = !formData.specializations;
+        /*newErrors.specializations = !formData.specializations;
+        newErrors.yearsOfExperience = !formData.yearsOfExperience;
+        isValid = !newErrors.specializations && !newErrors.yearsOfExperience;*/
+        newErrors.specializations = formData.specializations.length === 0 ||  (formData.specializations.includes('other') && !formData.otherSpecialization);
         newErrors.yearsOfExperience = !formData.yearsOfExperience;
         isValid = !newErrors.specializations && !newErrors.yearsOfExperience;
         break;
@@ -157,7 +211,82 @@ const Business = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
+
+    const formDataToSend = new FormData();
+  console.log(formDataToSend)
+  console.log(formData)
+  // Remplir les champs un par un
+  formDataToSend.append('license_number', formData.licenseNumber);
+  formDataToSend.append('issuing_organization', formData.issuingOrganization);
+  formDataToSend.append('issue_date', formData.issueDate);
+  formDataToSend.append('photo', formData.profilePicture);
+  
+
+  if (formData.otherSpecialization){
+    formDataToSend.append('other_specialization', formData.otherSpecialization);
+  }else{
+    formData.specializations.forEach((spec, index) => {
+    formDataToSend.append(`specialites`, spec.id || spec); // selon structure
+  });
+  }
+  formDataToSend.append('annees_experience', formData.yearsOfExperience);
+  formDataToSend.append('availability', formData.availability);
+  formDataToSend.append('languages', JSON.stringify(formData.languages));
+
+  formDataToSend.append('certificate', formData.certifications); // ← fichier 
+  formDataToSend.append('resume_cv',formData.resume ); // ← fileInput.files[0] 
+
+  formDataToSend.append('motivation', formData.motivationText);
+  formDataToSend.append('client_type', formData.clientType);
+  formDataToSend.append('referral_source', formData.referralSource);
+  formDataToSend.append('motivation_letter', formData.motivationLetter);
+
+  formDataToSend.append('consent_agreement', formData.consentAgreement === 'agree');
+  console.log('data form to send ',formDataToSend)
+  console.log('user?.access',user?.access)
+  try {
+     const response = await fetch('http://127.0.0.1:8000/api/GestionAccounts/patient-demandes/', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user?.access}` // si tu utilises JWT
+      },
+      body: formDataToSend
+    });
+   /*const response = await axios.post(
+        'http://127.0.0.1:8000/api/GestionAccounts/patient-demandes/',
+         formDataToSend,
+         {
+          headers: {
+            Authorization: `Bearer ${user?.access}`,  // Ton token JWT
+            // Pas besoin de 'Content-Type' ici avec FormData
+          },
+         }
+     );*/
+    console.log('Demande envoyée avec succès', response);
+    if (response.status === 200 || response.status === 201) {
+       setSubmitStatus({ success: true, message: 'Demande soumise avec succès !' });
+       localStorage.removeItem('therapistFormData');
+    } else {
+       setSubmitStatus({ success: false, message: 'Erreur lors de la soumission.' });
+    }
+   /* if (response.ok) {
+      setSubmitStatus({ success: true, message: 'Demande soumise avec succès !' });
+      localStorage.removeItem('therapistFormData');
+    } else {
+      const errData = await response.json();
+      setSubmitStatus({ success: false, message: 'Erreur lors de la soumission.', details: errData });
+    }*/
+  } catch (error) {
+    setSubmitStatus({ success: false, message: 'Une erreur réseau est survenue.' });
+  } finally {
+    setIsSubmitting(false);
+  }
+
+
+
+
+
+    /*try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSubmitStatus({ success: true, message: 'Application submitted successfully!' });
       localStorage.removeItem('therapistFormData');
@@ -165,7 +294,7 @@ const Business = () => {
       setSubmitStatus({ success: false, message: 'Submission failed. Please try again.' });
     } finally {
       setIsSubmitting(false);
-    }
+    }*/
   };
 
   const renderProgressIndicator = () => (
@@ -213,7 +342,7 @@ const Business = () => {
         return (
           <div className="form-step">
             <h2>Let's Get to Know You First</h2>
-            <div className="form-group">
+            {/*<div className="form-group">
               <label>Full Name <span className="required">*</span></label>
               <input 
                 type="text" 
@@ -261,7 +390,7 @@ const Business = () => {
                 required 
               />
               {errors.city && <span className="error-message">This field is required</span>}
-            </div>
+            </div>*/}
             <div className="form-group">
               <label>Upload Profile Picture</label>
               <input 
@@ -325,7 +454,7 @@ const Business = () => {
         return (
           <div className="form-step">
             <h2>Professional Info</h2>
-            <div className="form-group">
+            {/*<div className="form-group">
               <label>Specializations <span className="required">*</span></label>
               <input 
                 type="text" 
@@ -336,6 +465,54 @@ const Business = () => {
                 required 
               />
               {errors.specializations && <span className="error-message">This field is required</span>}
+            </div>*/}
+
+            <div className="form-group" ref={dropdownRef}>
+                <label>Spécialisations <span className="required">*</span></label>
+                <button type="button" onClick={() => setDropdownOpen(!dropdownOpen)} className="dropdown-toggle">
+                     Choisir des spécialisations
+                </button>
+                {dropdownOpen && (
+                <div className="dropdown-menu">   
+                    {availableSpecializations.map((spec) => (
+                      <div key={spec} className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          value={spec}
+                          checked={formData.specializations.includes(spec)}
+                          onChange={(e) => handleSpecializationChange(e, spec)}
+                          id={`spec-${spec.id}`}
+                        />
+                        <label htmlFor={`spec-${spec.id}`}>{spec.nom}</label>
+                      </div>
+                    ))}
+                    {/* Option Autre */}
+                    <div className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          value="other"
+                          checked={formData.specializations.includes('other')}
+                          onChange={(e) => handleSpecializationChange(e, 'other')}
+                          id="spec-other"
+                        />
+                        <label htmlFor="spec-other">Autre (à préciser)</label>
+                    </div>
+                    {/* Champ texte si "Autre" est cochée */}
+                    {formData.specializations.includes('other') && (
+                        <div className="form-group">
+                          <label>Précisez votre spécialisation</label>
+                          <input
+                            type="text"
+                            name="otherSpecialization"
+                            value={formData.otherSpecialization || ''}
+                            onChange={handleInputChange}
+                            className="form-input"
+                          />
+                        </div>
+                    )}
+                </div>
+                )}
+                {errors.specializations && <span className="error-message">Veuillez sélectionner au moins une spécialisation</span>}
             </div>
             <div className="form-group">
               <label>Years of Experience <span className="required">*</span></label>
@@ -361,7 +538,7 @@ const Business = () => {
                 placeholder="e.g. Weekdays 9-5" 
               />
             </div>
-            <div className="form-group">
+            {/*<div className="form-group">
               <label>Languages Spoken</label>
               <input 
                 type="text" 
@@ -371,6 +548,22 @@ const Business = () => {
                 className="form-input" 
                 placeholder="e.g. Arabic, French, English..."
               />
+            </div>*/}
+            <div className="form-group">
+                    <label>Langues parlées :</label>
+                    {LANGUAGES.map((langue) => (
+                      <div key={langue} className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          value={langue}
+                          checked={formData.languages.includes(langue)}
+                          onChange={(e) => handleCheckboxChange(e, langue)}
+                          id={`lang-${langue}`}
+                        />
+                        <label htmlFor={`lang-${langue}`}>{langue}</label>
+                      </div>
+                    ))}
+                    {errors.languages && <span className="error-message">Veuillez sélectionner au moins une langue</span>}
             </div>
           </div>
         );

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import '../Styles/TherapistsList.css'
 import Header from '../Components/Header/Header.jsx'
 import Footer from '../Components/Footer/Footer.jsx'
@@ -7,6 +8,21 @@ import TherapistCard from '../Components/TherapistCard/TherapistCard.jsx'
 import { therapistsData } from "../data/therapistsData";
 
 const TherapistsList = () => {
+
+
+  const [therapistsData, setTherapistsData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/GestionAccounts/therapists/')
+      .then(response => {
+        setTherapistsData(response.data);
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+  }, []);
+
   return (
     <>
       <Header />
