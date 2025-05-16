@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import TeamSection from '../Components/team-section/TeamSection';
 import BookSection from '../Components/book-section/BookSection';
 import Footer from '../Components/Footer/Footer';
-
+import { Link } from "react-router-dom";
 const testimonials = [
   {
     id: 1,
@@ -176,7 +176,10 @@ const Home = () => {
           Our therapy services are designed to support your mental and emotional well-being. 
           We offer personalized approaches to help you navigate life's challenges.
         </p>
-        <button className="hero-button">Book Consultation</button>
+        {/* <button className="hero-button">Book Consultation</button> */}
+        <Link to="/Profile">
+  <button className="hero-button">Book Consultation</button>
+</Link>
       </div>
       <div className="hero-image">
         <img src="/src/assets/booking-image.png" alt="Therapy Session" />

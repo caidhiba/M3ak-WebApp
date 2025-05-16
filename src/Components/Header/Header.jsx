@@ -12,7 +12,9 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   // 🗒️ le userinfo contient les informations de l'utilisateur connecté (first_name,last_name,role,user_id)
   const {userinfo ,isLoading,isAuthenticated,logout} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
-  
+  console.log("userinfo:", userinfo);
+console.log("authenticated:", isAuthenticated);
+
   useEffect(() => {
     if (!isLoading ) {
       
@@ -60,6 +62,9 @@ export default function Header() {
         <>
           <button onClick={logout} className="Login-button">Log Out</button>
           <NotificationBell />
+          {/* <Link to="/Profile" className="profile-link">
+              <img src="/src/assets/dark-logo.png" alt="Profile" className="profile-img" />
+            </Link> */}
         </>
       )
       )}
@@ -115,6 +120,9 @@ export default function Header() {
               <>
                 <button onClick={logout} className="Login-button">Log Out</button>
                 <NotificationBell />
+                {/* <Link to="/Profile" className="profile-link">
+                <img src="/src/assets/profile-icon.png" alt="Profile" className="profile-img" />
+                </Link> */}
               </>
             )
           )}
