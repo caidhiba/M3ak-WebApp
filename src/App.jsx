@@ -18,6 +18,7 @@ import RoleProvider from "../src/auth/RoleContext";//pour que le user si il est 
 
 import VideoCall from "./Pages/InVideoCall";
 import ChatApp from "./Pages/ChatApp";
+import ProfilePage from "./Pages/ProfilePage";
 import PrivateRoute from "./auth/PrivateRoute";//pour que le user si il est authentifié ou pas
 //  const userRole = "therapist"
 // export default function App() {
@@ -60,7 +61,7 @@ export default function App() {
           <Route path="/signup" element={<SignIN />} />
           <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/FindATherapist" element={<FindATherapist />} />
-          
+          <Route path="/Profile" element={<ProfilePage />} />
           
           {/**************************************************** */}  
           {/** pour les page qui sont accessible par le user si il est authentifié */}         
@@ -68,9 +69,9 @@ export default function App() {
            
                  <Route path="/payment" element={<PaymentPage />} />
                  {/* Route réservée aux clients */}
-                 <Route element={<RoleProvider allowedRoles={["patient"]} />}>
+                 {/* <Route element={<RoleProvider allowedRoles={["patient"]} />}> */}
                       <Route path="/Business" element={<Business />} />
-                 </Route>
+                 {/* </Route> */}
          
                  {/* Routes réservées aux thérapeutes */}
                  <Route element={<RoleProvider allowedRoles={["therapeute"]} />}>
