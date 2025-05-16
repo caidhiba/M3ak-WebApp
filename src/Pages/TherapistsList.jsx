@@ -4,10 +4,7 @@ import Header from '../Components/Header/Header.jsx'
 import Footer from '../Components/Footer/Footer.jsx'
 import Filters from '../Components/filters/Filters.jsx'
 import TherapistCard from '../Components/TherapistCard/TherapistCard.jsx'
-import hatim from '../Assets/Hatim_Alzahim.webp'
-import wissam from '../Assets/Wissam_Shaath.webp';
-import sophie from '../Assets/Team-member.png'
-import marwa from '../Assets/Marwa_Azab.jpg'
+import { therapistsData } from "../data/therapistsData";
 
 const TherapistsList = () => {
   return (
@@ -48,32 +45,15 @@ const TherapistsList = () => {
             </div>
 
             <div className="cards">
-            <TherapistCard
-              name="Dr. Hatim Alzahim"
-              categories={["Cognitive Behavioral", "Anxiety", "Teens"]}
-              description="Passionate about guiding young people through mental health challenges."
-              image={hatim}
-            />
-
-            <TherapistCard
-              name="Wissam Shaath"
-              categories={["Depression", "Couples", "Stress"]}
-              description="Helping couples and individuals find emotional balance."
-              image={wissam}
-            />
-            <TherapistCard
-              name=" Dr. Sophie Cheval"
-              categories={["Cognitive Behavioral", "Anxiety", "Teens"]}
-              description="Passionate about guiding young people through mental health challenges."
-              image={sophie}
-            />
-
-            <TherapistCard
-              name="Dr. Marwa Azab"
-              categories={["Depression", "Couples", "Stress"]}
-              description="Helping couples and individuals find emotional balance."
-              image={marwa}
-            />
+              {therapistsData.map((therapist, index) => (
+                <TherapistCard
+                  key={index}
+                  name={therapist.name}
+                  categories={therapist.categories}
+                  description={therapist.description}
+                  image={therapist.image}
+                />
+              ))} 
             </div>
 
           </div>
