@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState ,useEffect} from "react";
+import axios from "axios";
 import '../Styles/TherapistsList.css'
 import Header from '../Components/Header/Header.jsx'
 import Footer from '../Components/Footer/Footer.jsx'
@@ -10,6 +11,19 @@ import book4 from '../Assets/book4.png'
 import FiltersBook from '../Components/filtersBook/FiltersBook.jsx'
 
 const BookShop = () => {
+  //const [booksData, setBooksData] = useState([]);
+  
+  useEffect(() => {
+      /*axios.get('http://127.0.0.1:8000/api/gestion-library/books/')
+        .then(response => {
+          setBooksData(response.data);
+          console.log(response.data)         
+        })
+        .catch(error => {
+          console.error("Erreur lors du chargement des thérapeutes :", error);
+        });*/
+    }, []);
+
   return (
     <>
       <Header />
@@ -48,15 +62,17 @@ const BookShop = () => {
             </div>
 
             <div className="cards">
-              <BookCard
-               id="1"
-              name="The Autistic Survival Guide To Therapy"
-              category="Mental Health"
-              author="Dr. Steph Jones"
-              price={2000}
-              image={book3}
-              
+               {/**{booksData.map((book, index) => (
+                     <BookCard
+                        id= {book.id}
+                        name= {book.title}
+                        category="Mental Health"
+                        author= {book.author}
+                        price={book.price}
+                        image={book.cover}             
               />
+               ))} */}
+             
               <BookCard
               id="2"
               name="Choosing Therapy"
@@ -80,7 +96,7 @@ const BookShop = () => {
               author="Dr. Joseph Murphy"
               price={1800}
               image={book2}
-              />
+              /> 
              
             </div>
 

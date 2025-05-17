@@ -23,11 +23,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./BookCard.css";
-
+{/*image ? `http://127.0.0.1:8000/${image}` :  image*/} 
 export default function BookCard({ id, name, category, author, price, image }) {
   return (
     <div className="book-card">
-      <img src={image || "https://via.placeholder.com/150"} alt={name} className="book-imgg" />
+      <img 
+        src={image}
+        alt={name} 
+        className="book-imgg" 
+      />
       <div className="book-content">
         <h3 className="book-title">{name}</h3>
         <p className="book-author">by {author}</p>

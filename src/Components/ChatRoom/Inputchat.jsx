@@ -14,7 +14,7 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
     const audioChunksRef = useRef([]);
     const fileInputRef = useRef();
     const audioRef = useRef(null);
-    const personCurrent = "personne courante"; // Remplacez par la logique pour obtenir l'utilisateur courant
+    const personCurrent = 5; // Remplacez par la logique pour obtenir l'utilisateur courant
     let newMessage = null;
 
     // 📤 Envoi d'un message texte
@@ -145,13 +145,13 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
 
      {/* 🎙️ Bouton micro */}
       {!isRecording ? (
-        <button onClick={startRecording}>
-          <FiMic className="iconChat "  />
-        </button>
+        //<button >
+          <FiMic className="iconChat" onClick={startRecording} />
+        //</button>
       ) : (
-        <button onClick={stopRecording}>
-          <FiMic className="iconChat" />
-        </button>
+        //<button >
+          <FiMic className="iconChat" onClick={stopRecording} />
+        //</button>
       )}
 
        {/* 💬 Champ texte */}

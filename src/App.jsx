@@ -13,7 +13,7 @@ import BookDetail from "./Components/BookDetail/BookDetail";
 
 import FindATherapist from "./Pages/FindATherapist";
 
-import Recommendation from "./Pages/recommendation";
+import Recommendation from "./Pages/Recommendation";
 import RoleProvider from "../src/auth/RoleContext";//pour que le user si il est thyra
 
 import VideoCall from "./Pages/InVideoCall";
@@ -60,7 +60,6 @@ export default function App() {
           <Route path="/signup" element={<SignIN />} />
           <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/FindATherapist" element={<FindATherapist />} />
-          
           
           {/**************************************************** */}  
           {/** pour les page qui sont accessible par le user si il est authentifié */}         

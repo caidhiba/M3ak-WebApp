@@ -115,7 +115,7 @@
 //     </div>
 //   );
 // }
-import React, { useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import book1 from "../../Assets/book1.png";
 import book2 from "../../Assets/book2.png";
@@ -123,7 +123,9 @@ import book3 from "../../Assets/book3.png";
 import book4 from "../../Assets/book4.png";
 import authorImg from "../../Assets/author.png";
 import "./BookDetail.css";
-
+import axios from 'axios';
+import { FaStar } from 'react-icons/fa';
+import { AuthContext } from '../../auth/AuthContext';
 const bookData = {
   1: {
     name: "The Autistic Survival Guide To Therapy",
@@ -170,22 +172,73 @@ const bookData = {
 
 const BookDetail = () => {
   const { id } = useParams();
-  const book = bookData[id];
+  //const book = bookData[id];
   const [activeTab, setActiveTab] = useState("description");
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const {userinfo,user,isAuthenticated,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
+  useEffect(() => {
+    // Vérifie si l'id est valide
+    if (!id) {
+      console.error("ID invalide ou non défini");
+      setLoading(false);
+      return;
+    }
+    axios.get(`http://127.0.0.1:8000/api/gestion-library/books/${id}/`)
+      .then(response => {
+        console.log(response.data)
+        setBook(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la récupération du livre :", error);
+        setLoading(false);
+      });
+  }, [id]);
+  const handleRecommend = () => {
+   if (!user || !user.access) {
+    alert("Vous devez être connecté pour recommander ce livre.");
+    return;
+  }
 
-  if (!book) return <div>Book not found.</div>;
+  axios.post(`http://127.0.0.1:8000/api/gestion-library/books/${book.id}/recommander/`, {
+      headers: {
+        Authorization: `Bearer ${user.access}`,
+        //'Content-Type': 'application/json'
+      } 
+  })
+  .then(response => {
+    alert(`Merci ! Vous recommandez le livre : "${book.title}"`);
+    console.log('Réponse du serveur:', response.data);
+  })
+  .catch(error => {
+    console.error("Erreur lors de la recommandation :", error);
+    alert("Une erreur est survenue lors de la recommandation.");
+  });
+  alert(`Merci ! Vous recommandez le livre : "${book.title}"`);
+ 
+  };
+   console.log(id);  // Vérifie la valeur de `id`
+  if (loading) return <div>Chargement en cours...</div>;
+  //if (!book) return <div>Book not found.</div>;
+  //const displayedTherapists = showAll ? book.recommande_par : book.recommande_par.slice(0, 2);
+  const displayedNames = showAll
+  ? book.recommande_par.map(rec => `${rec.user.first_name} ${rec.user.last_name}`)
+  : book.recommande_par.slice(0, 2).map(rec => `${rec.user.first_name} ${rec.user.last_name}`);
 
+const fullListText = displayedNames.join(', ');
   return (
     <div className="book-detail-container">
     <div className="book-detail-content">
-      <img src={book.image} alt="Book Cover" className="book-image" />
+      {<img src={book.image ? `http://localhost:8000${book.image}` : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIJY0AD8XUY6WWExCsttBgAOeXqHkfnb4Fgg&s'} alt="Book Cover" className="book-image" />}
       
       <div className="book-info">
         {/* <div className="breadcrumb">Shop all &gt; Category &gt; Product name</div> */}
   
-        <h1 className="book-title">The Autistic Survival Guide To Therapy</h1>
+        <h1 className="book-title">{book.title}</h1>
         <div className="info-container">
-        <div className="price">2000DA |</div>
+        <div className="price">{book.price}DA |</div>
         <div className='author'>{book.author}</div>
         </div>
         
@@ -196,15 +249,37 @@ const BookDetail = () => {
   
         <div className="tab-content">
           {activeTab === 'description' ? (
-            <p>Lorem ipsum dolor sit amet...</p>
+            <p>{book.description}</p>
           ) : (
             <div className='details'>
               · Publisher: One More Chapter (March 27, 2025)<br />
               · Publication date: March 27, 2025<br />
-              · Language: English<br />
-              · Print length: 353 pages<br />
+              · Language: {book.language}<br />
+              · Print length: {book.nmb_page} pages<br />
               · Recommender par: dr.Steve C, Wissam Shaath, etc.<br />
-              · Stock: 12
+              · Stock: {book.stock}
+               <p><strong>Recommandé par :</strong> {fullListText}
+                  {book.recommande_par.length > 2 && (
+                    <button
+                      onClick={() => setShowAll(!showAll)}
+                      style={{ border: 'none', background: 'none', color: 'blue', cursor: 'pointer', marginLeft: '5px' }}
+                    >
+                      {showAll ? 'Voir moins' : 'Voir plus >'}
+                    </button>
+                  )}
+              </p>
+                {/*<ul>
+                  {displayedTherapists.map((rec) => (
+                  <li key={rec.id}>
+                    {rec.user.first_name} {rec.user.last_name}
+                  </li>
+                  ))}
+                </ul>
+                {book.recommande_par.length > 2 && (
+                 <button onClick={() => setShowAll(!showAll)}>
+                      {showAll ? 'Voir moins' : 'Voir plus'}
+                  </button>
+                 )}*/}
             </div>
           )}
         </div>
@@ -220,6 +295,29 @@ const BookDetail = () => {
             <button className="buy-now">Buy Now</button>
             <input type="number" className="quantity" defaultValue="1" />
           </div>
+          {isLoading ? null : (  
+            isAuthenticated && userinfo.role =='therapeute' ? (
+            <>
+            {/* ➕ Bouton recommander */}
+              <button
+                onClick={handleRecommend}
+                /*style={{
+                  marginLeft: '10px',
+                  backgroundColor: '#4CAF50',
+                  color: 'white',
+                  border: 'none',
+                  padding: '5px 10px',
+                  cursor: 'pointer',
+                  borderRadius: '4px'
+                }}*/
+                className='Recommendbutton'
+              >
+                ⭐ Recommander ce livre
+              </button>
+              {/*<FaStar onClick={handleRecommend} style={{ color: 'gold', cursor: 'pointer', marginLeft: '10px' }} />*/}
+            </>
+            ) : null
+          )}
         </div>
       </div>
     </div>

@@ -82,6 +82,17 @@ const teamMembers = [
 
 const TeamSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  //const [teamMembers, setTeamMembers] = useState([]);
+  
+  /*useEffect(() => {
+    axios.get("http://localhost:8000/api/top-therapeutes/")
+      .then((response) => {
+        setTeamMembers(response.data);
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+  }, []);*/
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? teamMembers.length - 1 : prev - 1));

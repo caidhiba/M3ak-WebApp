@@ -125,7 +125,7 @@
   gap: 10px;
 }
 
-.buy-now {
+.buy-now,.Recommendbutton {
   background-color: #2f5731;
   color: white;
   padding: 10px 20px;

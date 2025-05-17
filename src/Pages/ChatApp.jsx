@@ -30,14 +30,14 @@ const ChatApp = () => {
     const fetchRooms = async () => {
         try {
             console.log('user:', user); // Log the form data
-            const response = await axios.get('http://127.0.0.1:8000/api/GestionCommunication/conversation/', {
+            const response = await axios.get('http://127.0.0.1:8000/api/GestionCommunication/conversation/', /*{
               headers: {
                 Authorization: `Bearer ${user?.access}`,
               },
-            });
+            }*/); 
             console.log('Données reçues:', response.data);  // Vérifier les données reçues
             //setRooms(response.data.rooms);
-            //setListUsers(response.data)
+            setListUsers(response.data)
             //setPersonCurrent(response.data.person_current);
         } catch (error) {
             console.error('Erreur lors de la récupération des contacts:', error);
@@ -48,23 +48,26 @@ const ChatApp = () => {
     useEffect(() => {
        //fetchRooms();
 
-       if (!isLoading && user) {
+       //if (!isLoading && user) {
         fetchRooms();
-      }
+      //}
     },[isLoading, user]);
     
     
     
     const handleUserClick = async (user) => {
       try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/GestionCommunication/conversation/${user.id}/messages/`, {
+          const response = await axios.get(`http://127.0.0.1:8000/api/GestionCommunication/conversation/${user.id}/messages/`, /*{
             headers: {
               Authorization: `Bearer ${user?.access}`,
             },
-          });
+          }*/);
           console.log('Room details response:', response.data); // Debugging
-          const { conversation, items } = response.data;
-          setConversation(conversation);
+          const { session, items } = response.data;
+          console.log( response.data);
+          console.log( session)
+          console.log(items)
+          setConversation(session);
           setMessagesEtAppels(items);
           setSelectedUser(user);
           //setSelectedRoom(roomId);
@@ -74,8 +77,11 @@ const ChatApp = () => {
           console.error('Error fetching room details:', error);
       }
     };
-    useEffect(() => {/*
+    useEffect(() => {
       const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
+
+      console.log(conversation)
+      if (!conversation || !conversation.id) return; // Empêche l'exécution si conversation est null
       const socket = new WebSocket(`http://127.0.0.1:8000/ws/chat/${conversation.id}/`); // Remplacez par votre URL de WebSocket
       chatSocket.current = socket;
 
@@ -97,14 +103,14 @@ const ChatApp = () => {
                              msg.id === data.message_id ? { ...msg, content: data.new_content } : msg
                            )
                          );
-           }else if (data.action === 'create_message') {
+           }else if (data.type === 'chat_message') {//create_message
                 setMessagesEtAppels(prevMessages => [
                     ...prevMessages,
                     {
                         id: data.id_msg,
                         content: data.message,  // le contenu du message peux être un texte, un fichier, etc.
                         sender: data.sender, // le id de l'utilisateur qui a envoyé le message
-                        type_objet: data.type, // 'message'
+                        type_objet: data.type, // 'message' ou chat_message
                         type: data.type_msg, // 'text', 'audio', 'file'
                     }
                 ]);
@@ -130,7 +136,7 @@ const ChatApp = () => {
 
         return () => {
             socket.close();
-        };*/
+        };
     }, [conversation]); // Ajout de selectedRoom comme dépendance pour se reconnecter à la bonne room
 
     const handleSubmitMessage = (messageToSend) => {
@@ -196,20 +202,22 @@ const ChatApp = () => {
         <div className="ChatApp">
            
                  
-            {/* Left Side - 40% */}
+          {/* Left Side - 40% */}
             <div className="LeftSide ">{/** est fait dans le css  */}
                 <h1 className='Titre'>Contacts</h1>
                 <hr></hr>
                 <ContactList listusers={listusers} onSelectUser={handleUserClick} />{/** Affiche la liste des contacts */}
             </div>
-            {/* Right Side - 60% */}
+          {/* Right Side - 60% */}
+          {selectedUser ? (
             <div className="RightSide ">{/** est fait dans le css  */}
                 {/* Header (sticky en haut) */}
                 <div className="HeaderRightSide  ">                       
                          <div >
                           {/** selectedUser.photo */}
-                           <img src="https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"  alt="User" className={`w-8 h-8 rounded-full`}></img>           
-                           {/*<h1 className='Titre'>{selectedUser.first_name} {selectedUser.last_name}</h1>*/}
+                            {console.log(selectedUser)}
+                           <img src={`http://127.0.0.1:8000/${selectedUser.photo}`}  alt="User" className={`w-8 h-8 rounded-full`}></img>           
+                           <h1 className='Titre'>{selectedUser.first_name} {selectedUser.last_name}</h1>
                          </div> 
 
                         <div>
@@ -231,15 +239,19 @@ const ChatApp = () => {
                    </div>
 
                 {/* Chat Window */}
+                {console.log('les messages',MessagesEtAppels)}
                 <ChatWindow MessagesEtAppels={MessagesEtAppels} handleEdit={handleEdit} handleDelete={handleDelete} />
 
                  {/* Input Chat */}
                  <InputChat handleSubmitMessage={handleSubmitMessage} />
             </div>
-
+          ) : (
+            <div className="RightSide ">
+                <p className="text-gray-500">Sélectionnez un contact pour afficher la discussion.</p>
+            </div>         
+          )} 
             
-           
-           
+              
         </div>
     );
 };

@@ -15,9 +15,9 @@ return (
                       <div  onClick={() => onSelectUser(userWrapper.user)} className="contact"> 
                         {/** userWrapper.user.photo*/}
                         <img src="https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"  alt="User" class={`w-8 h-8 rounded-full`}></img>             
-                        <h1 className="flex justify-between items-center text-gray-700">
+                        <h3>
                             {userWrapper.user.first_name} {userWrapper.user.last_name}
-                        </h1>
+                        </h3>
                       </div>  
                     </li>
                 ))}

@@ -148,10 +148,14 @@ const PaymentPage = () => {
             <input type="text" placeholder="State / Province" />
             <input type="text" placeholder="ZIP / Postal Code" />
           </div>
+           <div className="form-buttons">
+              <button type="button" className="cancel">Cancel</button>
+              <button type="submit" className="pay">Pay</button>
+          </div>
         </form>
 
         {/* Show buttons here only if role is NOT therapist */}
-        {userinfo.role !== "therapeute" && (
+        {!isLoading && userinfo && userinfo.role !== "therapeute" && (
           <div className="form-buttons">
             <button type="button" className="cancel">Cancel</button>
             <button type="submit" className="pay">Pay</button>
@@ -163,7 +167,7 @@ const PaymentPage = () => {
       <div className="side-section">
         <img src={cardImage} alt="Card" className="card-image" />
 
-        {userinfo.role === "therapeute" && (
+        {!isLoading && userinfo && userinfo.role === "therapeute" && (
           <div className="plan-section">
             <h4>Choose your plan</h4>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
@@ -184,10 +188,10 @@ const PaymentPage = () => {
               </div>
             </div>
 
-            <div className="form-buttons">
+           {/**  <div className="form-buttons">
               <button type="button" className="cancel">Cancel</button>
               <button type="submit" className="pay">Pay</button>
-            </div>
+            </div>*/}
           </div>
         )}
       </div>

@@ -75,7 +75,7 @@ const Business = () => {
   }, []);
 
   useEffect(() => {
-    /*const fetchSpecializations = async () => {
+    const fetchSpecializations = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/gestion-mental-health/specialites/');
         const data = await response.json();
@@ -85,7 +85,7 @@ const Business = () => {
       }
     };
   
-    fetchSpecializations();*/
+    fetchSpecializations();
   }, []);
 
   useEffect(() => {
@@ -151,8 +151,8 @@ const Business = () => {
         //newErrors.fullName = !formData.fullName;
         //newErrors.email = !formData.email;
         //newErrors.dateOfBirth = !formData.dateOfBirth;
-        newErrors.city = !formData.city;
-        isValid =!newErrors.city; //!newErrors.fullName && !newErrors.email && 
+        //newErrors.city = !formData.city;
+        //isValid =!newErrors.city; //!newErrors.fullName && !newErrors.email && 
                   //!newErrors.dateOfBirth && !newErrors.city;
         break;
       case 2:
