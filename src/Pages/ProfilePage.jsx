@@ -1,6 +1,9 @@
 
 import '../styles/profilePage.css';
 import { useState } from "react";
+import ChatApp from './ChatApp'
+import Appointments from './Appointments';
+import Orders from './Orders';
 
 export default function ProfilePage() {
   const [activeSection, setActiveSection] = useState("profile");
@@ -13,6 +16,7 @@ export default function ProfilePage() {
           <li onClick={() => setActiveSection("appointments")}>Appointments</li>
           <li onClick={() => setActiveSection("messages")}>Messages</li>
           <li onClick={() => setActiveSection("documents")}>Documents</li>
+          <li onClick={() => setActiveSection("Orders")}>Orders</li>
         </ul>
       </aside>
       <main className="profile-main">
@@ -53,16 +57,19 @@ export default function ProfilePage() {
         )}
         {activeSection === "appointments" && (
           <section className="appointments-section">
-            <h3>My Appointments</h3>
-            <p>You can see your upcoming or past appointments here.</p>
-            <div className="appointment-card">
-              <p><strong>Therapist:</strong> Dr. Jane Doe</p>
-              <p><strong>Date:</strong> May 25, 2025</p>
-              <p><strong>Time:</strong> 14:00</p>
-              <button className="save-btn">Join Session</button>
-            </div>
+           <Appointments />
           </section>
         )}
+        {activeSection === "messages" && (
+  <section className="messages-section">
+    <ChatApp />
+  </section>
+        )}
+        {activeSection === "Orders" && (
+  <section className="commandes-section">
+   <Orders />
+  </section>
+          )}
       </main>
     </div>
   );
