@@ -278,6 +278,13 @@ export default function ProfilePage() {
    <Orders />
   </section>
           )}
+
+
+
+
+           {/* SECTION: Rendez-vous */}
+        {activeSection === "appointments" && (
+          <section className="appointments-section">
             {/*<h3>My Appointments</h3>
             <p>You can see your upcoming or past appointments here.</p>
             <div className="appointment-card">
