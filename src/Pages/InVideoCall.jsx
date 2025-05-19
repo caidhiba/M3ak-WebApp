@@ -11,17 +11,16 @@ import "../Styles/VideoCall.css"
 //const APP_ID = "b4ec67d6d68743cd83cba0ee704c55ac";  // Remplace par ton App ID Agora
 //const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 import { AuthContext } from '../auth/AuthContext';
-const DEFAULT_PROFILE_PIC="https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"
+//const DEFAULT_PROFILE_PIC="https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"
 const TOKEN = null;
 const VideoCall = () => {
     const location = useLocation();
-    const { idCall } = location.state || {}; // Récupérer l'ID de l'appel
+    const { idCall, selectedUser } = location.state || {}; // Récupérer l'ID de l'appel
     const CHANNEL = "" + idCall;
     const [token, setToken] = useState(null);
     const client = useRef(null); // 🔥 On utilise useRef pour stocker le client Agora
     const localPlayerRef = useRef(null);
     const remotePlayerRef = useRef(null); // Référence pour le conteneur vidéo distant
-    console.log(idCall)
     const [localTracks, setLocalTracks] = useState({ videoTrack: null, audioTrack: null });
     const [remoteUsers, setRemoteUsers] = useState({});
     const [joined, setJoined] = useState(false);
@@ -37,7 +36,7 @@ const VideoCall = () => {
     const navigate = useNavigate();
     const {userinfo ,user,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
 
-    const DEFAULT_PROFILE_PIC = "https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg";
+    const DEFAULT_PROFILE_PIC = `http://127.0.0.1:8000${selectedUser.photo}`;
     
     const goToMyContactes=() => {
         navigate('/MyContactes');
@@ -137,7 +136,7 @@ const VideoCall = () => {
                 setUserCount(Object.keys(newUsers).length+1);
                 return newUsers;
             });
-        
+            console.log(mediaType)
             if (mediaType === "video") {
                 document.getElementById("remote-playerlist").innerHTML = "";
                 const playerContainer = document.createElement("div");
@@ -145,6 +144,13 @@ const VideoCall = () => {
                 playerContainer.className = "remote-player w-full h-full bg-black";
                 document.getElementById("remote-playerlist").appendChild(playerContainer);
                 user.videoTrack.play(playerContainer);
+                if (document.getElementById(`player-${user.uid}`.innerHTML === "")){// pour affiche image de l'autre user si il desactive la cam 
+                    document.getElementById("remote-playerlist").innerHTML = "";
+                    const image = document.createElement("img");
+                    image.src = DEFAULT_PROFILE_PIC;
+                    image.className = "remote-profile w-full h-full object-cover rounded-lg";
+                    document.getElementById("remote-playerlist").appendChild(image);
+                }
             }
 
     };
@@ -239,7 +245,7 @@ const VideoCall = () => {
                     {/* Afficher l'image de profil si la vidéo est désactivée*/ }
                     {!isVideoEnabled && (
                         <img 
-                            src={DEFAULT_PROFILE_PIC} 
+                            src={`http://127.0.0.1:8000${userinfo.image}`} 
                             alt="Profile" 
                             className="remote-profile"
                         />

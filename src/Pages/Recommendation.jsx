@@ -1,12 +1,14 @@
 
 import '../Styles/Recommendation.css'; // Create this CSS file
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import axios from "axios";
+import { AuthContext } from '../auth/AuthContext';
 export default function Recommendation() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [datePub, setDatePub] = useState("");
   const [raison, setRaison] = useState("");
+  const {userinfo,updateUserInfo ,user,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
   //const [dateRecommendation, setDateRecommendation] = useState("");
 
   const handleSubmit = async (e) => {
@@ -20,7 +22,10 @@ export default function Recommendation() {
         raison_de_recommendation: raison,
         //date_recommendation: dateRecommendation,
         //therapeute: 1, // à remplacer dynamiquement selon le contexte
-      });
+      }, 
+      {
+      headers: { Authorization: `Bearer ${user?.access}` }
+     });
 
       alert("Recommendation saved!");
       // reset form if needed
@@ -38,6 +43,7 @@ export default function Recommendation() {
   return (
     
     <div className="recommendation-container">
+     <div>
       <form className="recommendation-form" onSubmit={handleSubmit}>
         <h2>Let’s start the book recommendation</h2>
         <p className="subtitle">One book can change a mind—recommend yours</p>
@@ -88,6 +94,7 @@ export default function Recommendation() {
       </form>
 
       <div className="recommendation-image" />
+      </div>
     </div>
   );
 }

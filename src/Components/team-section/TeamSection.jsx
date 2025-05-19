@@ -53,11 +53,11 @@
 // };
 
 // export default TeamSection;    
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { FaLinkedin, FaTimes, FaGlobe, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import './TeamSection.css';
-
-const teamMembers = [
+import axios from "axios";
+/*const teamMembers = [
   {
     name: "Wissam Shaath",
     job: "Eating Disorder Therapist",
@@ -78,29 +78,31 @@ const teamMembers = [
     job: "Depression Therapist",
     image: "/src/assets/Team-member.png",
   },
-];
+];*/
 
 const TeamSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  //const [teamMembers, setTeamMembers] = useState([]);
+  const [therapists, setTherapists] = useState([]);
   
-  /*useEffect(() => {
-    axios.get("http://localhost:8000/api/top-therapeutes/")
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/GestionAccounts/HomeTherapists/")
       .then((response) => {
-        setTeamMembers(response.data);
+        setTherapists(response.data);
+        console.log(response.data)
       })
       .catch((error) => {
         console.error("Erreur lors du chargement des thérapeutes :", error);
       });
-  }, []);*/
+  }, []);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? teamMembers.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? therapists.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === teamMembers.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === therapists.length - 1 ? 0 : prev + 1));
   };
+
 
   return (
     <section className="team-section">
@@ -108,19 +110,34 @@ const TeamSection = () => {
       <p>These are the available therapists:</p>
 
       {/* Slider container for mobile */}
-      <div className="slider-container">
+     <div className="slider-container">
         <button className="arrow left" onClick={handlePrev}>
           <FaChevronLeft />
         </button>
 
         <div className="team-card-slider">
           <div className="team-card">
-            <img src={teamMembers[currentIndex].image} alt={teamMembers[currentIndex].name} />
-            <h3>{teamMembers[currentIndex].name}</h3>
-            <p>{teamMembers[currentIndex].job}</p>
+            <img src={`${therapists[currentIndex]?.user.photo}`} alt={therapists[currentIndex]?.user.first_name} />
+            <h3>{therapists[currentIndex]?.user.first_name}{therapists[currentIndex]?.user.last_name}</h3>
+            {therapists[currentIndex]?.languages_spoken && therapists[currentIndex]?.languages_spoken.length > 0 && (
+                <p><strong>Langues parlées :</strong> {therapists[currentIndex]?.languages_spoken.join(', ')}</p>
+            )}
+            {therapists[currentIndex]?.specialites?.length > 0 && (
+                <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <strong>Specializations:</strong>{" "}
+                  {therapists[currentIndex]?.specialites
+                    .slice(0, 3)
+                    .map((spec, idx, arr) => (
+                      <span key={idx}>
+                        {spec.nom}
+                        {idx < arr.length - 1 ? ", " : ""}
+                      </span>
+                    ))}
+                  {therapists[currentIndex]?.specialites.length > 3 && " ..."}
+                </p>
+              )}
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Suspendisse varius enim in eros elementum tristique.
+              <p>{therapists[currentIndex]?.bio}</p>
             </p>
             <div className="icons">
               <FaLinkedin />
@@ -134,17 +151,35 @@ const TeamSection = () => {
           <FaChevronRight />
         </button>
       </div>
-
+      
       {/* Desktop Grid */}
       <div className="team-grid">
-        {teamMembers.map((member, index) => (
+        {therapists.map((member, index) => (
           <div key={index} className="team-card">
-            <img src={member.image} alt={member.name} />
-            <h3>{member.name}</h3>
-            <p>{member.job}</p>
+            <img src={member.user.photo} alt={member.user.first_name} />
+            <h3>{member.user.first_name}{member.user.last_name}</h3>
+            {/*<p>{member.job}</p>*/}
+            {member.languages_spoken && member.languages_spoken.length > 0 && (
+            <p><strong>Langues parlées :</strong> {member.languages_spoken.join(', ')}</p>
+            )}
+            {member.specialites?.length > 0 && (
+              <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <strong>Specializations:</strong>{" "}
+                {member.specialites
+                  .slice(0, 3)
+                  .map((spec, idx, arr) => (
+                    <span key={idx}>
+                      {spec.nom}
+                      {idx < arr.length - 1 ? ", " : ""}
+                    </span>
+                  ))}
+                {member.specialites.length > 3 && " ..."}
+              </p>
+            )}
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-              Suspendisse varius enim in eros elementum tristique.
+              {/*Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+              Suspendisse varius enim in eros elementum tristique.*/}
+              {member.bio}
             </p>
             <div className="icons">
               <FaLinkedin />

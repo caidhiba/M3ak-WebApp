@@ -62,7 +62,7 @@ export default function App() {
           <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/FindATherapist" element={<FindATherapist />} />
           <Route path="/Profile" element={<ProfilePage />} />
-          
+          <Route path="/recommendation" element={<Recommendation />} />
           {/**************************************************** */}  
           {/** pour les page qui sont accessible par le user si il est authentifié */}         
           {/*<Route element={<PrivateRoute />}>  🗒️ decommente le PrivateRoute pour que le user si il est authentifié ou pas*/}
@@ -75,7 +75,7 @@ export default function App() {
          
                  {/* Routes réservées aux thérapeutes */}
                  <Route element={<RoleProvider allowedRoles={["therapeute"]} />}>
-                     <Route path="/recommendation" element={<Recommendation />} />
+                     
                  </Route>
 
                  <Route path="/VideoCall" element={<VideoCall />} />

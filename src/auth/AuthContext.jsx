@@ -44,9 +44,9 @@ function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
-  const register = async (email, firstName,lastName ,password ,code) => {//,sexe,,birthDate
+  const register = async (email, firstName,lastName ,password ,code,sexe,birthDate) => {//,sexe,,birthDate
     try {
-      const response =await authService.register(email, firstName,lastName, password ,code);//,sexe,birthDate
+      const response =await authService.register(email, firstName,lastName, password ,code,sexe,birthDate);//,sexe,birthDate
       const user = await authService.login(email, password);
       setUser(user);
 
@@ -86,8 +86,32 @@ function AuthProvider({ children }) {
     setUser(null);
     setIsAuthenticated(false);
   };
+  
+  // Fonction pour mettre à jour les informations utilisateur
+  const updateUserInfo = async () => {//newInfo
+    try {
+      /*const updatedUser = await authService.updateUserInfo(newInfo); // Suppose que tu as une API pour mettre à jour les infos
+      const updatedUserinfo = jwtDecode(updatedUser.access); // Mets à jour les informations utilisateur avec le nouveau token
+      setUser(updatedUser);
+      setUserinfo(updatedUserinfo);
+      return { success: true };*/
+      console.log("we reflache token")
+       const refreshedUser = authService.refreshToken();
 
-
+        if (refreshedUser) {
+          setUser(refreshedUser);
+          console.log(refreshedUser)
+          const userinfo = jwtDecode(refreshedUser.access);
+          setUserinfo(userinfo);
+          setIsAuthenticated(true);
+        }else {
+           authService.logout(); // Si le refresh échoue, on déconnecte l'utilisateur
+          setIsAuthenticated(false);
+        }
+    } catch (error) {
+      return { success: false, error: error?.response?.data };
+    }
+  };
   
   return (
     <AuthContext.Provider
@@ -99,6 +123,7 @@ function AuthProvider({ children }) {
         register,
         login,
         logout,
+        updateUserInfo,
         //getCurrentUserInfo, // 👈 Ajoute cette ligne pour exposer la fonction
       }}
     >

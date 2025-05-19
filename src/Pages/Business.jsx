@@ -14,6 +14,13 @@ const Business = () => {
 
   const {userinfo ,user,isLoading} = useContext(AuthContext);
   const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  const AVAILABILITY_OPTIONS = [
+  "Lundi matin", "Lundi après-midi", 
+  "Mardi matin", "Mardi après-midi",
+  "Mercredi matin", "Mercredi après-midi",
+  "Jeudi matin", "Jeudi après-midi",
+  "Vendredi matin", "Vendredi après-midi"
+  ];
   const [availableSpecializations, setAvailableSpecializations] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef();
@@ -30,7 +37,7 @@ const Business = () => {
     specializations: [],//specializations: '',
     otherSpecialization: '', // 👈 ajouté ici
     yearsOfExperience: '',
-    availability: '',
+    availability: [],//availability: '',
     languages: [],//languages: '',
     certifications: '',
     resume: null,
@@ -126,6 +133,20 @@ const Business = () => {
       setErrors({ ...errors, languages: false });
     }
   };
+  const handleAvailabilityChange = (e, slot) => {
+  if (e.target.checked) {
+    setFormData({
+      ...formData,
+      availability: [...formData.availability, slot],
+    });
+  } else {
+    setFormData({
+      ...formData,
+      availability: formData.availability.filter((s) => s !== slot),
+    });
+  }
+  };
+
 
   const handleSpecializationChange = (e, specialization) => {
     const isChecked = e.target.checked;
@@ -166,9 +187,11 @@ const Business = () => {
         /*newErrors.specializations = !formData.specializations;
         newErrors.yearsOfExperience = !formData.yearsOfExperience;
         isValid = !newErrors.specializations && !newErrors.yearsOfExperience;*/
+        newErrors.availability = formData.availability.length === 0;
         newErrors.specializations = formData.specializations.length === 0 ||  (formData.specializations.includes('other') && !formData.otherSpecialization);
         newErrors.yearsOfExperience = !formData.yearsOfExperience;
-        isValid = !newErrors.specializations && !newErrors.yearsOfExperience;
+        isValid = !newErrors.specializations && !newErrors.yearsOfExperience && !newErrors.availability;
+
         break;
       case 4:
         isValid = true; 
@@ -230,7 +253,8 @@ const Business = () => {
   });
   }
   formDataToSend.append('annees_experience', formData.yearsOfExperience);
-  formDataToSend.append('availability', formData.availability);
+  //formDataToSend.append('availability', formData.availability);
+  formDataToSend.append('availability', JSON.stringify(formData.availability));
   formDataToSend.append('languages', JSON.stringify(formData.languages));
 
   formDataToSend.append('certificate', formData.certifications); // ← fichier 
@@ -527,7 +551,7 @@ const Business = () => {
               />
               {errors.yearsOfExperience && <span className="error-message">This field is required</span>}
             </div>
-            <div className="form-group">
+            {/*<div className="form-group">
               <label>Availability</label>
               <input 
                 type="text" 
@@ -537,7 +561,27 @@ const Business = () => {
                 className="form-input" 
                 placeholder="e.g. Weekdays 9-5" 
               />
-            </div>
+            </div>*/}
+
+             <div className="form-group">
+               <label>Disponibilités :</label>
+               {AVAILABILITY_OPTIONS.map((slot) => (
+                 <div key={slot} className="checkbox-option">
+                   <input
+                     type="checkbox"
+                     value={slot}
+                     checked={formData.availability.includes(slot)}
+                     onChange={(e) => handleAvailabilityChange(e, slot)}
+                     id={`availability-${slot}`}
+                   />
+                   <label htmlFor={`availability-${slot}`}>{slot}</label>
+                 </div>
+               ))}
+               {errors.availability && (
+                 <span className="error-message">Veuillez sélectionner au moins une disponibilité</span>
+               )}
+             </div>
+
             {/*<div className="form-group">
               <label>Languages Spoken</label>
               <input 

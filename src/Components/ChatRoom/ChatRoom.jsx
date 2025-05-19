@@ -6,7 +6,7 @@ import { FiTrash2, FiEdit3,FiMoreHorizontal } from "react-icons/fi";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 import MessageOptions from './OptionsMessageAction'; // adapte le chemin selon ton dossier
-const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
+const ChatWindow = ({selectedUser,MessagesEtAppels ,handleDelete,handleEdit}) => {
 
     const [playingIndex, setPlayingIndex] = useState(null);
     const [SelectedMessageId, setSelectedMessageId] = useState(null);//pour delate ou modifait le message 
@@ -19,7 +19,7 @@ const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
     }, [MessagesEtAppels]);
 
     const goToVideoCall=(idCall) => {
-        navigate('/VideoCall', { state: { idCall } });
+        navigate('/VideoCall', { state: { idCall,selectedUser }});
     };
     // Toggle visibility of options box
   const handleMoreClick = (messageId) => {
@@ -34,30 +34,30 @@ const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
           <div className="messages">       
               {MessagesEtAppels.map((msg, index) => (
                 
-                  <div key={index} className={`BoxMessage current-user`}>{/** ${msg.sender.id === userinfo.id ? 'current-user' : 'other-user'} */}
+                  <div key={index} className={`BoxMessage ${msg.sendeur && msg.sendeur.id === userinfo.user_id  ? 'current-user' : 'other-user'}`}>{/**  */}
                      {/* User image */}
                      {msg.type_objet === 'chat_message' || msg.type_objet === 'message' ? (
-                     <div className={ 'order-last' }>{/**className={msg.sender.id === userinfo.id ? 'order-last' : 'order-first'}  */}
-                            <img src={msg.sender.photo ?  `http://127.0.0.1:8000/${msg.sender.photo}` :"https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"}  alt="User" className={`w-8 h-8 rounded-full`}></img>
+                     <div className={msg.sendeur.id === userinfo.user_id ? 'order-last' : 'order-first'}>{/**  */}
+                            <img src={msg.sendeur.photo ?  `http://127.0.0.1:8000${msg.sendeur.photo}` :"https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"}  alt="User" className={`w-8 h-8 rounded-full`}></img>
                      </div>
                      ) : null}
                      {console.log('dans room les messages sont ',msg)}
                     {/* Message content */}
-                    <div className={`MessageCourantUser`}>{/** ${msg.sender.id === userinfo.id  ? 'MessageCourantUser' : 'MessageAutreUser'}*/}
+                    <div className={`${msg.sendeur && msg.sendeur.id === userinfo.user_id   ? 'MessageCourantUser' : 'MessageAutreUser'}`}>{/** ${msg.sendeur.id === userinfo.id  ? 'MessageCourantUser' : 'MessageAutreUser'}*/}
                      {msg.type_objet === 'message'|| msg.type_objet === 'chat_message'  ? (//  msg.type === 'chat_message'  pour le chat temp real et autre quand recuper les messages
                       <div>
                         {/* Message content based on type_msg */}
                         {msg.type === 'text' ? (
                           <Message
-                            timestamp={msg.timestamp}
-                            content={msg.content}
-                            //isCurrentUser={msg.sender === personCurrent}
+                            timestamp={msg.date_envoi}
+                            content={msg.message}
+                            //isCurrentUser={msg.sendeur === personCurrent}
                           />
                         ) : msg.type === 'audio' ? (
                           
                               <AudioMessage 
                                   key={index}
-                                  audioUrl={msg.content}
+                                  audioUrl={msg.message}
                                   index={index}
                                   playingIndex={playingIndex}
                                   setPlayingIndex={setPlayingIndex}
@@ -65,7 +65,7 @@ const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
                           
                         ) : msg.type === 'file' ? (
                          
-                              <FileUpload selectedFile={msg.content} />
+                              <FileUpload selectedFile={msg.message || msg.file_url} />
                                         
                         ) : null}
 
@@ -82,7 +82,7 @@ const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
                         {msg.statut ==='terminé' ? (
                           <p><small>End Time: {msg.heure_fin}</small></p>
                         ) : (
-                          <p>Status: {msg.status}</p>
+                          <p>Status: {msg.statut}</p>
                         )}
                         {/* button to join the call */}
                         {msg.statut ==='en cours' && (
@@ -100,7 +100,7 @@ const ChatWindow = ({ MessagesEtAppels ,handleDelete,handleEdit}) => {
                      
                      {/* Options box (conditionally rendered) absolute right-0 top-0*/}
                      {msg.type_objet === 'chat_message' || msg.type_objet === 'message' ? (
-                        <div className={'order-first'}>{/**className={msg.sender.id === userinfo.id ? 'order-first' : 'order-last'} */}
+                        <div className={msg.sendeur.id === userinfo.user_id  ? 'order-first' : 'haden'}>{/**className={msg.sendeur.id === userinfo.id ? 'order-first' : 'order-last'} */}
                           {/*<FiMoreHorizontal onClick={() => handleMoreClick(msg.id)} className="cursor-pointer" />
                           {SelectedMessageId === msg.id && (
                             <div className="absolute bg-white shadow-lg rounded-md p-2 mt-2 right-0">
@@ -151,7 +151,7 @@ export default ChatWindow;
     {
       "id": 14,
       "conversation": { "id": 5, "is_open": true },
-      "sender": { "id": 4, "first_name": "Sami", "last_name": "Ali", "photo": "/media/sami.jpg" },
+      "sendeur": { "id": 4, "first_name": "Sami", "last_name": "Ali", "photo": "/media/sami.jpg" },
       "message": "Salut !",
       "date_envoi": "2025-05-02T09:00:00Z",
       "statut": false,

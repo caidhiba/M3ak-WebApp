@@ -62,12 +62,17 @@ const TherapistsList = () => {
 
             <div className="cards">
               {therapistsData.map((therapist, index) => (
-                <TherapistCard
+                
+              <TherapistCard
                   key={index}
-                  name={therapist.name}
-                  categories={therapist.categories}
-                  description={therapist.description}
-                  image={therapist.image}
+                  id={therapist.id}
+                  //name={therapist.user.first_name}{therapist.user.last_name}
+                  name={`${therapist.user.first_name} ${therapist.user.last_name}`}
+                  client_type={therapist.client_type}
+                  description={therapist.bio}
+                  image={therapist.user.photo}
+                  languages={therapist.languages_spoken}
+                  specializations={therapist.specialites}
                 />
               ))} 
             </div>
@@ -80,3 +85,10 @@ const TherapistsList = () => {
 }
 
 export default TherapistsList
+{/*<TherapistCard
+                  key={index}
+                  name={therapist.name}
+                  categories={therapist.categories}
+                  description={therapist.description}
+                  image={therapist.image}
+                />*/}

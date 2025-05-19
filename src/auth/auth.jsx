@@ -2,7 +2,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 const API_URL = 'http://localhost:8000/api/GestionAccounts/';
 //,sexe
-const register = (email,  firstName,lastName, password ,code) => {// il vas creat just le user dans les base de donne apres on appelle la fonction verifyEmailAndRegister pour verifier l'email et le mot de passe la fonction login pour on peux creat le token ( on fait pas le code deux fois)
+const register = (email,  firstName,lastName, password ,code,sexe,birthDate) => {// il vas creat just le user dans les base de donne apres on appelle la fonction verifyEmailAndRegister pour verifier l'email et le mot de passe la fonction login pour on peux creat le token ( on fait pas le code deux fois)
   //,sexe,birthDate
   return axios.post(API_URL + 'Register/', {
     email,
@@ -10,8 +10,8 @@ const register = (email,  firstName,lastName, password ,code) => {// il vas crea
     lastName,
     password,
     code,
-    //sexe,
-    //birthDate
+    sexe,
+    birthDate
   });
 };
 
@@ -65,11 +65,12 @@ const refreshToken = async () => {
       });
 
       const newAccess = response.data.access;
-    
+      console.log(newAccess)
       // Mets à jour localStorage
       const updatedUser = { ...user, access: newAccess };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       console.log(isTokenExpired(updatedUser));
+      console.log(updatedUser)
       return updatedUser;
     }else{
       logout();

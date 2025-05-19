@@ -30,11 +30,11 @@ const ChatApp = () => {
     const fetchRooms = async () => {
         try {
             console.log('user:', user); // Log the form data
-            const response = await axios.get('http://127.0.0.1:8000/api/GestionCommunication/conversation/', /*{
+            const response = await axios.get('http://127.0.0.1:8000/api/GestionCommunication/conversation/', {
               headers: {
                 Authorization: `Bearer ${user?.access}`,
               },
-            }*/); 
+            }); 
             console.log('Données reçues:', response.data);  // Vérifier les données reçues
             //setRooms(response.data.rooms);
             setListUsers(response.data)
@@ -48,20 +48,20 @@ const ChatApp = () => {
     useEffect(() => {
        //fetchRooms();
 
-       //if (!isLoading && user) {
+       if (!isLoading && user) {
         fetchRooms();
-      //}
+      }
     },[isLoading, user]);
     
     
     
-    const handleUserClick = async (user) => {
+    const handleUserClick = async (AutreUser) => {
       try {
-          const response = await axios.get(`http://127.0.0.1:8000/api/GestionCommunication/conversation/${user.id}/messages/`, /*{
+          const response = await axios.get(`http://127.0.0.1:8000/api/GestionCommunication/conversation/${AutreUser.id}/messages/`, {
             headers: {
               Authorization: `Bearer ${user?.access}`,
             },
-          }*/);
+          });
           console.log('Room details response:', response.data); // Debugging
           const { session, items } = response.data;
           console.log( response.data);
@@ -69,7 +69,7 @@ const ChatApp = () => {
           console.log(items)
           setConversation(session);
           setMessagesEtAppels(items);
-          setSelectedUser(user);
+          setSelectedUser(AutreUser);
           //setSelectedRoom(roomId);
 
           //setCombinedTimeline(response.data.combined_timeline);
@@ -109,9 +109,10 @@ const ChatApp = () => {
                     {
                         id: data.id_msg,
                         content: data.message,  // le contenu du message peux être un texte, un fichier, etc.
-                        sender: data.sender, // le id de l'utilisateur qui a envoyé le message
+                        sendeur: data.sendeur, // le id de l'utilisateur qui a envoyé le message
                         type_objet: data.type, // 'message' ou chat_message
                         type: data.type_msg, // 'text', 'audio', 'file'
+                        date_envoi:data.date_envoi
                     }
                 ]);
            } else if (data.type === 'call_invitation') {// 'create_call'
@@ -216,11 +217,12 @@ const ChatApp = () => {
                          <div >
                           {/** selectedUser.photo */}
                             {console.log(selectedUser)}
-                           <img src={`http://127.0.0.1:8000/${selectedUser.photo}`}  alt="User" className={`w-8 h-8 rounded-full`}></img>           
-                           <h1 className='Titre'>{selectedUser.first_name} {selectedUser.last_name}</h1>
+                           <img src={`http://127.0.0.1:8000${selectedUser.user.photo}`}  alt="User" className={`w-8 h-8 rounded-full`}></img>           
+                           <h1 className='Titre'>{selectedUser.user.first_name} {selectedUser.user.last_name}</h1>
                          </div> 
-
-                        <div>
+                         {console.log("userinfo:", userinfo) }
+                      { userinfo.role ==="therapeute" &&  (
+                         <div>
                               <button
                                 onClick={handleCreateCall}
                                 disabled={loading}
@@ -235,12 +237,13 @@ const ChatApp = () => {
                                   <CreateVideoCall roomId={conversation.id} onClose={handleCloseCall} />
                                 </div>
                               )*/}
-                        </div>
-                   </div>
-
+                         </div>
+                      )}
+                </div>
+                  
                 {/* Chat Window */}
                 {console.log('les messages',MessagesEtAppels)}
-                <ChatWindow MessagesEtAppels={MessagesEtAppels} handleEdit={handleEdit} handleDelete={handleDelete} />
+                <ChatWindow selectedUser={selectedUser.user} MessagesEtAppels={MessagesEtAppels} handleEdit={handleEdit} handleDelete={handleDelete} />
 
                  {/* Input Chat */}
                  <InputChat handleSubmitMessage={handleSubmitMessage} />
