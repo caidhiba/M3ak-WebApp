@@ -38,6 +38,7 @@ console.log("authenticated:", isAuthenticated);
 
       {/* Desktop Navigation */}
       <nav className="nav-links">
+        <Link to="/" className="header-element">Home</Link> 
         <Link to="/therapists-list" className="header-element">Therapist List</Link> 
         <Link to="/FindATherapist" className="header-element">Find A Therapist</Link> 
         <Link to="/contact" className="header-element">Contact</Link> 
@@ -57,14 +58,15 @@ console.log("authenticated:", isAuthenticated);
          <>  
            <Link to="/login" className="Login-button">Log In</Link> 
            <Link to="/signup" className="Signin-button">Sign In</Link>
+            <Link to="/Profile" className="profile-link">
+              <img src="/src/assets/pfp-therapist.avif" alt="Profile" className="profile-img" />
+            </Link>
         </>
        ) : (
         <>
           <button onClick={logout} className="Login-button">Log Out</button>
           <NotificationBell />
-          {/* <Link to="/Profile" className="profile-link">
-              <img src="/src/assets/dark-logo.png" alt="Profile" className="profile-img" />
-            </Link> */}
+         
         </>
       )
       )}
@@ -80,12 +82,18 @@ console.log("authenticated:", isAuthenticated);
      
          {menuOpen && (
           <div className="mobile-sidebar">
-           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             {isLoading ? null : (
                isAuthenticated ? (
                 <NotificationBell />
                ) :null
             )}
+            
+             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+                 <Link to="/Profile" className="profile-link">
+                    <img src="/src/assets/pfp-therapist.avif" alt="Profile" className="profile-img" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                  </Link>
+            </div>
             <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
               <X size={28} />
             </button>
@@ -115,14 +123,13 @@ console.log("authenticated:", isAuthenticated);
                 <>                
                     <Link to="/login" className="Login-button" onClick={() => setMenuOpen(false)}>Log In</Link>
                     <Link to="/signup" className="Signin-button" onClick={() => setMenuOpen(false)}>Sign In</Link>
+                
                 </>
             ) : (
               <>
                 <button onClick={logout} className="Login-button">Log Out</button>
                 <NotificationBell />
-                {/* <Link to="/Profile" className="profile-link">
-                <img src="/src/assets/profile-icon.png" alt="Profile" className="profile-img" />
-                </Link> */}
+              
               </>
             )
           )}

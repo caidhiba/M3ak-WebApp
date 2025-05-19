@@ -1,5 +1,10 @@
 import { useEffect, useState,useContext } from "react";
 import '../styles/profilePage.css';
+import { useState } from "react";
+import ChatApp from './ChatApp'
+import Appointments from './Appointments';
+import Orders from './Orders';
+
 import ChatApp from './ChatApp';
 import axios from 'axios';
 import DataTable from '../Components/DataTable/DataTable';
@@ -149,6 +154,8 @@ export default function ProfilePage() {
           <li onClick={() => setActiveSection("profile")}>Account</li>
           <li onClick={() => setActiveSection("appointments")}>Appointments</li>
           <li onClick={() => setActiveSection("messages")}>Messages</li>
+          <li onClick={() => setActiveSection("documents")}>Documents</li>
+          <li onClick={() => setActiveSection("Orders")}>Orders</li>
           <li onClick={() => setActiveSection("orders")}>List Commandes</li>
           <li onClick={() => setActiveSection("recommendations")}>List Recommandations</li>
         </ul>
@@ -258,6 +265,19 @@ export default function ProfilePage() {
         {/* SECTION: Rendez-vous */}
         {activeSection === "appointments" && (
           <section className="appointments-section">
+           <Appointments />
+          </section>
+        )}
+        {activeSection === "messages" && (
+  <section className="messages-section">
+    <ChatApp />
+  </section>
+        )}
+        {activeSection === "Orders" && (
+  <section className="commandes-section">
+   <Orders />
+  </section>
+          )}
             {/*<h3>My Appointments</h3>
             <p>You can see your upcoming or past appointments here.</p>
             <div className="appointment-card">
