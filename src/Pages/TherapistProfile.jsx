@@ -22,6 +22,27 @@ const TherapistProfile = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Vérifie si l'id est valide
+    if (!id) {
+      console.error("ID invalide ou non défini");
+      setLoading(false);
+      return;
+    }
+    axios.get(`http://127.0.0.1:8000/api/gestion-library/books/${id}/`)
+      .then(response => {
+        console.log(response.data)
+        setBook(response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Erreur lors de la récupération du livre :", error);
+        setLoading(false);
+      });
+  }, [id]);
+
+
+
   if (!therapist) {
     return (
       <>
