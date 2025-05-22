@@ -27,33 +27,71 @@ const ChatWindow = ({selectedUser,MessagesEtAppels ,handleDelete,handleEdit}) =>
     setSelectedMessageId((prev) => (prev === messageId ? null : messageId));
   };
   
+  const handleModifaitTime = (timestamp,msg) =>{
+        if (!timestamp) return "";
+        if( msg === 'chat_message'){
+          const now = new Date();
+          const hours = String(now.getHours()).padStart(2, '0');
+          const minutes = String(now.getMinutes()).padStart(2, '0');
+          return `Aujourd'hui à ${hours}:${minutes}`;
+        } 
+        const date = new Date(timestamp);
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mois commence à 0
+        const year = String(date.getFullYear()).slice(2); // Derniers 2 chiffres de l'année
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        const formattedDate = `${day}-${month}-${year} à ${hours}:${minutes}`;
+        return formattedDate;
+  }
    
     return (
-      <div className="ChatWindowRightSide">
-                    
+      <div className="ChatWindowRightSide">                   
           <div className="messages">       
-              {MessagesEtAppels.map((msg, index) => (
-                
-                  <div key={index} className={`BoxMessage ${msg.sendeur && msg.sendeur.id === userinfo.user_id  ? 'current-user' : 'other-user'}`}>{/**  */}
+            {MessagesEtAppels.map((msg, index) => (
+                   
+               msg.type_objet === 'videocall'|| msg.type_objet === 'call_invitation'?  ( 
+                  <div className="video_call">
+                    <div>  
+                        {/*<p>
+                          <i className="fa-solid fa-phone"></i>
+                          <strong>{msg.caller}</strong> started a call
+                        </p>*/}
+                        <p><small>Start Time: {handleModifaitTime(msg.heure_debut)}</small></p>
+                        {msg.statut ==='terminé' ? (
+                          <p><small>End Time: {handleModifaitTime(msg.heure_fin)}</small></p>
+                        ) : (
+                          <p>Status: {msg.statut}</p>
+                        )}
+                        {/* button to join the call */}
+                        {msg.statut ==='en cours' && (
+                          <button onClick={() => goToVideoCall(msg.id)} className="ButtonClick">Join Call</button>
+                        )}
+                    </div>
+                  </div>
+                ):(
+                 <div key={index} className={`BoxMessage ${msg.sendeur && msg.sendeur.id === userinfo.user_id  ? 'current-user' : 'other-user'}`}>{/**  */}
                      {/* User image */}
                      {msg.type_objet === 'chat_message' || msg.type_objet === 'message' ? (
                      <div className={msg.sendeur.id === userinfo.user_id ? 'order-last' : 'order-first'}>{/**  */}
                             <img src={msg.sendeur.photo ?  `http://127.0.0.1:8000${msg.sendeur.photo}` :"https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg"}  alt="User" className={`w-8 h-8 rounded-full`}></img>
                      </div>
                      ) : null}
-                     {console.log('dans room les messages sont ',msg)}
+                     
                     {/* Message content */}
                     <div className={`${msg.sendeur && msg.sendeur.id === userinfo.user_id   ? 'MessageCourantUser' : 'MessageAutreUser'}`}>{/** ${msg.sendeur.id === userinfo.id  ? 'MessageCourantUser' : 'MessageAutreUser'}*/}
                      {msg.type_objet === 'message'|| msg.type_objet === 'chat_message'  ? (//  msg.type === 'chat_message'  pour le chat temp real et autre quand recuper les messages
                       <div>
                         {/* Message content based on type_msg */}
-                        {msg.type === 'text' ? (
+                          {msg.type === 'text' ? (
                           <Message
-                            timestamp={msg.date_envoi}
+                            timestamp={handleModifaitTime(msg.date_envoi,msg.type_objet)}
                             content={msg.message}
                             //isCurrentUser={msg.sendeur === personCurrent}
                           />
-                        ) : msg.type === 'audio' ? (
+                           ) : msg.type === 'audio' ? (
                           
                               <AudioMessage 
                                   key={index}
@@ -63,61 +101,17 @@ const ChatWindow = ({selectedUser,MessagesEtAppels ,handleDelete,handleEdit}) =>
                                   setPlayingIndex={setPlayingIndex}
                               />
                           
-                        ) : msg.type === 'file' ? (
+                           ) : msg.type === 'file' ? (
                          
                               <FileUpload selectedFile={msg.message || msg.file_url} />
                                         
-                        ) : null}
-
-                       
-
+                           ) : null}
                       </div>
-                     ) : msg.type_objet === 'videocall'|| msg.type_objet === 'call_invitation'?  ( 
-                      <div className="video_call">
-                        {/*<p>
-                          <i className="fa-solid fa-phone"></i>
-                          <strong>{msg.caller}</strong> started a call
-                        </p>*/}
-                        <p><small>Start Time: {msg.heure_debut}</small></p>
-                        {msg.statut ==='terminé' ? (
-                          <p><small>End Time: {msg.heure_fin}</small></p>
-                        ) : (
-                          <p>Status: {msg.statut}</p>
-                        )}
-                        {/* button to join the call */}
-                        {msg.statut ==='en cours' && (
-                          <button onClick={() => goToVideoCall(msg.id)} className="btn btn-success mt-2">Join Call</button>
-                        )}
-                      </div>
-                     ): null}
-
-                       {/* Auto scroll to latest message */}
-                          <div ref={messagesEndRef} />
-                      {/*</div>*/}
-
-
+                     ) : null}                       
                     </div>
-                     
-                     {/* Options box (conditionally rendered) absolute right-0 top-0*/}
-                     {msg.type_objet === 'chat_message' || msg.type_objet === 'message' ? (
-                        <div className={msg.sendeur.id === userinfo.user_id  ? 'order-first' : 'haden'}>{/**className={msg.sendeur.id === userinfo.id ? 'order-first' : 'order-last'} */}
-                          {/*<FiMoreHorizontal onClick={() => handleMoreClick(msg.id)} className="cursor-pointer" />
-                          {SelectedMessageId === msg.id && (
-                            <div className="absolute bg-white shadow-lg rounded-md p-2 mt-2 right-0">
-                              <button
-                                onClick={() => handleDelete(msg.id)}
-                                className="w-full text-red-500 text-sm p-2 hover:bg-gray-200 rounded flex justify-around items-end"
-                              >
-                                <FiTrash2 /> <span>Delete</span>
-                              </button>
-                              <button
-                                onClick={() => handleEdit(msg.id)}
-                                className="w-full text-blue-500 text-sm p-2 hover:bg-gray-200 rounded flex justify-around items-end"
-                              >
-                                <FiEdit3 /> <span>Edit</span>
-                              </button>
-                            </div>
-                          )}*/}
+                      {/* Options box (conditionally rendered) absolute right-0 top-0*/}
+                      {msg.type_objet === 'chat_message' || msg.type_objet === 'message' ? (
+                           <div className={msg.sendeur.id === userinfo.user_id  ? 'order-first' : 'haden'}>{/**className={msg.sendeur.id === userinfo.id ? 'order-first' : 'order-last'} */}
                              <FiMoreHorizontal
                                 onClick={() => handleMoreClick(msg.id)}
                                 className="cursor-pointer"
@@ -132,10 +126,11 @@ const ChatWindow = ({selectedUser,MessagesEtAppels ,handleDelete,handleEdit}) =>
                               )}
                           </div>
                         ) : null}
-
-
-                  </div>
-              ))}
+                    {/* Auto scroll to latest message */}
+                          <div ref={messagesEndRef} />
+                    {/*</div>*/}
+                  </div>)
+            ))}{/** fin de boocle */}
           </div>
       </div>
   );

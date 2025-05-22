@@ -63,6 +63,7 @@ const BooksSection = () => {
         <img src={book.cover} alt={book.title} />
         <div className="book-info">
           <h3>{book.title}</h3>
+          <p className="book-author"> <strong>by :</strong>  {book.author}</p>
           <span className="price">{book.price}</span>
         </div>
         <button className="add-to-cart">Add to cart</button>

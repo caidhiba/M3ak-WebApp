@@ -47,8 +47,8 @@
     flex-grow: 1;
 }
 
-.book-card h3 {
-    font-size: 14px;
+.books-section .book-card h3 {
+    font-size: 20px;
     font-weight: bold;
     text-align: left;
     flex: 1;
@@ -57,7 +57,11 @@
     word-wrap: break-word; 
     white-space: normal;
 }
-
+.books-section .book-info {
+    display: flex;
+    align-items: center;
+    gap: 0px;
+}
 .price {
     padding-top: 15px;
     font-weight: bold;

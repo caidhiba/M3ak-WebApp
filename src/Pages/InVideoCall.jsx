@@ -39,7 +39,7 @@ const VideoCall = () => {
     const DEFAULT_PROFILE_PIC = `http://127.0.0.1:8000${selectedUser.photo}`;
     
     const goToMyContactes=() => {
-        navigate('/MyContactes');
+        navigate('/Profile');
     };
     useEffect(() => {//hook
         client.current = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });//Initialisation du client

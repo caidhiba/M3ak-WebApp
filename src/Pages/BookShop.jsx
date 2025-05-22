@@ -11,19 +11,42 @@ import book4 from '../Assets/book4.png'
 import FiltersBook from '../Components/filtersBook/FiltersBook.jsx'
 
 const BookShop = () => {
-  //const [booksData, setBooksData] = useState([]);
-  
+  const [booksData, setBooksData] = useState([]);
+  const [filters, setFilters] = useState(null); // Pas de filtre au départ
   useEffect(() => {
-      /*axios.get('http://127.0.0.1:8000/api/gestion-library/books/')
+      axios.get('http://127.0.0.1:8000/api/gestion-library/books/')
         .then(response => {
           setBooksData(response.data);
           console.log(response.data)         
         })
         .catch(error => {
           console.error("Erreur lors du chargement des thérapeutes :", error);
-        });*/
+        });
     }, []);
-
+  // Handle filter changes
+  /*const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };*/
+  // Fonction appelée depuis <FiltersBook />
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+  // Appliquer les filtres uniquement si l'utilisateur en a sélectionné
+  const filteredBooks = filters
+    ? booksData.filter(book => {
+        return (
+          (!filters.language || filters.language.includes(book.language)) &&
+          (!filters.author || book.author.toLowerCase().includes(filters.author.toLowerCase())) &&
+          (!filters.stock || (filters.stock === 'in' ? book.stock > 0 : book.stock === 0)) &&
+          (!filters.pages || book.pages >= parseInt(filters.pages)) &&
+          (!filters.price || book.price <= filters.price)
+        );
+      })
+    : booksData; // Sinon on retourne tous les livres
   return (
     <>
       <Header />
@@ -32,7 +55,7 @@ const BookShop = () => {
       </div>
       <div className="middle">
           <div className="left-menu">
-            <FiltersBook />
+            <FiltersBook  onFilterChange={handleFilterChange} />
           </div>
 
           <div className="right-part">
@@ -62,7 +85,7 @@ const BookShop = () => {
             </div>
 
             <div className="cards">
-               {/**{booksData.map((book, index) => (
+               {filteredBooks.map((book, index) => (
                      <BookCard
                         id= {book.id}
                         name= {book.title}
@@ -71,9 +94,18 @@ const BookShop = () => {
                         price={book.price}
                         image={book.cover}             
               />
-               ))} */}
-             
-              <BookCard
+               ))}             
+            </div>
+
+          </div>
+      </div>
+      <Footer />
+    </>
+  )
+}
+
+export default BookShop
+ {/**<BookCard
               id="2"
               name="Choosing Therapy"
               category="Psychology"
@@ -96,15 +128,4 @@ const BookShop = () => {
               author="Dr. Joseph Murphy"
               price={1800}
               image={book2}
-              /> 
-             
-            </div>
-
-          </div>
-      </div>
-      <Footer />
-    </>
-  )
-}
-
-export default BookShop
+              /> */}

@@ -87,6 +87,7 @@ const Business = () => {
         const response = await fetch('http://localhost:8000/api/gestion-mental-health/specialites/');
         const data = await response.json();
         setAvailableSpecializations(data); // assure-toi que data est un tableau d'objets ou de strings
+        
       } catch (error) {
         console.error('Erreur lors du chargement des spécialisations:', error);
       }
@@ -249,7 +250,9 @@ const Business = () => {
     formDataToSend.append('other_specialization', formData.otherSpecialization);
   }else{
     formData.specializations.forEach((spec, index) => {
-    formDataToSend.append(`specialites`, spec.id || spec); // selon structure
+      console.log(spec)
+      const specId = typeof spec === 'object' ? spec.id_specialite : spec;
+      formDataToSend.append('specialites', specId);
   });
   }
   formDataToSend.append('annees_experience', formData.yearsOfExperience);
@@ -276,16 +279,6 @@ const Business = () => {
       },
       body: formDataToSend
     });
-   /*const response = await axios.post(
-        'http://127.0.0.1:8000/api/GestionAccounts/patient-demandes/',
-         formDataToSend,
-         {
-          headers: {
-            Authorization: `Bearer ${user?.access}`,  // Ton token JWT
-            // Pas besoin de 'Content-Type' ici avec FormData
-          },
-         }
-     );*/
     console.log('Demande envoyée avec succès', response);
     if (response.status === 200 || response.status === 201) {
        setSubmitStatus({ success: true, message: 'Demande soumise avec succès !' });
@@ -293,13 +286,7 @@ const Business = () => {
     } else {
        setSubmitStatus({ success: false, message: 'Erreur lors de la soumission.' });
     }
-   /* if (response.ok) {
-      setSubmitStatus({ success: true, message: 'Demande soumise avec succès !' });
-      localStorage.removeItem('therapistFormData');
-    } else {
-      const errData = await response.json();
-      setSubmitStatus({ success: false, message: 'Erreur lors de la soumission.', details: errData });
-    }*/
+  
   } catch (error) {
     setSubmitStatus({ success: false, message: 'Une erreur réseau est survenue.' });
   } finally {
@@ -500,14 +487,15 @@ const Business = () => {
                 <div className="dropdown-menu">   
                     {availableSpecializations.map((spec) => (
                       <div key={spec} className="checkbox-option">
+                        {console.log(spec)}
                         <input
                           type="checkbox"
                           value={spec}
                           checked={formData.specializations.includes(spec)}
                           onChange={(e) => handleSpecializationChange(e, spec)}
-                          id={`spec-${spec.id}`}
+                          id={`spec-${spec.id_specialite}`}
                         />
-                        <label htmlFor={`spec-${spec.id}`}>{spec.nom}</label>
+                        <label htmlFor={`spec-${spec.id_specialite}`}>{spec.nom} </label>
                       </div>
                     ))}
                     {/* Option Autre */}
@@ -551,18 +539,6 @@ const Business = () => {
               />
               {errors.yearsOfExperience && <span className="error-message">This field is required</span>}
             </div>
-            {/*<div className="form-group">
-              <label>Availability</label>
-              <input 
-                type="text" 
-                name="availability" 
-                value={formData.availability} 
-                onChange={handleInputChange} 
-                className="form-input" 
-                placeholder="e.g. Weekdays 9-5" 
-              />
-            </div>*/}
-
              <div className="form-group">
                <label>Disponibilités :</label>
                {AVAILABILITY_OPTIONS.map((slot) => (
@@ -581,18 +557,6 @@ const Business = () => {
                  <span className="error-message">Veuillez sélectionner au moins une disponibilité</span>
                )}
              </div>
-
-            {/*<div className="form-group">
-              <label>Languages Spoken</label>
-              <input 
-                type="text" 
-                name="languages" 
-                value={formData.languages} 
-                onChange={handleInputChange} 
-                className="form-input" 
-                placeholder="e.g. Arabic, French, English..."
-              />
-            </div>*/}
             <div className="form-group">
                     <label>Langues parlées :</label>
                     {LANGUAGES.map((langue) => (
@@ -675,11 +639,11 @@ const Business = () => {
               >
                 <option value="">Select one...</option>
                 <option value="children">Children</option>
-                <option value="adolescents">Adolescents</option>
+                {/*<option value="adolescents">Adolescents</option>*/}
                 <option value="adults">Adults</option>
                 <option value="couples">Couples</option>
-                <option value="families">Families</option>
-                <option value="seniors">Seniors</option>
+                <option value="teen">Teen</option>
+                {/*<option value="seniors">Seniors</option>*/}
               </select>
               {errors.clientType && <span className="error-message">This field is required</span>}
             </div>

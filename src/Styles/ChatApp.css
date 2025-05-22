@@ -17,7 +17,10 @@
     margin: auto; /* pour centrer si nécessaire */
   }
 
-
+  .ChatApp .user-comment {
+    font-size: 10px;
+    color: #6b7280;
+   }
 /*****************************************************************/
 
   /* Styles pour la liste de contacts (LeftSide) */
@@ -105,10 +108,12 @@
     border-radius: 10px;
     max-width: 50%; /* Limite la largeur des messages */
     word-wrap: break-word; /* Permet le retour à la ligne si le texte est trop long */
+    font-size: 17px;
   }
   .ChatWindowRightSide .BoxMessage .MessageAutreUser{
     background-color:#F1F1F1;  /* Couleur de fond des messages */
     color: #325343;
+
   }
   .ChatWindowRightSide .BoxMessage .MessageAutreUser img ,
   .ChatWindowRightSide .BoxMessage .MessageCourantUser img {
@@ -126,6 +131,42 @@
   .haden{
     display: none;
   }
+  
+   .ChatWindowRightSide .video_call{
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     margin: 10px 0;
+   }
+  .ChatWindowRightSide .video_call >div{
+    font-size: 15px;
+    color: #6b7280;
+    background-color: #eef3fa;
+    border-radius: 8px;
+    text-align: center;
+    width: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+   }
+/*  .ChatWindowRightSide .BoxMessage  .custom-audio-player {
+    background: transparent;
+    width: 100%;
+    outline: none;
+    border: none;
+    margin-top: 0.5rem;
+    filter: brightness(1.2);
+}
+
+ 
+.ChatWindowRightSide .BoxMessage .custom-audio-player::-webkit-media-controls-panel {
+  background-color: transparent;
+}
+
+
+ .ChatWindowRightSide .BoxMessage .custom-audio-player::-webkit-media-controls-play-button,
+ .ChatWindowRightSide .BoxMessage .custom-audio-player::-webkit-media-controls-volume-slider-container {
+  filter: invert(5);
+}*/
+
 /****************************************************/
 /* Conteneur du composant vidéo en position absolue */
 .BoxCreateVideoCall .CreateVideoCall {

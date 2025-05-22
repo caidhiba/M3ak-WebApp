@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef,useContext  } from 'react';
 import '../Styles/FindATherapist.css'
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
 import TherapistCard from '../Components/TherapistCard/TherapistCard.jsx'
 import { therapistsData } from "../data/therapistsData";
+import axios from 'axios';
 
 
 const FindATherapist = () => {
@@ -14,8 +15,10 @@ const FindATherapist = () => {
   const [therapyType, setTherapyType] = useState(""); 
   const [therapistGender, setTherapistGender] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState([]); 
+  const [symptoms ,setSymptoms] = useState([]); 
+  const [matchedTherapists, setMatchedTherapists] = useState([]);
 
-  const symptoms = [
+  /*const symptoms = [
     "Anxiety or panic attacks",
     "Sleep disturbances",
     "Mood swings",
@@ -31,7 +34,7 @@ const FindATherapist = () => {
     "Suicidal thoughts",
     "Hearing voices",
     "Delusions"
-  ];
+  ];*/
 
   const frequencyOptions = [
     "Every day",
@@ -49,24 +52,68 @@ const FindATherapist = () => {
     "Since childhood"
   ];
 
-  const therapyTypeOptions = [
+  /*const therapyTypeOptions = [
     "Individual Therapy",
     "Couples Therapy",
     "Teen Counseling"
+  ];*/
+  const therapyTypeOptions = [
+    "Children",
+    "Couples",
+    "Teen",
+    "Adults"
   ];
-
-  const genderOptions = [
+  /*const genderOptions = [
     "Female",
     "Male",
     "Doesn't matter"
+  ];*/
+  const genderOptions = [
+    "Femme",
+    "Homme",
+    "Doesn't matter"
   ];
+  
+  const languageOptions = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois","Other"];
+  useEffect(() => {
+      const fetchSymptoms = async () => {
+        try {
+          const response = await fetch('http://localhost:8000/api/gestion-mental-health/symptomes/');
+          const data = await response.json();
+          setSymptoms(data); // assure-toi que data est un tableau d'objets ou de strings          
+          console.log(data)
+        } catch (error) {
+          console.error('Erreur lors du chargement des spécialisations:', error);
+        }
+      };   
+      fetchSymptoms();
+  }, []);
+const handleSubmit = async () => {
+    try {
+    const payload = {
+      symptoms: selectedSymptoms.map(symptom => symptom.id_symptome), // envoyer les ID
+      frequency: symptomFrequency,
+      duration: symptomDuration,
+      therapy_type: therapyType,
+      gender: therapistGender,
+      languages: selectedLanguages
+    };
+    console.log(payload)
+    const response =await axios.post('http://localhost:8000/api/gestion-mental-health/find-therapists/', payload);
+    
+    //const matchedTherapists = response.data;
 
-  const languageOptions = [
-    "Arabic",
-    "English",
-    "French",
-    "Other"
-  ];
+    console.log("Matched therapists:", response.data);
+    // 👉 tu peux maintenant remplacer therapistsData par ce résultat dynamiquement
+    setMatchedTherapists(response.data);
+
+    // on passe à l'étape suivante SEULEMENT quand on reçoit les résultats
+    setCurrentStep(7);
+   } catch (error) {
+    console.error("Erreur lors de la recherche des thérapeutes:", error);
+   }
+};
+
 
   const handleSymptomSelection = (symptom) => {
     if (selectedSymptoms.includes(symptom)) {
@@ -93,7 +140,12 @@ const FindATherapist = () => {
   };
 
   const nextStep = () => {
+    //setCurrentStep(currentStep + 1);
+    if (currentStep === 6 && matchedTherapists.length === 0) {
+        handleSubmit(); // Fais la soumission AVANT de passer à l'étape 7
+    } //else {
     setCurrentStep(currentStep + 1);
+    //}
   };
 
   const prevStep = () => {
@@ -132,11 +184,11 @@ const FindATherapist = () => {
             <div className="options-grid">
               {symptoms.map((symptom) => (
                 <button
-                  key={symptom}
+                  key={symptom.id_symptome}
                   className={`option-button ${selectedSymptoms.includes(symptom) ? 'selected' : ''}`}
                   onClick={() => handleSymptomSelection(symptom)}
                 >
-                  {symptom}
+                  {symptom.nom}
                 </button>
               ))}
             </div>
@@ -236,15 +288,22 @@ const FindATherapist = () => {
             <div className="results-summary">
               <p>Based on your responses, we've found these therapists who may be a good match for you:</p>
               <div className="cards">
-                {therapistsData.map((therapist, index) => (
-                <TherapistCard
-                key={index}
-                name={therapist.name}
-                categories={therapist.categories}
-                description={therapist.description}
-               image={therapist.image}
-             />
-             ))} 
+              {Array.isArray(matchedTherapists) && matchedTherapists.length > 0 ? (
+                matchedTherapists.map((therapist, index) => (               
+                       <TherapistCard
+                            key={index}
+                            id={therapist.id}
+                            name={`${therapist.user.first_name} ${therapist.user.last_name}`}
+                            client_type={therapist.client_type}
+                            description={therapist.bio}
+                            image={`http://127.0.0.1:8000${therapist.user.photo}`}
+                            languages={therapist.languages_spoken}
+                            specializations={therapist.specialites}
+                        />
+                 ))
+               ) : (
+                  <p>No therapists matched your criteria.</p>
+               )}
             </div>
           </div>
           </>
@@ -254,17 +313,8 @@ const FindATherapist = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log({
-      selectedSymptoms,
-      symptomFrequency,
-      symptomDuration,
-      therapyType,
-      therapistGender,
-      selectedLanguages
-    });
-    
-    nextStep();
+  const handleMoreTherapists =async () => {
+    nextStep(); 
   };
 
   return (
@@ -311,7 +361,7 @@ const FindATherapist = () => {
                 Next
               </button>
             ) : (
-              <button className="submit-button" onClick={handleSubmit}>
+              <button className="submit-button" onClick={handleMoreTherapists}>
                 Find More Therapists
               </button>
             )}
@@ -325,3 +375,11 @@ const FindATherapist = () => {
 }
 
 export default FindATherapist;
+
+{/*<TherapistCard
+                key={index}
+                name={therapist.name}
+                categories={therapist.categories}
+                description={therapist.description}
+               image={therapist.image}
+                />*/}

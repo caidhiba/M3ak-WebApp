@@ -8,13 +8,13 @@ const FileUpload = ({selectedFile}) => {
     useEffect(() => {
         //Séparer le chemin de fichier à partir du dernier point
          const extension = selectedFile.split('.').pop()
-        console.log(extension)
+        
         if (extension === 'pdf') {
             setisfilepdf(true)
          }else{
             setisfilepdf(false)
          }
-         console.log(selectedFile)
+         
 
     }, [selectedFile]); 
 

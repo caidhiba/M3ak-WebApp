@@ -28,13 +28,13 @@ export default function BookCard({ id, name, category, author, price, image }) {
   return (
     <div className="book-card">
       <img 
-        src={image}
+        src={`${image}`}
         alt={name} 
         className="book-imgg" 
       />
       <div className="book-content">
-        <h3 className="book-title">{name}</h3>
-        <p className="book-author">by {author}</p>
+        <h3 className="book-title"><strong>{name}</strong></h3>
+        <p className="book-author"> <strong>by :</strong>  {author}</p>
         <p className="book-category">{category || "Uncategorized"}</p>
         <p className="book-price">{price ? `${price}DA` : "Price not available"}</p>
         

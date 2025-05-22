@@ -7,17 +7,18 @@ const ContactList = ({ listusers, onSelectUser }) => {// affiche la liste des co
 return (
     <div className="ContactList">
         {/* Liste des contacts */}
-        <div className="p-2 ">
-            <ul className="space-y-2">
+        <div>
+            <ul>
                 {/** on affiche le autre user qui est a une conversation avec le user courant **/}
                 {listusers.map((userWrapper, index) => (
                     <li key={index} >
                       <div  onClick={() => onSelectUser(userWrapper)} className="contact">{/**userWrapper.user */} 
                         {/** userWrapper.user.photo*/}
                         <img src={`http://127.0.0.1:8000${userWrapper.user.photo}`} alt="User" class={`w-8 h-8 rounded-full`}></img>             
-                        <h3>
+                          <h3>
                             {userWrapper.user.first_name} {userWrapper.user.last_name}
-                        </h3>
+                          </h3>
+                          <p className='user-comment'>{userWrapper.user.sexe}</p>
                       </div>  
                     </li>
                 ))}
