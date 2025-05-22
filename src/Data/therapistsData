@@ -5,27 +5,99 @@ import marwa from '../Assets/Marwa_Azab.jpg';
 
 export const therapistsData = [
   {
+    id: 0,
     name: "Dr. Hatim Alzahim",
     categories: ["Cognitive Behavioral", "Anxiety", "Teens"],
     description: "Passionate about guiding young people through mental health challenges.",
     image: hatim,
+    price: 2000, 
+    rating: 4.5, 
+    includes: [
+      "Qualified professional",
+      "Teen specialist",
+      "First discovery session free",
+      "Cognitive therapy expert"
+    ],
+    details: "Ph.D. in Clinical Psychology, 10+ years experience with teens and young adults. Certified CBT practitioner.",
+    languages: ["English", "Arabic", "French"],
+    reviews: [
+      { user: "Maya", comment: "Great with teens!", rating: 5 },
+      { user: "Imran", comment: "Very understanding.", rating: 4 },
+      { user: "Sara", comment: "Really helped my son gain confidence.", rating: 5 },
+      { user: "Tom", comment: "Knowledgeable and kind.", rating: 5 },
+      { user: "Zoe", comment: "Highly recommend for teen therapy.", rating: 4 }
+    ]
   },
   {
+    id: 1,
     name: "Wissam Shaath",
     categories: ["Depression", "Couples", "Stress"],
     description: "Helping couples and individuals find emotional balance.",
     image: wissam,
+    price: 2000, 
+    rating: 4.2, 
+    includes: [
+      "Qualified professional",
+      "Experienced with couples",
+      "First session free",
+      "Systemic therapy approach"
+    ],
+    details: "Certified Marriage and Family Therapist. Specializes in emotionally focused therapy and conflict resolution.",
+    languages: ["English", "Arabic"],
+    reviews: [
+      { user: "Noah", comment: "Helped us a lot as a couple.", rating: 5 },
+      { user: "Jana", comment: "Very attentive and supportive.", rating: 4 },
+      { user: "Lea", comment: "Understands both sides in couple conflict.", rating: 5 },
+      { user: "Ahmed", comment: "Good listener and calm presence.", rating: 4 },
+      { user: "Chloe", comment: "Session felt safe and productive.", rating: 4 }
+    ]
   },
   {
+    id: 2,
     name: "Dr. Sophie Cheval",
     categories: ["Cognitive Behavioral", "Anxiety", "Teens"],
     description: "Passionate about guiding young people through mental health challenges.",
     image: sophie,
+    price: 2000,
+    rating: 4.7,
+    includes: [
+      "Qualified professional",
+      "Great teacher",
+      "Trial session fully refundable",
+      "Teen anxiety specialist"
+    ],
+    details: "Licensed Psychologist with a focus on adolescent anxiety and educational stress. Offers parent-child support sessions.",
+    languages: ["English", "French"],
+    reviews: [
+      { user: "Lucas", comment: "She understands young people perfectly.", rating: 5 },
+      { user: "Emma", comment: "Very patient and insightful.", rating: 5 },
+      { user: "Nathan", comment: "Excellent support for teen anxiety.", rating: 4 },
+      { user: "Amelie", comment: "Creative strategies for stress.", rating: 4 },
+      { user: "Yasmine", comment: "Loved her energy and approach.", rating: 5 }
+    ]
   },
   {
+    id: 3,
     name: "Dr. Marwa Azab",
     categories: ["Depression", "Couples", "Stress"],
     description: "Helping couples and individuals find emotional balance.",
     image: marwa,
+    price: 2000,
+    rating: 4.0,
+    includes: [
+      "Qualified professional",
+      "Holistic approach",
+      "Online sessions available",
+      "Stress management expert"
+    ],
+    details: "Neuroscience-informed therapist with 15+ years of experience. Specializes in stress and burnout recovery.",
+    languages: ["English", "Arabic"],
+    reviews: [
+      { user: "Sara", comment: "Very professional and reassuring.", rating: 5 },
+      { user: "Youcef", comment: "A real support.", rating: 4 },
+      { user: "Imane", comment: "Felt much better after every session.", rating: 5 },
+      { user: "Hassan", comment: "Listens deeply and remembers everything.", rating: 4 },
+      { user: "Isabelle", comment: "Holistic approach really helped me.", rating: 5 }
+    ]
   },
 ];

@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./TherapistCard.css";
 
-export default function TherapistCard({ name, categories, description, image }) {
+export default function TherapistCard({ id, name, categories, description, image }) {
   return (
     <div className="card">
       <img src={image || "https://via.placeholder.com/300"} alt={name} className="card-img" />
@@ -11,7 +12,7 @@ export default function TherapistCard({ name, categories, description, image }) 
         </span>
         <h3>{name}</h3>
         <p>{description}</p>
-        <a href="#">Read more →</a>
+        <Link to={`/therapist/${id}`}>Read more →</Link>
       </div>
     </div>
   );

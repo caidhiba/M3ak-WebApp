@@ -48,6 +48,7 @@ const TherapistsList = () => {
               {therapistsData.map((therapist, index) => (
                 <TherapistCard
                   key={index}
+                  id={therapist.id}
                   name={therapist.name}
                   categories={therapist.categories}
                   description={therapist.description}
