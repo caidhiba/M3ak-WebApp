@@ -304,6 +304,16 @@ const handleSubmit = async () => {
                ) : (
                   <p>No therapists matched your criteria.</p>
                )}
+                {therapistsData.map((therapist, index) => (
+                <TherapistCard
+                key={index}
+                id={therapist.id}
+                name={therapist.name}
+                categories={therapist.categories}
+                description={therapist.description}
+               image={therapist.image}
+             />
+             ))} 
             </div>
           </div>
           </>

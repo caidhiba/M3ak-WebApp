@@ -19,6 +19,7 @@ import RoleProvider from "../src/auth/RoleContext";//pour que le user si il est 
 import VideoCall from "./Pages/InVideoCall";
 import ChatApp from "./Pages/ChatApp";
 import ProfilePage from "./Pages/ProfilePage";
+import TherapistProfile from './Pages/TherapistProfile';
 import PrivateRoute from "./auth/PrivateRoute";//pour que le user si il est authentifié ou pas
 //  const userRole = "therapist"
 // export default function App() {
@@ -55,6 +56,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/therapists-list" element={<TherapistsList />} />
+          <Route path="/therapist/:id" element={<TherapistProfile />} />
           <Route path="/BookShop" element={<BookShop />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

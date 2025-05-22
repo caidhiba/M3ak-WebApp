@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./TherapistCard.css";
+
 
 export default function TherapistCard({id ,name, client_type, description, image ,languages,specializations}) {
    // Limiter à 2 spécialités
@@ -42,7 +44,7 @@ export default function TherapistCard({id ,name, client_type, description, image
                </p>
              )}
         <p>{description}</p>
-        <a href="#">Read more →</a>
+        <Link to={`/therapist/${id}`}>Read more →</Link>
       </div>
     </div>
   );
