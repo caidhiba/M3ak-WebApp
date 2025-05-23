@@ -9,12 +9,13 @@ import '../Styles/ChatApp.css'; // Import du fichier CSS pour le style
 
 
 import { AuthContext } from '../auth/AuthContext';
-const ChatApp = () => {
+const ChatApp = ({onsetSessionId,onShowFichier}) => {
     const [MessagesEtAppels, setMessagesEtAppels] = useState([]);// Liste triée de messages + appels vidéo
     const [listusers, setListUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [isVideoCallVisible, setIsVideoCallVisible] = useState(false);
-    
+    const [heureDebutSession, setHeureDebutSession] = useState(null);
+
     const [loading, setLoading] = useState(false);
     const chatSocket = useRef(null);
     
@@ -75,7 +76,7 @@ const ChatApp = () => {
           const datePart = session.jour; // "2025-05-21"
           const fullDatetimeString = `${datePart}T${hours}:${minutes}:${seconds}`;
           const heureDebut = new Date(fullDatetimeString);
-
+          setHeureDebutSession(heureDebut);
           // Ajouter 1 heure
           const fin = new Date(heureDebut.getTime() + 60 * 60 * 1000);
           setFinSession(fin);
@@ -86,42 +87,51 @@ const ChatApp = () => {
           console.error('Error fetching room details:', error);
       }
     };
-  useEffect(() => {
-    if (!finSession) return;
-    if (!isExpired) {
-       // Calculer la date/heure de fin : date_creation + heure_debut + 1h     
-       const checkExpiration = () => {
-         const now = new Date();
-         setIsExpired(now > finSession);    //console.log('la sesion est 😒 à ',isExpired);    
-      };
-       checkExpiration(); // Test immédiat    
-       const intervalId = setInterval(checkExpiration, 30 * 1000); // toutes les 30 secondes
-       console.log('la sesion est 😒 à ',isExpired)
-       return () => clearInterval(intervalId);
-    }else{
+useEffect(() => {
+  if (!finSession || isExpired) return;
+  console.log(isExpired,finSession)
+  const checkAndFinishSession = async () => {
+    if (!finSession || isExpired) return;
+    const now = new Date();
+    console.log(isExpired,finSession,now)
+    if (now > finSession) {
+      setIsExpired(true);
       console.log('La session est expirée.😒');
+
       try {
-         const response = axios.post(`http://127.0.0.1:8000/api/gestion-sessions/FinSessions/${conversation.id}/`,{}, {
+        const response = await axios.post(
+          `http://127.0.0.1:8000/api/gestion-sessions/FinSessions/${conversation.id}/`,
+          {},
+          {
             headers: {
               Authorization: `Bearer ${user?.access}`,
             },
-         });
-         // ✅ Si la requête a réussi, on recharge la page
-        if (response.status === 200 && conversation.statut != 'terminee') {
-            alert("✅ Session marquée comme terminée.");
-           window.location.reload(); // 👈 Recharge toute la page
+          }
+        );
+
+        if (response.status === 200 && conversation.statut !== 'terminee') {
+          alert("✅ Session marquée comme terminée.");
+          onsetSessionId(conversation.id); // ✔️ Attend d’avoir la réponse
+          onShowFichier();                 // ✔️ Se déclenche après
         }
       } catch (error) {
-          console.error('❌ Erreur lors de la fermeture de la session :', error);
+        console.error('❌ Erreur lors de la fermeture de la session :', error);
       }
-
     }
-   }, [isExpired,finSession]);
+  };
+
+  checkAndFinishSession();
+  const intervalId = setInterval(checkAndFinishSession, 30 * 1000); // toutes les 30 secondes
+  console.log('la sesion est 😒 à ',isExpired)
+  return () => clearInterval(intervalId);
+
+}, [isExpired,finSession]);
     /************************************************************ */
-    useEffect(() => {
+useEffect(() => {
       const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-      if (!conversation || !conversation.id || isExpired ) return;
+      if (!conversation || !conversation.id || isExpired  || conversation.statut == 'terminee') return;
       if (!user || !user?.access) return;
+          
       const socket = new WebSocket(`http://127.0.0.1:8000/ws/chat/${conversation.id}/?token=${user?.access}`); // Remplacez par votre URL de WebSocket
       chatSocket.current = socket;
 
@@ -183,10 +193,15 @@ const ChatApp = () => {
 
   /******************************************************************************************** */
   const handleSubmitMessage = (messageToSend) => {
+     const now = new Date();
+     console.log(now <= heureDebutSession)
          // on envoiyer le message de type texte  au serveur via le socket 
     if( !finSession || isExpired) {
             alert("Votre session payée avec cette personne est terminée. Merci.");
             return;
+    }if(now <= heureDebutSession){ // ❌ Ne pas connecter si la session n'a pas encore commencé
+     console.log("⏳ La session n'a pas encore commencé. Connexion WebSocket bloquée.");
+         return;
     }else{
          if (chatSocket.current) {
             // messageToSend est un objet contenant le message et d'autres informations
@@ -205,9 +220,14 @@ const ChatApp = () => {
     // Fonction pour gérer le changement de message
      // Placeholder functions for "Delete" and "Pin" actions
 const handleDelete = async (messageId) => { 
+  const now = new Date();
+  
   if( !finSession || isExpired) {
             alert("Votre session payée avec cette personne est terminée. Merci.");
             return;
+  }else if(now <= heureDebutSession){ // ❌ Ne pas connecter si la session n'a pas encore commencé
+     console.log("⏳ La session n'a pas encore commencé. Connexion WebSocket bloquée.");
+         return;
   }else{
     if (chatSocket.current) {
        chatSocket.current.send(JSON.stringify({
@@ -227,6 +247,9 @@ const handleEdit = async (messageId) => {
   if( !finSession || isExpired) {
        alert("Votre session payée avec cette personne est terminée. Merci.");
       return;
+  } if(now <= heureDebutSession){ // ❌ Ne pas connecter si la session n'a pas encore commencé
+     console.log("⏳ La session n'a pas encore commencé. Connexion WebSocket bloquée.");
+         return;
   }else{ 
    if (chatSocket.current) {  
      console.log('message est :',messageId)
@@ -247,10 +270,14 @@ const handleEdit = async (messageId) => {
      
     // Fonction pour afficher la vidéo
 const handleCreateCall = () => {
+    const now = new Date();
       // Notifier l'autre utilisateur via WebSocket
     if( !finSession || isExpired) {
             alert("Votre session payée avec cette personne est terminée. Merci.");
             return;
+    }if(now <= heureDebutSession){ // ❌ Ne pas connecter si la session n'a pas encore commencé
+     console.log("⏳ La session n'a pas encore commencé. Connexion WebSocket bloquée.");
+         return;
     }else{
       if (chatSocket.current) {    
         chatSocket.current.send(JSON.stringify({

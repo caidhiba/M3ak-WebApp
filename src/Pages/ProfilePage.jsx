@@ -1,23 +1,23 @@
 import { useEffect, useState,useContext } from "react";
 import '../styles/profilePage.css';
-
+import ListeFichiersMedical from '../Components/ListeFichiersMedical/ListeFichiersMedical';
 import ChatApp from './ChatApp'
 import Appointments from '../Components/AppointmentsTable/Appointments';
 import Orders from '../Components/OrdersTable/Orders';
 import Recommendations from '../Components/RecommendationsTable/Recommendations';
-
+import FichierMedicalForm from '../Components/FichierMedicalForm/FichierMedicalForm';
 import axios from 'axios';
+import MyCalendar from '../Components/Calendar/Calendar';
 //import DataTable from '../Components/DataTable/DataTable';
 import { AuthContext } from '../auth/AuthContext';
 export default function ProfilePage() {
   const [activeSection, setActiveSection] = useState("profile");
-  const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  //const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
   // États pour chaque section
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);//{}
-  const [appointments, setAppointments] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
+  const [sessionId, setSessionId] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
   const [preview, setPreview] = useState(null);
   // Pour gérer la modification des infos perso
@@ -25,17 +25,18 @@ export default function ProfilePage() {
   // 🗒️ le user contient le token de l'utilisateur connecté 
   // 🗒️ le userinfo contient les informations de l'utilisateur connecté (first_name,last_name,role,user_id)
   const {userinfo,updateUserInfo ,user,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
+  const [showFichierForm, setShowFichierForm] = useState(false);
 
   useEffect(() => {
     if (!isLoading && user) {
-    fetchProfileData();
+      fetchProfileData();
     /*
     fetchRecommendations();*/
-  }
+   }
   }, [isLoading, user]);
   // 📥 Récupère les infos du profil utilisateur
   const fetchProfileData = () => {
-    console.log(user?.access)
+    //console.log(user?.access)
     axios.get('http://127.0.0.1:8000/api/GestionAccounts/Profile/', {
       headers: { Authorization: `Bearer ${user?.access}` }
     }).then(res => {
@@ -154,6 +155,7 @@ export default function ProfilePage() {
             <>
                <li onClick={() => setActiveSection("recommendations")}>Recommandations</li>
                <li onClick={() => setActiveSection("documents")}>Documents</li>
+               <li onClick={() => setActiveSection("Creneaux")}>Creneaux</li>
             </>
            )}
         </ul>
@@ -321,7 +323,15 @@ export default function ProfilePage() {
          {/* SECTION: Messages */}
         {activeSection === "messages" && (
           <section className="appointments-section">
-            <ChatApp />
+            <ChatApp onsetSessionId={(id)=>{setSessionId(id)}} onShowFichier={() => {setShowFichierForm(true);}} />{/**setIsExpired(true);isExpired &&  */}
+             {console.log(sessionId,showFichierForm)}
+             {userinfo && userinfo.role === "therapeute" && (
+                <>
+                  {showFichierForm && sessionId && (
+                        <FichierMedicalForm sessionId={sessionId} onSubmitSuccess={() => setShowFichierForm(false)} />
+                   )}
+                </>
+            )}
           </section>
         )}
 {/************************************************************************************************************************* */}
@@ -344,6 +354,21 @@ export default function ProfilePage() {
         {activeSection === "recommendations" && (
           <section className="appointments-section">
             <Recommendations />
+          </section>
+        )} 
+
+        {/* SECTION: documents */}
+        {activeSection === "documents" && (
+          <section>
+            <ListeFichiersMedical />
+          </section>
+        )}  
+         {/* SECTION: creneux */}
+        {activeSection === "Creneaux" && (
+          <section>
+            <h2> 🗓️ My calendar</h2>
+           
+            <MyCalendar id_thyrapist={userInfo.id} />
           </section>
         )}  
       </main>

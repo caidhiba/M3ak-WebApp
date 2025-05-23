@@ -69,12 +69,13 @@ const FindATherapist = () => {
     "Doesn't matter"
   ];*/
   const genderOptions = [
-    "Femme",
-    "Homme",
+    "male",
+    "female",
     "Doesn't matter"
   ];
   
-  const languageOptions = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois","Other"];
+  //const languageOptions = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois","Other"];
+  const languageOptions = ["French", "English", "Spanish", "German", "Arabic", "Chinese","Other"];
   useEffect(() => {
       const fetchSymptoms = async () => {
         try {

@@ -44,7 +44,7 @@ export default function Commandes() {
       <div className="commandes-container">
         <div className="commandes-header">
           <div>
-            <h1>Orders</h1>
+            <h1> 🛒 Orders</h1>
             <p>Manage your book orders.</p>
           </div>
           <div className="action-buttons">
@@ -71,11 +71,11 @@ export default function Commandes() {
                      <img src={`http://127.0.0.1:8000${book.list_books[0].cover}`} alt="Profile" />
                   </div>*/} 
                   <div className="book-details">
-                    <div className="book-title ">{book.list_books[0].title}</div>
+                    <div className="book-title ">{book.list_books.title}</div>
                   </div>
                 </div>
               </div>
-              <div className="column price-column">{book.list_books[0].price}</div>
+              <div className="column price-column">{book.list_books.price}</div>
               <div className="column date-column">{book.date_commande}</div>
               {/*<div className="column quantity-column">{book.quantity}</div>*/}
               

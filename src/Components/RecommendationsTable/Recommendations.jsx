@@ -50,7 +50,7 @@ export default function Recommendations() {
       <div className="appointments-container">
         <div className="appointments-header">
           <div>
-            <h1>My Recommendations</h1>
+            <h1>📚 My Recommendations</h1>
             <p>View and manage your upcoming recommendations.</p>
           </div>
           <div className="action-buttons">

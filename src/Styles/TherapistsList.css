@@ -118,4 +118,32 @@
     justify-content: flex-start;
     padding: 20px;
   }
- 
+ .clear-filters-btn {
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+.clear-filters-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Ajoutez aussi ceci pour le bouton Apply */
+.apply-btn {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.apply-btn:hover {
+  background-color: #45a049;
+}

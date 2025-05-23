@@ -13,14 +13,32 @@ const Business = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const {userinfo ,user,isLoading} = useContext(AuthContext);
-  const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
-  const AVAILABILITY_OPTIONS = [
+  //const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  /*const AVAILABILITY_OPTIONS = [
   "Lundi matin", "Lundi après-midi", 
   "Mardi matin", "Mardi après-midi",
   "Mercredi matin", "Mercredi après-midi",
   "Jeudi matin", "Jeudi après-midi",
   "Vendredi matin", "Vendredi après-midi"
-  ];
+  ];*/
+  /*const AVAILABILITY_OPTIONS = [
+  "Monday morning", "Monday afternoon",
+  "Tuesday morning", "Tuesday afternoon",
+  "Wednesday morning", "Wednesday afternoon",
+  "Thursday morning", "Thursday afternoon",
+  "Friday morning", "Friday afternoon"
+];*/
+const AVAILABILITY_OPTIONS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
   const [availableSpecializations, setAvailableSpecializations] = useState([]);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef();

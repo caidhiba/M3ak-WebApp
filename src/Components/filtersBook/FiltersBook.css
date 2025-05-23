@@ -1,4 +1,4 @@
-.main {
+/*.main {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -135,4 +135,200 @@ input[type="range"] {
     cursor: pointer;
     transform: translateY(-3px); 
     transition: all 0.4s ease-in-out;
+}*/
+.main {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    /*background-color: #C5E0C0;*/
+    padding: 20px;
+    width: 100%;
+    border-radius: 12px;
+    /*box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);*/
+    transition: all 0.3s ease;
+}
+
+.titlee {
+    color: black;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.titlee::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 3px;
+    background-color: black;
+    border-radius: 3px;
+}
+
+hr.line {
+    border: none;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin: 15px 0;
+}
+
+.filter-grp {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.filter-grp h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.buttons button {
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+.buttons button.selected {
+    background-color: #325343;
+    color: white;
+    border-color: black;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.filter-grp select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: white;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+.filter-grp select:focus {
+    outline: none;
+    border-color: #325343;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter-grp input[type="number"] {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-grp input[type="number"]:focus {
+    outline: none;
+    border-color: #325343;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.filter-grp input[type="range"] {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.1);
+    outline: none;
+    margin: 15px 0;
+    /*-webkit-appearance: none;*/
+}
+
+.filter-grp input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #325343;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-grp input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.apply-btn, .clear-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.apply-btn {
+    background-color: #325343;
+    color: white;
+    border: none;
+}
+
+.apply-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clear-btn {
+    background-color: transparent;
+    color: #325343;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.clear-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-grp span {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+    display: inline-block;
 }

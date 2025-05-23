@@ -1,7 +1,222 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState } from "react";
+import './FiltersBook.css'
+
+const FiltersBook = ({ onFilterChange, onClearFilters  }) => {
+  const [filters, setFilters] = useState({
+    language: [],
+    author: '',
+    stock: '',
+    pages: '',
+    price: 2000
+  });
+
+  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+
+  const handleLanguageClick = (lang) => {
+    const updatedLanguages = filters.language.includes(lang)
+      ? filters.language.filter(l => l !== lang)
+      : [...filters.language, lang];
+
+    setFilters(prev => ({ ...prev, language: updatedLanguages }));
+  };
+
+  const handleApplyFilters = () => {
+    onFilterChange(filters);
+  };
+  const handleClearFilters = () => {
+    setFilters({
+      language: [],
+      author: '',
+      stock: '',
+      pages: '',
+      price: 2000
+    });
+    onClearFilters();
+  };
+
+  return (
+    <div className='main'>
+      <div className="titlee">Filters:</div>
+      <hr className="line" />
+
+      <div className="groups">
+        <div className="filter-grp">
+          <h3>Language Spoken</h3>
+          <div className="buttons">
+            {LANGUAGES.map(lang => (
+              <button
+                key={lang}
+                onClick={() => handleLanguageClick(lang)}
+                className={filters.language.includes(lang) ? 'selected' : ''}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Stock</h3>
+          <select 
+            value={filters.stock}
+            onChange={(e) => setFilters(prev => ({ ...prev, stock: e.target.value }))}
+          >
+            <option value="">All</option>
+            <option value="in">In Stock</option>
+            <option value="out">Out of Stock</option>
+          </select>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Pages minimum</h3>
+          <input
+            type="number"
+            value={filters.pages}
+            onChange={(e) => setFilters(prev => ({ ...prev, pages: e.target.value }))}
+            placeholder="e.g. 100"
+          />
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Max Price</h3>
+          <input
+            type="range"
+            min="900"
+            max="2000"
+            value={filters.price}
+            onChange={(e) => setFilters(prev => ({ ...prev, price: parseInt(e.target.value) }))}
+          />
+          <span>{filters.price} DA</span>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          {/*<button className="apply-btn" onClick={handleApplyFilters}>Apply</button>*/}
+          <button className="clear-btn" onClick={handleClearFilters}>Clear Filters</button>
+          <button className="apply-btn" onClick={handleApplyFilters}>Apply</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FiltersBook;
+// FiltersBook.jsx
+/*import React, { useState } from "react";
 import './FiltersBook.css'
 
 const FiltersBook = ({ onFilterChange }) => {
+  const [filters, setFilters] = useState({
+    language: [],
+    author: '',
+    stock: '',
+    pages: '',
+    price: 2000
+  });
+   const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  const handleLanguageClick = (lang) => {
+    const updatedLanguages = filters.language.includes(lang)
+      ? filters.language.filter(l => l !== lang)
+      : [...filters.language, lang];
+
+    setFilters(prev => ({ ...prev, language: updatedLanguages }));
+  };
+
+  const handleApplyFilters = () => {
+    onFilterChange(filters);
+  };
+
+  return (
+    <div className='main'>
+      <div className="titlee">Filters:</div>
+      <hr className="line" />
+
+      <div className="groups">
+        <div className="filter-grp">
+          <h3>Language Spoken</h3>
+          <div className="buttons">
+            {LANGUAGES.map(lang => (
+              <button
+                key={lang}
+                onClick={() => handleLanguageClick(lang)}
+                className={filters.language.includes(lang) ? 'selected' : ''}
+              >
+                {lang}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Stock</h3>
+          <select onChange={(e) => setFilters(prev => ({ ...prev, stock: e.target.value }))}>
+            <option value="">All</option>
+            <option value="in">In Stock</option>
+            <option value="out">Out of Stock</option>
+          </select>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Pages minimum</h3>
+          <input
+            type="number"
+            onChange={(e) => setFilters(prev => ({ ...prev, pages: e.target.value }))}
+            placeholder="e.g. 100"
+          />
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <h3>Max Price</h3>
+          <input
+            type="range"
+            min="900"
+            max="2000"
+            value={filters.price}
+            onChange={(e) => setFilters(prev => ({ ...prev, price: parseInt(e.target.value) }))}
+          />
+          <span>{filters.price} DA</span>
+        </div>
+
+        <hr className="line" />
+
+        <div className="filter-grp">
+          <button className="apply-btn" onClick={handleApplyFilters}>Apply</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FiltersBook;*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const FiltersBook = ({ onFilterChange }) => {
+  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
   return (
       <div className='main'>
       <div className="titlee">
@@ -79,7 +294,7 @@ const FiltersBook = ({ onFilterChange }) => {
   )
 }
 
-export default FiltersBook
+export default FiltersBook*/
 
 
 

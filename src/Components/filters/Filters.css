@@ -1,4 +1,4 @@
-.main {
+/*.main {
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -135,4 +135,26 @@ input[type="range"] {
     cursor: pointer;
     transform: translateY(-3px); 
     transition: all 0.4s ease-in-out;
+}
+*/
+
+
+
+.filter-grp label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin: 6px 0;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /*background-color: rgba(255, 255, 255, 0.5);*/
+}
+
+.filter-grp input[type="checkbox"],
+.filter-grp input[type="radio"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+    accent-color: #325343;
 }

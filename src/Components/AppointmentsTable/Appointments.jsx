@@ -3,6 +3,7 @@ import { useEffect, useState,useContext } from "react";
 import axios from 'axios';
 import { AuthContext } from '../../auth/AuthContext';
 import { Link } from 'react-router-dom'; // assure-toi que c'est importé
+import { useNavigate } from 'react-router-dom';
 export default function Appointments() {
     const [currentPage, setCurrentPage] = useState(1);
     const appointmentsPerPage = 6;
@@ -13,11 +14,11 @@ export default function Appointments() {
     const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
     const currentAppointments = appointments.slice(indexOfFirstAppointment, indexOfLastAppointment);
     const totalPages = Math.ceil(appointments.length / appointmentsPerPage);
-    
+    const navigate = useNavigate();
     useEffect(() => {
-      if (!isLoading && user) {
-         fetchAppointments();
-      }
+       if (!isLoading && user) {
+          fetchAppointments();
+       }
     }, [isLoading, user]);
     
     
@@ -50,7 +51,7 @@ export default function Appointments() {
       <div className="appointments-container">
         <div className="appointments-header">
           <div>
-            <h1>Appointments</h1>
+            <h1>⏰ Appointments</h1>
             <p>View and manage your upcoming appointments.</p>
           </div>
           <div className="action-buttons">
@@ -108,8 +109,8 @@ export default function Appointments() {
               <div className="column time-column">{appointment.creneau.heure_debut}</div>
               <div className="column time-column">{appointment.prix}</div>
               <div className="column actions-column">
-                {appointment.statut === 'reservee' ? ( 
-                  <button className="view-btn">payee</button>
+                {userinfo.role === 'patient'&& appointment.statut === 'reservee' ? ( 
+                  <button className="view-btn" onClick={()=>{ navigate('/payment', { state: { id:appointment.id , message:'Payee Resarvation Session'}});}}>payee</button>
                   ):(
                     <>
                      {appointment.statut}
