@@ -15,7 +15,8 @@ const SignIn = () => {
     password: '',
     confirmPassword: '',
     code: '',
-    //sexe: '' 
+    sexe: '' ,
+    birthDate: ''
   }); 
   const [passwordError, setPasswordError] = useState(''); 
   const [passwordStrength, setPasswordStrength] = useState({ 
@@ -87,10 +88,33 @@ const SignIn = () => {
       return true; 
     } 
   }; 
-  
+  const validateBirthDate = (birthDate) => {
+    if (!birthDate) {
+      alert("Veuillez entrer votre date de naissance.");
+      return false;
+    }
+
+    const birth = new Date(birthDate);
+    const today = new Date();
+    const age = today.getFullYear() - birth.getFullYear();
+    const hasHadBirthdayThisYear = (
+      today.getMonth() > birth.getMonth() ||
+      (today.getMonth() === birth.getMonth() && today.getDate() >= birth.getDate())
+    );
+    const realAge = hasHadBirthdayThisYear ? age : age - 1;
+
+    if (realAge < 13) {
+      alert("Vous devez avoir au moins 13 ans pour vous inscrire.");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit =async(e) => { 
     e.preventDefault(); 
-    const { email, password, confirmPassword, code, firstName, lastName } = formData;//, sexe
+    const { email, password, confirmPassword, code, firstName, lastName, sexe,birthDate } = formData;//, sexe,birthDate
+    if (!validateBirthDate(birthDate)) return;
     if (!validatePasswords()) return; 
     const { length, uppercase, lowercase, number, special } = passwordStrength; 
     if (!(length && uppercase && lowercase && number && special)) { 
@@ -101,7 +125,7 @@ const SignIn = () => {
             alert("L'email ne correspond pas à celui utilisé pour recevoir le code.");
             return;
           }else{
-             const response = await register(email, firstName, lastName, password,code);//,sexe
+             const response = await register(email, firstName, lastName, password,code,sexe,birthDate);//,sexe,birthDate
              console.log('Inscription réussie:', response); // Log the response data
              if (response.success) {
                alert(response.data.message);
@@ -189,7 +213,7 @@ const SignIn = () => {
                   />
                 </div>
                 
-               { /*<div className="signup-page-form-group">
+               <div className="signup-page-form-group">
                   <label>Sexe</label>
                   <select
                     name="sexe"
@@ -199,11 +223,22 @@ const SignIn = () => {
                     required
                   >
                     <option value="">Sélectionnez votre sexe</option>
-                    <option value="homme">Homme</option>
-                    <option value="femme">Femme</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                   </select>
-                </div>*/}
-
+                </div>
+                
+                <div className="signup-page-form-group">
+                  <label>Date de naissance</label>
+                  <input
+                    type="date"
+                    name="birthDate"
+                    className="signup-page-input-field"
+                    value={formData.birthDate}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
                 <div className="signup-page-form-group signup-page-password-container"> 
                   <label>Password</label> 
                   <input 

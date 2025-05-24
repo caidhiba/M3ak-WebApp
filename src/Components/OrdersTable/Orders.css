@@ -1,174 +1,165 @@
-.appointments-container {
+.commandes-container {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
     font-family: 'Inter', sans-serif;
-   }
+}
    
-   .appointments-header {
+.commandes-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #e5e7eb;
-   }
+}
    
-   .appointments-header h1 {
+.commandes-header h1 {
     font-size: 24px;
     font-weight: 600;
     margin: 0;
-   }
+}
    
-   .appointments-header p {
+.commandes-header p {
     margin: 5px 0 0;
     color: #6b7280;
-   }
+}
    
-   .action-buttons {
+.action-buttons {
     display: flex;
     gap: 10px;
-   }
+}
    
-   .outline-btn {
+.outline-btn {
     padding: 8px 16px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
-   }
+}
    
-   .solid-btn {
+.solid-btn {
     padding: 8px 16px;
     border: none;
     background: #000;
     color: white;
     border-radius: 6px;
     cursor: pointer;
-   }
+}
    
-   .more-btn {
+.more-btn {
     padding: 8px 12px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
     font-size: 18px;
-   }
+}
    
-   .appointments-table {
+.commandes-table {
     width: 100%;
     border-collapse: collapse;
-   }
+}
    
-   .appointments-table-header {
+.commandes-table-header {
     display: flex;
     padding: 12px 20px;
     background-color: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
     font-weight: 500;
     color: #4b5563;
-   }
+}
    
-   .column {
+.column {
     padding: 10px;
-   }
+}
    
-   .name-column {
+.title-column {
     flex: 3;
-   }
+}
    
-   .date-column {
+.price-column {
     flex: 1;
     text-align: center;
-   }
+}
    
-   .time-column {
+.date-column {
     flex: 1;
-    text-align: center; 
-   }
-   
-   .actions-column {
+    text-align: center;
+}
+
+.quantity-column {
     flex: 1;
-    text-align: right;
-   }
+    text-align: center;
+}
    
-   .appointment-row {
+.actions-column {
+    flex: 1;
+    /*text-align: right;*/
+}
+   
+.commande-row {
     display: flex;
     border-bottom: 1px solid #e5e7eb;
     padding: 15px 20px;
     align-items: center;
-   }
+}
    
-   .appointment-row:hover {
+.commande-row:hover {
     background-color: #f9fafb;
-   }
+}
    
-   .user-info {
+.commandes-container .book-info {
     display: flex;
     align-items: center;
     gap: 15px;
-   }
+}
    
-   .user-avatar {
-    width: 40px;
-    height: 40px;
-    background-color: #e5e7eb;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-   }
+.commandes-container .book-cover {
+    width: 0;  
+    height: 0;  
+}
    
-   .avatar-placeholder {
-    font-size: 22px;
-   }
-   
-   .user-name {
+.commandes-container .book-title {
     font-weight: 500;
-   }
+    font-size: 30px;
+}
    
-   .user-email {
-    font-size: 13px;
-    color: #6b7280;
-   }
-   
-   .view-btn {
+.view-btn {
     padding: 6px 14px;
     background: none;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
-    color: #FFE4DD;
+    color: #000000;
     font-weight: 500;
     cursor: pointer;
-   }
+}
    
-   .pagination {
+.pagination {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-   }
+}
    
-   .pagination-btn {
+.pagination-btn {
     padding: 8px 16px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
-   }
+}
    
-   .pagination-btn:disabled {
+.pagination-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-   }
+}
    
-   .page-numbers {
+.page-numbers {
     display: flex;
     gap: 5px;
-   }
+}
    
-   .page-number {
+.page-number {
     width: 32px;
     height: 32px;
     display: flex;
@@ -178,9 +169,9 @@
     border: 1px solid transparent;
     background: none;
     cursor: pointer;
-   }
+}
    
-   .page-number.active {
+.page-number.active {
     background-color: #000;
     color: white;
-   }
+}

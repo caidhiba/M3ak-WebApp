@@ -12,9 +12,6 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   // 🗒️ le userinfo contient les informations de l'utilisateur connecté (first_name,last_name,role,user_id)
   const {userinfo ,isLoading,isAuthenticated,logout} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
-  console.log("userinfo:", userinfo);
-console.log("authenticated:", isAuthenticated);
-
   useEffect(() => {
     if (!isLoading ) {
       
@@ -42,9 +39,10 @@ console.log("authenticated:", isAuthenticated);
         <Link to="/therapists-list" className="header-element">Therapist List</Link> 
         <Link to="/FindATherapist" className="header-element">Find A Therapist</Link> 
         <Link to="/contact" className="header-element">Contact</Link> 
-        <Link to="/Business" className="header-element">Business</Link> 
         <Link to="/Bookshop" className="header-element">Shop Books</Link> 
-      
+        {userinfo && userinfo.role === "patient" && (
+             <Link to="/Business" className="header-element" onClick={() => setMenuOpen(false)}>Business</Link>
+        )} 
         {userinfo && userinfo.role === "therapeute" && (
         <Link to="/recommendation" className="header-element">Recommendation</Link>
         )}
@@ -58,15 +56,14 @@ console.log("authenticated:", isAuthenticated);
          <>  
            <Link to="/login" className="Login-button">Log In</Link> 
            <Link to="/signup" className="Signin-button">Sign In</Link>
-            <Link to="/Profile" className="profile-link">
-              <img src="/src/assets/pfp-therapist.avif" alt="Profile" className="profile-img" />
-            </Link>
         </>
        ) : (
         <>
           <button onClick={logout} className="Login-button">Log Out</button>
           <NotificationBell />
-         
+          <Link to="/Profile" className="profile-link">
+              <img src={`http://127.0.0.1:8000${userinfo.image}`} alt="Profile" className="profile-img" />{/**src/assets/pfp-therapist.avif */}
+          </Link>
         </>
       )
       )}
@@ -85,15 +82,18 @@ console.log("authenticated:", isAuthenticated);
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
             {isLoading ? null : (
                isAuthenticated ? (
+                <>
                 <NotificationBell />
+                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
+                 <Link to="/Profile" className="profile-link">
+                    <img src={`http://127.0.0.1:8000${userinfo.image}`} alt="Profile" className="profile-img" />{/**src/assets/pfp-therapist.avif */}
+                 </Link>
+                </div>
+                </>
                ) :null
             )}
             
-             <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px" }}>
-                 <Link to="/Profile" className="profile-link">
-                    <img src="/src/assets/pfp-therapist.avif" alt="Profile" className="profile-img" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
-                  </Link>
-            </div>
+
             <button className="close-sidebar" onClick={() => setMenuOpen(false)}>
               <X size={28} />
             </button>
@@ -105,9 +105,10 @@ console.log("authenticated:", isAuthenticated);
             </Link>
             <Link to="/FindATherapist" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Find A Therapist</Link>
             <Link to="/contact" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Contact</Link>
-            <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
             <Link to="/Bookshop" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Shop books</Link>
-            
+            {userinfo && userinfo.role === "patient" && (
+             <Link to="/Business" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Business</Link>
+              )}          
             {userinfo && userinfo.role === "therapeute" && (
             <Link to="/recommendation" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>
              Recommendation
@@ -116,7 +117,6 @@ console.log("authenticated:", isAuthenticated);
 
             <Link to="/Support" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Support</Link>
             <Link to="/Settings" className="mobile-sidebar-item" onClick={() => setMenuOpen(false)}>Settings</Link>
-            {console.log('isAuthenticated:', isAuthenticated)}
             
             {isLoading ? null : (
                !isAuthenticated ? (
@@ -125,13 +125,7 @@ console.log("authenticated:", isAuthenticated);
                     <Link to="/signup" className="Signin-button" onClick={() => setMenuOpen(false)}>Sign In</Link>
                 
                 </>
-            ) : (
-              <>
-                <button onClick={logout} className="Login-button">Log Out</button>
-                <NotificationBell />
-              
-              </>
-            )
+            ):null
           )}
           </div>
         )}

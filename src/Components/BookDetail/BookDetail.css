@@ -28,10 +28,11 @@
   color: #555;
 }
 
-.book-title {
-  font-size: 28px;
-  font-weight: 700;
+.book-info .book-title {
+  font-size: 40px;
+  font-weight:bolder;
   color: #111;
+  
 }
 
 .price {
@@ -125,7 +126,7 @@
   gap: 10px;
 }
 
-.buy-now {
+.buy-now,.Recommendbutton {
   background-color: #2f5731;
   color: white;
   padding: 10px 20px;

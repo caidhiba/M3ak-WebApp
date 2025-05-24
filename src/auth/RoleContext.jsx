@@ -20,14 +20,14 @@ const RoleProvider = ({ allowedRoles }) => {
   const { userinfo, isLoading } = useContext(AuthContext);
 
  // return allowedRoles.includes(userinfo.role) ? children : <Navigate to="/" />;
- if (isLoading) {
+ if (isLoading || !userinfo) {
   return <div>Chargement...</div>; // ou un spinner
 }
 
-return allowedRoles.includes(userinfo.role) ? (
-  <Outlet />
-) : (
-  <Navigate to="/" />
-);
+ return allowedRoles.includes(userinfo?.role) ? (
+   <Outlet />
+  ) : (
+    <Navigate to="/" />
+ );
 };
 export default RoleProvider;

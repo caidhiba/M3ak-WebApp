@@ -1,164 +1,180 @@
-.commandes-container {
+.appointments-container {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
     font-family: 'Inter', sans-serif;
-}
+   }
    
-.commandes-header {
+   .appointments-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid #e5e7eb;
-}
+   }
    
-.commandes-header h1 {
+   .appointments-header h1 {
     font-size: 24px;
     font-weight: 600;
     margin: 0;
-}
+   }
    
-.commandes-header p {
+   .appointments-header p {
     margin: 5px 0 0;
     color: #6b7280;
-}
+   }
    
-.action-buttons {
+   .action-buttons {
     display: flex;
     gap: 10px;
-}
+   }
    
-.outline-btn {
+   .outline-btn {
     padding: 8px 16px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
-}
+   }
    
-.solid-btn {
+   .solid-btn {
     padding: 8px 16px;
     border: none;
     background: #000;
     color: white;
     border-radius: 6px;
     cursor: pointer;
-}
+   }
    
-.more-btn {
+   .more-btn {
     padding: 8px 12px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
     font-size: 18px;
-}
+   }
    
-.commandes-table {
+   .appointments-table {
     width: 100%;
     border-collapse: collapse;
-}
+   }
    
-.commandes-table-header {
+   .appointments-table-header {
     display: flex;
     padding: 12px 20px;
     background-color: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
     font-weight: 500;
     color: #4b5563;
-}
+   }
    
-.column {
+   .column {
     padding: 10px;
-}
+    /*************/
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+   }
    
-.title-column {
+   .name-column {
     flex: 3;
-}
+   }
    
-.price-column {
+   .date-column {
     flex: 1;
     text-align: center;
-}
+   }
    
-.date-column {
+   .time-column {
     flex: 1;
-    text-align: center;
-}
-
-.quantity-column {
-    flex: 1;
-    text-align: center;
-}
+    text-align: center; 
+   }
    
-.actions-column {
+   .actions-column {
     flex: 1;
-    text-align: right;
-}
+    /*text-align: right;*/
+   }
    
-.commande-row {
+   .appointment-row {
     display: flex;
     border-bottom: 1px solid #e5e7eb;
     padding: 15px 20px;
     align-items: center;
-}
+   }
    
-.commande-row:hover {
+   .appointment-row:hover {
     background-color: #f9fafb;
-}
+   }
    
-.book-info {
+   .user-info {
     display: flex;
     align-items: center;
     gap: 15px;
-}
+   }
    
-.book-cover {
-    width: 0;  
-    height: 0;  
-}
+   .user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #e5e7eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    object-fit: cover;
+   }
    
-.book-title {
+   .avatar-placeholder {
+    font-size: 22px;
+   }
+   
+   .user-name {
     font-weight: 500;
-}
+   }
    
-.view-btn {
+   .user-email {
+    font-size: 13px;
+    color: #6b7280;
+   }
+   
+   .view-btn {
     padding: 6px 14px;
     background: none;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
-    color: #000000;
+    color: #FFE4DD;
     font-weight: 500;
     cursor: pointer;
-}
+   }
    
-.pagination {
+   .pagination {
     display: flex;
     justify-content: space-between;
     padding: 20px;
     align-items: center;
-}
+   }
    
-.pagination-btn {
+   .pagination-btn {
     padding: 8px 16px;
     border: 1px solid #e5e7eb;
     background: white;
     border-radius: 6px;
     cursor: pointer;
-}
+   }
    
-.pagination-btn:disabled {
+   .pagination-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
+   }
    
-.page-numbers {
+   .page-numbers {
     display: flex;
     gap: 5px;
-}
+   }
    
-.page-number {
+   .page-number {
     width: 32px;
     height: 32px;
     display: flex;
@@ -168,9 +184,9 @@
     border: 1px solid transparent;
     background: none;
     cursor: pointer;
-}
+   }
    
-.page-number.active {
+   .page-number.active {
     background-color: #000;
     color: white;
-}
+   }

@@ -23,11 +23,12 @@ const AudioMessage = ({ audioUrl, index, playingIndex, setPlayingIndex }) => {
 
   useEffect(() => {
     // Decode the audioUrl (Base64) when it changes
-    console.log(audioUrl)
     if (audioUrl) {
       decodeBase64ToBlob(audioUrl);
     }
   }, [audioUrl]);
+
+
 
   // Function to decode Base64 string into a Blob and create the audio URL
   const decodeBase64ToBlob = (base64String) => {
@@ -40,12 +41,10 @@ const AudioMessage = ({ audioUrl, index, playingIndex, setPlayingIndex }) => {
 
     // Create a Blob object from the byte array with MIME type audio/wav
     const audioBlob = new Blob([byteArray], { type: "audio/wav" });
-    console.log(audioBlob) 
-    console.log("📏 Taille du Blob reçu :", audioBlob.size, "octets");
     const audioBlobUrl = URL.createObjectURL(audioBlob); // Create a URL for the Blob
     setDecodedAudioUrl(audioBlobUrl); // Update the state with the Blob URL
   };
-
+/********************************************************************* */
   const togglePlay = (index) => {
     if (playingIndex === index) {
       audioRef.current.pause();
@@ -56,9 +55,9 @@ const AudioMessage = ({ audioUrl, index, playingIndex, setPlayingIndex }) => {
         setPlayingIndex(null); // Stop the other audio before starting a new one
       }
       setPlayingIndex(index);
-      setupAudioVisualizer();
+      //setupAudioVisualizer();
       audioRef.current.play();
-      visualize();
+      //visualize();
     }
   };
 
@@ -67,6 +66,39 @@ const AudioMessage = ({ audioUrl, index, playingIndex, setPlayingIndex }) => {
     cancelAnimationFrame(animationRef.current);
   };
 
+  return (
+   <div className="AudioMessage">
+      <div >
+        <button  style={{ width: '40px',height:'40px',padding:'0'}} className="ButtonClick" onClick={() => togglePlay(index)}>
+          {isPlaying ? <FiPause size={24} /> : <FiPlay size={24} />}
+        </button>
+        {/* Only render the audio element if decodedAudioUrl is available */}
+        {decodedAudioUrl && 
+             <audio 
+                ref={audioRef}  
+                style={{ display: "none" }} // cacher si tu utilises seulement ton bouton 
+                src={decodedAudioUrl} 
+                type="audio/wav" 
+                controls
+                className="custom-audio-player" 
+              />
+        }
+        
+      </div>
+    </div>
+  );
+};
+/**
+ * 
+ * 
+ */
+export default AudioMessage;
+  {/* Visualizer Canvas */}
+        {/*<div className="mt-2">
+          <canvas ref={canvasRef} width={200} height={50}></canvas>
+        </div>*/}
+ /**
+  
   const setupAudioVisualizer = () => {
     if (!analyserRef.current) {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -111,23 +143,4 @@ const AudioMessage = ({ audioUrl, index, playingIndex, setPlayingIndex }) => {
     draw();// Start drawing
   };
 
-  return (
-   <div className="AudioMessage">
-      <div >
-        <button className="text-white" onClick={() => togglePlay(index)}>
-          {isPlaying ? <FiPause size={24} /> : <FiPlay size={24} />}
-        </button>
-        {/* Only render the audio element if decodedAudioUrl is available */}
-        {decodedAudioUrl && <audio ref={audioRef}  src={decodedAudioUrl} type="audio/wav" controls />}
-        {/*<div className="mt-2">className="hidden"
-          <canvas ref={canvasRef} width={200} height={50}></canvas>
-        </div>*/}
-      </div>
-    </div>
-  );
-};
-/**
- * 
- * 
- */
-export default AudioMessage;
+  */

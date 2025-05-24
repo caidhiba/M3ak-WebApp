@@ -1,10 +1,10 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useContext} from 'react';
 import { FiSend, FiPaperclip, FiMic } from 'react-icons/fi';
 
-
+import { AuthContext } from '../../auth/AuthContext';
 const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
-
+    const {userinfo ,user,isLoading} = useContext(AuthContext); //👈✌️😉 recuperer les informations de l'utilisateur
     const [isRecording, setIsRecording] = useState(false);// pour la fonction de record audio
     const [message, setMessage] = useState('');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -14,9 +14,9 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
     const audioChunksRef = useRef([]);
     const fileInputRef = useRef();
     const audioRef = useRef(null);
-    const personCurrent = "personne courante"; // Remplacez par la logique pour obtenir l'utilisateur courant
+    const personCurrent = userinfo.user_id;//.user_id; // Remplacez par la logique pour obtenir l'utilisateur courant
     let newMessage = null;
-
+    
     // 📤 Envoi d'un message texte
     const handleSend = () => {
     if (message.trim() ) {
@@ -25,7 +25,7 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
            type: 'message',
            type_msg: 'text',
            message: message,
-           sender: personCurrent,
+           sendeur: personCurrent,
            action: 'create message',
         };
       setMessage('');
@@ -60,7 +60,7 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
         type_msg: 'file',
         file: fileData,
         file_name: file.name,
-        sender: personCurrent,
+        sendeur: personCurrent,
         action: 'create message',
       };
       handleSubmitMessage(newMessage);
@@ -94,7 +94,7 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
                 type: 'message',
                 type_msg: 'audio',
                 audioData: base64Audio,
-                sender: personCurrent,
+                sendeur: personCurrent,
                 action: 'create message',
             };
             handleSubmitMessage(newMessage);
@@ -145,13 +145,13 @@ const InputChat = ({ handleSubmitMessage }) => {//message, setMessage,
 
      {/* 🎙️ Bouton micro */}
       {!isRecording ? (
-        <button onClick={startRecording}>
-          <FiMic className="iconChat "  />
-        </button>
+        //<button >
+          <FiMic className="iconChat" onClick={startRecording} />
+        //</button>
       ) : (
-        <button onClick={stopRecording}>
-          <FiMic className="iconChat" />
-        </button>
+        //<button >
+          <FiMic className="iconChat" onClick={stopRecording} />
+        //</button>
       )}
 
        {/* 💬 Champ texte */}

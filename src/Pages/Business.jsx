@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef,useContext  } from 'react';
+import axios from 'axios';
 import '../Styles/Business.css';
 import Header from "../Components/Header/Header";
 import Footer from "../Components/Footer/Footer";
-
+import { AuthContext } from '../auth/AuthContext';
 const Business = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 7;
@@ -10,6 +11,24 @@ const Business = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: false, message: '' });
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  const {userinfo ,user,isLoading} = useContext(AuthContext);
+  //const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
+  //const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  const [LANGUAGES, setAvailableLanguages] = useState([]);
+const AVAILABILITY_OPTIONS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday"
+];
+
+  const [availableSpecializations, setAvailableSpecializations] = useState([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -20,10 +39,11 @@ const Business = () => {
     licenseNumber: '',
     issuingOrganization: '',
     issueDate: '',
-    specializations: '',
+    specializations: [],//specializations: '',
+    otherSpecialization: '', // 👈 ajouté ici
     yearsOfExperience: '',
-    availability: '',
-    languages: '',
+    availability: [],//availability: '',
+    languages: [],//languages: '',
     certifications: '',
     resume: null,
     motivationText: '',
@@ -47,7 +67,8 @@ const Business = () => {
     resume: false,
     motivationText: false,
     clientType: false,
-    consentAgreement: false
+    consentAgreement: false,
+    languages: false,
   });
 
   useEffect(() => {
@@ -65,7 +86,33 @@ const Business = () => {
     }
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
+    const fetchSpecializations = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/gestion-mental-health/specialites/');
+        const data = await response.json();
+        setAvailableSpecializations(data); // assure-toi que data est un tableau d'objets ou de strings
+        
+      } catch (error) {
+        console.error('Erreur lors du chargement des spécialisations:', error);
+      }
+    };
+    const fetchLanguages = async () => {
+      axios.get('http://localhost:8000/api/gestion-library/Languages/')
+      .then((response) => {
+        setAvailableLanguages(response.data);;
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+    };
+ 
+    fetchSpecializations();
+    fetchLanguages();
+  }, []);
+
+useEffect(() => {
     localStorage.setItem('therapistFormData', JSON.stringify(formData));
   }, [formData]);
 
@@ -91,18 +138,59 @@ const Business = () => {
     }
   };
 
+  const handleCheckboxChange = (e, langue) => {
+    const isChecked = e.target.checked;
+    const updatedLanguages = isChecked
+      ? [...formData.languages, langue]
+      : formData.languages.filter((l) => l.name !== langue.name);
+  
+    setFormData({ ...formData, languages: updatedLanguages });
+  
+    if (errors.languages) {
+      setErrors({ ...errors, languages: false });
+    }
+  };
+  const handleAvailabilityChange = (e, slot) => {
+  if (e.target.checked) {
+    setFormData({
+      ...formData,
+      availability: [...formData.availability, slot],
+    });
+  } else {
+    setFormData({
+      ...formData,
+      availability: formData.availability.filter((s) => s !== slot),
+    });
+  }
+  };
+
+
+  const handleSpecializationChange = (e, specialization) => {
+    const isChecked = e.target.checked;
+    const updatedSpecs = isChecked
+      ? [...formData.specializations, specialization]//specialization.id
+      : formData.specializations.filter((s) => s !== specialization);//specialization.id
+  
+    setFormData({ ...formData, specializations: updatedSpecs });
+  
+    if (errors.specializations) {
+      setErrors({ ...errors, specializations: false });
+    }
+  };
+
+
   const validateStep = () => {
     let isValid = true;
     const newErrors = {...errors};
 
     switch (currentStep) {
       case 1:
-        newErrors.fullName = !formData.fullName;
-        newErrors.email = !formData.email;
-        newErrors.dateOfBirth = !formData.dateOfBirth;
-        newErrors.city = !formData.city;
-        isValid = !newErrors.fullName && !newErrors.email && 
-                  !newErrors.dateOfBirth && !newErrors.city;
+        //newErrors.fullName = !formData.fullName;
+        //newErrors.email = !formData.email;
+        //newErrors.dateOfBirth = !formData.dateOfBirth;
+        //newErrors.city = !formData.city;
+        //isValid =!newErrors.city; //!newErrors.fullName && !newErrors.email && 
+                  //!newErrors.dateOfBirth && !newErrors.city;
         break;
       case 2:
         newErrors.licenseNumber = !formData.licenseNumber;
@@ -112,9 +200,14 @@ const Business = () => {
                   !newErrors.issueDate;
         break;
       case 3:
-        newErrors.specializations = !formData.specializations;
+        /*newErrors.specializations = !formData.specializations;
         newErrors.yearsOfExperience = !formData.yearsOfExperience;
-        isValid = !newErrors.specializations && !newErrors.yearsOfExperience;
+        isValid = !newErrors.specializations && !newErrors.yearsOfExperience;*/
+        newErrors.availability = formData.availability.length === 0;
+        newErrors.specializations = formData.specializations.length === 0 ||  (formData.specializations.includes('other') && !formData.otherSpecialization);
+        newErrors.yearsOfExperience = !formData.yearsOfExperience;
+        isValid = !newErrors.specializations && !newErrors.yearsOfExperience && !newErrors.availability;
+
         break;
       case 4:
         isValid = true; 
@@ -157,16 +250,65 @@ const Business = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubmitStatus({ success: true, message: 'Application submitted successfully!' });
-      localStorage.removeItem('therapistFormData');
-    } catch (error) {
-      setSubmitStatus({ success: false, message: 'Submission failed. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
+
+    const formDataToSend = new FormData();
+  console.log(formDataToSend)
+  console.log(formData)
+  // Remplir les champs un par un
+  formDataToSend.append('license_number', formData.licenseNumber);
+  formDataToSend.append('issuing_organization', formData.issuingOrganization);
+  formDataToSend.append('issue_date', formData.issueDate);
+  formDataToSend.append('photo', formData.profilePicture);
+  
+
+  if (formData.otherSpecialization){
+    formDataToSend.append('other_specialization', formData.otherSpecialization);
+  }else{
+    formData.specializations.forEach((spec, index) => {
+      console.log(spec)
+      const specId = typeof spec === 'object' ? spec.id_specialite : spec;
+      formDataToSend.append('specialites', specId);
+  });
+  }
+  formDataToSend.append('annees_experience', formData.yearsOfExperience);
+  //formDataToSend.append('availability', formData.availability);
+  formDataToSend.append('availability', JSON.stringify(formData.availability));
+  formDataToSend.append('languages', JSON.stringify(formData.languages));
+
+  formDataToSend.append('certificate', formData.certifications); // ← fichier 
+  formDataToSend.append('resume_cv',formData.resume ); // ← fileInput.files[0] 
+
+  formDataToSend.append('motivation', formData.motivationText);
+  formDataToSend.append('client_type', formData.clientType);
+  formDataToSend.append('referral_source', formData.referralSource);
+  formDataToSend.append('motivation_letter', formData.motivationLetter);
+
+  formDataToSend.append('consent_agreement', formData.consentAgreement === 'agree');
+  console.log('data form to send ',formDataToSend)
+  console.log('user?.access',user?.access)
+  try {
+     const response = await fetch('http://127.0.0.1:8000/api/GestionAccounts/patient-demandes/', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${user?.access}` // si tu utilises JWT
+      },
+      body: formDataToSend
+    });
+    console.log('Demande envoyée avec succès', response);
+    if (response.status === 200 || response.status === 201) {
+       setSubmitStatus({ success: true, message: 'Demande soumise avec succès !' });
+       localStorage.removeItem('therapistFormData');
+    } else {
+       setSubmitStatus({ success: false, message: 'Erreur lors de la soumission.' });
     }
-  };
+  
+  } catch (error) {
+    setSubmitStatus({ success: false, message: 'Une erreur réseau est survenue.' });
+  } finally {
+    setIsSubmitting(false);
+  }
+
+};
 
   const renderProgressIndicator = () => (
     <div className={`progress-indicator ${isMobile ? 'mobile' : ''}`}>
@@ -213,55 +355,7 @@ const Business = () => {
         return (
           <div className="form-step">
             <h2>Let's Get to Know You First</h2>
-            <div className="form-group">
-              <label>Full Name <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="fullName" 
-                value={formData.fullName} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.fullName ? 'error' : ''}`} 
-                required 
-              />
-              {errors.fullName && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>Email <span className="required">*</span></label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.email ? 'error' : ''}`}
-                placeholder="hello@example.com" 
-                required 
-              />
-              {errors.email && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>Date of Birth <span className="required">*</span></label>
-              <input 
-                type="date" 
-                name="dateOfBirth" 
-                value={formData.dateOfBirth} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
-                required 
-              />
-              {errors.dateOfBirth && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>City / Wilaya <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="city" 
-                value={formData.city} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.city ? 'error' : ''}`}
-                required 
-              />
-              {errors.city && <span className="error-message">This field is required</span>}
-            </div>
+            
             <div className="form-group">
               <label>Upload Profile Picture</label>
               <input 
@@ -325,17 +419,54 @@ const Business = () => {
         return (
           <div className="form-step">
             <h2>Professional Info</h2>
-            <div className="form-group">
-              <label>Specializations <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="specializations" 
-                value={formData.specializations} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.specializations ? 'error' : ''}`}
-                required 
-              />
-              {errors.specializations && <span className="error-message">This field is required</span>}
+           
+            <div className="form-group" ref={dropdownRef}>
+                <label>Spécialisations <span className="required">*</span></label>
+                <button type="button" onClick={() => setDropdownOpen(!dropdownOpen)} className="dropdown-toggle">
+                     Choisir des spécialisations
+                </button>
+                {dropdownOpen && (
+                <div className="dropdown-menu">   
+                    {availableSpecializations.map((spec) => (
+                      <div key={spec.id_specialite} className="checkbox-option">
+                        {console.log(spec)}
+                        <input
+                          type="checkbox"
+                          value={spec}
+                          checked={formData.specializations.includes(spec)}
+                          onChange={(e) => handleSpecializationChange(e, spec)}
+                          id={`spec-${spec.id_specialite}`}
+                        />
+                        <label htmlFor={`spec-${spec.id_specialite}`}>{spec.nom} </label>
+                      </div>
+                    ))}
+                    {/* Option Autre */}
+                    <div className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          value="other"
+                          checked={formData.specializations.includes('other')}
+                          onChange={(e) => handleSpecializationChange(e, 'other')}
+                          id="spec-other"
+                        />
+                        <label htmlFor="spec-other">Autre (à préciser)</label>
+                    </div>
+                    {/* Champ texte si "Autre" est cochée */}
+                    {formData.specializations.includes('other') && (
+                        <div className="form-group">
+                          <label>Précisez votre spécialisation</label>
+                          <input
+                            type="text"
+                            name="otherSpecialization"
+                            value={formData.otherSpecialization || ''}
+                            onChange={handleInputChange}
+                            className="form-input"
+                          />
+                        </div>
+                    )}
+                </div>
+                )}
+                {errors.specializations && <span className="error-message">Veuillez sélectionner au moins une spécialisation</span>}
             </div>
             <div className="form-group">
               <label>Years of Experience <span className="required">*</span></label>
@@ -350,27 +481,39 @@ const Business = () => {
               />
               {errors.yearsOfExperience && <span className="error-message">This field is required</span>}
             </div>
+             <div className="form-group">
+               <label>Disponibilités :</label>
+               {AVAILABILITY_OPTIONS.map((slot) => (
+                 <div key={slot} className="checkbox-option">
+                   <input
+                     type="checkbox"
+                     value={slot}
+                     checked={formData.availability.includes(slot)}
+                     onChange={(e) => handleAvailabilityChange(e, slot)}
+                     id={`availability-${slot}`}
+                   />
+                   <label htmlFor={`availability-${slot}`}>{slot}</label>
+                 </div>
+               ))}
+               {errors.availability && (
+                 <span className="error-message">Veuillez sélectionner au moins une disponibilité</span>
+               )}
+             </div>
             <div className="form-group">
-              <label>Availability</label>
-              <input 
-                type="text" 
-                name="availability" 
-                value={formData.availability} 
-                onChange={handleInputChange} 
-                className="form-input" 
-                placeholder="e.g. Weekdays 9-5" 
-              />
-            </div>
-            <div className="form-group">
-              <label>Languages Spoken</label>
-              <input 
-                type="text" 
-                name="languages" 
-                value={formData.languages} 
-                onChange={handleInputChange} 
-                className="form-input" 
-                placeholder="e.g. Arabic, French, English..."
-              />
+                    <label>Langues parlées :</label>
+                    {LANGUAGES.map((langue) => (
+                      <div key={langue.id} className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          value={langue.name}
+                          checked={formData.languages.includes(langue)}
+                          onChange={(e) => handleCheckboxChange(e, langue)}
+                          id={`lang-${langue.id}`}
+                        />
+                        <label htmlFor={`lang-${langue}`}>{langue.name}</label>
+                      </div>
+                    ))}
+                    {errors.languages && <span className="error-message">Veuillez sélectionner au moins une langue</span>}
             </div>
           </div>
         );
@@ -438,11 +581,11 @@ const Business = () => {
               >
                 <option value="">Select one...</option>
                 <option value="children">Children</option>
-                <option value="adolescents">Adolescents</option>
+                {/*<option value="adolescents">Adolescents</option>*/}
                 <option value="adults">Adults</option>
                 <option value="couples">Couples</option>
-                <option value="families">Families</option>
-                <option value="seniors">Seniors</option>
+                <option value="teen">Teen</option>
+                {/*<option value="seniors">Seniors</option>*/}
               </select>
               {errors.clientType && <span className="error-message">This field is required</span>}
             </div>
@@ -548,3 +691,67 @@ const Business = () => {
 };
 
 export default Business;
+
+
+{/*<div className="form-group">
+              <label>Full Name <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="fullName" 
+                value={formData.fullName} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.fullName ? 'error' : ''}`} 
+                required 
+              />
+              {errors.fullName && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>Email <span className="required">*</span></label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.email ? 'error' : ''}`}
+                placeholder="hello@example.com" 
+                required 
+              />
+              {errors.email && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>Date of Birth <span className="required">*</span></label>
+              <input 
+                type="date" 
+                name="dateOfBirth" 
+                value={formData.dateOfBirth} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
+                required 
+              />
+              {errors.dateOfBirth && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>City / Wilaya <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="city" 
+                value={formData.city} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.city ? 'error' : ''}`}
+                required 
+              />
+              {errors.city && <span className="error-message">This field is required</span>}
+            </div>*/}
+
+             {/*<div className="form-group">
+              <label>Specializations <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="specializations" 
+                value={formData.specializations} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.specializations ? 'error' : ''}`}
+                required 
+              />
+              {errors.specializations && <span className="error-message">This field is required</span>}
+            </div>*/}

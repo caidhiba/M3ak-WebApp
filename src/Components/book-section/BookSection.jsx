@@ -2,11 +2,11 @@
 
 // ____________________________________________________________________________________________
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./BookSection.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-const books = [
+import axios from "axios";
+/*const books = [
   {
     img: "/src/assets/book1.png",
     title: "Change your life in 30 days",
@@ -27,11 +27,21 @@ const books = [
     title: "Choosing Therapy",
     price: "1500DA",
   },
-];
+];*/
 
 const BooksSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/gestion-library/Homebooks/")
+      .then((response) => {
+        setBooks(response.data);
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+  }, []);
   const prevBook = () => {
     setCurrentIndex((prev) => (prev === 0 ? books.length - 1 : prev - 1));
   };
@@ -50,9 +60,15 @@ const BooksSection = () => {
   <div className="books-container">
     {books.map((book, index) => (
       <div className="book-card" key={index}>
-        <img src={book.img} alt={book.title} />
+        <img src={book.cover} alt={book.title} />
         <div className="book-info">
           <h3>{book.title}</h3>
+          <p className="book-author"> <strong>by :</strong>  {book.author}</p>
+          <p className="book-category"><strong>Category:</strong>
+           {book.category && book.category.length > 0
+             ? book.category.map(cat => cat.name).join(", ")
+             : "Uncategorized"}
+          </p>   
           <span className="price">{book.price}</span>
         </div>
         <button className="add-to-cart">Add to cart</button>
@@ -76,9 +92,15 @@ const BooksSection = () => {
             index === currentIndex ? "active" : "hidden"
           }`}
         >
-          <img src={book.img} alt={book.title} />
+          <img src={book.cover} alt={book.title} />
           <div className="book-info">
             <h3>{book.title}</h3>
+            <p className="book-author"> <strong>by :</strong>  {book.author}</p>
+            <p className="book-category"><strong>Category:</strong>
+            {book.category && book.category.length > 0
+               ? book.category.map(cat => cat.name).join(", ")
+               : "Uncategorized"}
+            </p>   
             <span className="price">{book.price}</span>
           </div>
           <button className="add-to-cart">Add to cart</button>

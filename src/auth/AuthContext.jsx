@@ -2,7 +2,7 @@ import  { createContext, useState, useEffect } from 'react';
 import authService from './auth';  // 👈 on trouve login logout register fonctions
 import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
-
+import axios from "axios";
 //import { ReactNode } from 'react';
 
 function AuthProvider({ children }) {
@@ -11,23 +11,56 @@ function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   
   const [userinfo, setUserinfo] = useState(null); // 👈 Ajoute un état pour stocker les infos utilisateur
-
-
+  const [newinfo,setNewinfo]= useState(null); // 👈 Ajoute un état pour stocker les infos utilisateur
+  
   useEffect(() => {
-    const currentUser = authService.getCurrentUser();
+    /*const currentUser = authService.getCurrentUser();
     if (currentUser) {
-      setUser(currentUser);
-      //const tokenData = JSON.parse(currentUser);
-      const userinfo = jwtDecode(currentUser.access);  // 
-      setUserinfo(userinfo); // 👈 stocké directement dans le state
-      setIsAuthenticated(true);
+      if (authService.isTokenExpired(currentUser.access)) {
+        const refreshedUser = authService.refreshToken();
+
+        if (refreshedUser) {
+          setUser(refreshedUser);
+          
+          axios.get('http://localhost:8000/api/GestionAccounts/user/me/', {
+             headers: { Authorization: `Bearer ${token}` }
+          }).then(res => {
+            setNewinfo(res.data);
+          
+          const userinfo = jwtDecode(refreshedUser.access);
+          console.log('les information new',newinfo);
+          if(userinfo.first_name !== newinfo.first_name ||
+             userinfo.last_name !== newinfo.last_name ||
+             userinfo.image !== newinfo.photo){
+              const userform={
+                first_name: newinfo.first_name,
+                last_name: newinfo.last_name,
+                image: newinfo.photo,
+                role: userinfo.role,
+                user_id: userinfo.user_id,
+              }
+               setUserinfo(userform) ;        
+          }else{
+               setUserinfo(userinfo);    
+          }
+          setIsAuthenticated(true);});  
+        } else {
+          authService.logout();
+        }
+      } else {
+        setUser(currentUser);
+        const userinfo = jwtDecode(currentUser.access);
+        setUserinfo(userinfo);
+        setIsAuthenticated(true);
+      }
     }
-    setIsLoading(false);
+    setIsLoading(false);*/
+    updateUserInfo()
   }, []);
 
-  const register = async (email, firstName,lastName ,password ,code) => {//,sexe
+  const register = async (email, firstName,lastName ,password ,code,sexe,birthDate) => {//,sexe,,birthDate
     try {
-      const response =await authService.register(email, firstName,lastName, password ,code);//,sexe
+      const response =await authService.register(email, firstName,lastName, password ,code,sexe,birthDate);//,sexe,birthDate
       const user = await authService.login(email, password);
       setUser(user);
 
@@ -67,8 +100,77 @@ function AuthProvider({ children }) {
     setUser(null);
     setIsAuthenticated(false);
   };
+  
+  // Fonction pour mettre à jour les informations utilisateur
+const updateUserInfo = async () => {//newInfo
+  const currentUser = authService.getCurrentUser();
+  if (currentUser) {
+    if(authService.isTokenExpired(currentUser.refresh)){
+      if (authService.isTokenExpired(currentUser.access)) {
+        const refreshedUser = authService.refreshToken();
 
-
+        if (refreshedUser) {
+          setUser(refreshedUser);
+          //console.log(refreshedUser)
+          axios.get('http://localhost:8000/api/GestionAccounts/user/me/', {
+             headers: { Authorization: `Bearer ${refreshedUser.access}` }
+          }).then(res => {
+            setNewinfo(res.data);
+            
+          const userinfo = jwtDecode(refreshedUser.access);
+          console.log('les information new',newinfo);
+          if(userinfo.first_name !== newinfo.first_name ||
+             userinfo.last_name !== newinfo.last_name ||
+             userinfo.image !== newinfo.photo){
+              const userform={
+                first_name: newinfo.first_name,
+                last_name: newinfo.last_name,
+                image: newinfo.photo,
+                role: userinfo.role,
+                user_id: userinfo.user_id,
+              }
+               setUserinfo(userform) ;        
+          }else{
+               setUserinfo(userinfo);    
+          }
+          setIsAuthenticated(true);
+        });
+        } else {
+          authService.logout();
+        }
+      } else {
+        setUser(currentUser);
+        const userinfo = jwtDecode(currentUser.access);
+        axios.get('http://localhost:8000/api/GestionAccounts/user/me/', {
+             headers: { Authorization: `Bearer ${currentUser.access}` }
+        }).then(res => {
+          const realData = res.data;
+          setNewinfo(realData);
+         
+        console.log('les information new',realData);
+          if(userinfo.first_name !== realData?.first_name ||
+             userinfo.last_name !== realData?.last_name ||
+             userinfo.image !== realData?.photo){
+              const userform={
+                first_name: realData?.first_name,
+                last_name: realData?.last_name,
+                image: realData?.photo,
+                role: userinfo.role,
+                user_id: userinfo.user_id,
+              }
+               setUserinfo(userform) ;        
+          }else{
+               setUserinfo(userinfo);    
+          }
+        setIsAuthenticated(true);
+      });
+     } 
+   } else {
+          authService.logout();
+    }    
+  }
+    setIsLoading(false);
+};
   
   return (
     <AuthContext.Provider
@@ -80,6 +182,7 @@ function AuthProvider({ children }) {
         register,
         login,
         logout,
+        updateUserInfo,
         //getCurrentUserInfo, // 👈 Ajoute cette ligne pour exposer la fonction
       }}
     >

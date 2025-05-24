@@ -239,7 +239,7 @@ body {
   text-align: center;
 }
 
-.cards {
+.results-summary .cards {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -247,7 +247,7 @@ body {
   margin-top: 2rem;
 }
 
-.cards > * {
+.results-summary .cards > * {
   flex: 0 1 calc(50% - 2rem);
   max-width: 400px;
 }

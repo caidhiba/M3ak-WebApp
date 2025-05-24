@@ -13,7 +13,7 @@ import BookDetail from "./Components/BookDetail/BookDetail";
 
 import FindATherapist from "./Pages/FindATherapist";
 
-import Recommendation from "./Pages/recommendation";
+import Recommendation from "./Pages/Recommendation";
 import RoleProvider from "../src/auth/RoleContext";//pour que le user si il est thyra
 
 import VideoCall from "./Pages/InVideoCall";
@@ -63,17 +63,17 @@ export default function App() {
           <Route path="/signup" element={<SignIN />} />
           <Route path="/book/:id" element={<BookDetail />} />
           <Route path="/FindATherapist" element={<FindATherapist />} />
-          <Route path="/Profile" element={<ProfilePage />} />
+          
           
           {/**************************************************** */}  
           {/** pour les page qui sont accessible par le user si il est authentifié */}         
-          {/*<Route element={<PrivateRoute />}>  🗒️ decommente le PrivateRoute pour que le user si il est authentifié ou pas*/}
-           
+          <Route element={<PrivateRoute />}>   {/**  🗒️ decommente le PrivateRoute pour que le user si il est authentifié ou pas*/}
+                 <Route path="/Profile" element={<ProfilePage />} />
                  <Route path="/payment" element={<PaymentPage />} />
                  {/* Route réservée aux clients */}
-                 {/* <Route element={<RoleProvider allowedRoles={["patient"]} />}> */}
+                  <Route element={<RoleProvider allowedRoles={["patient"]} />}> 
                       <Route path="/Business" element={<Business />} />
-                 {/* </Route> */}
+                  </Route> 
          
                  {/* Routes réservées aux thérapeutes */}
                  <Route element={<RoleProvider allowedRoles={["therapeute"]} />}>
@@ -81,9 +81,9 @@ export default function App() {
                  </Route>
 
                  <Route path="/VideoCall" element={<VideoCall />} />
-                 <Route path="/MyContactes" element={<ChatApp />} />
+                 {/*<Route path="/MyContactes" element={<ChatApp />} />*/}
           
-          {/*</Route>*/}
+          </Route>
           {/**************************************************** */}     
         </Routes>     
       </Router>
