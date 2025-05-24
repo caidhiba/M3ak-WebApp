@@ -5,9 +5,10 @@ const Filters = ({ onFilterChange, onClearAll, isFiltered }) => {
   const [filters, setFilters] = useState({
     category: [],
     gender: '',
-    language: '',
+    language: [],
     experience: 0
   });
+  console.log(filters)
   const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
   const handleCheckbox = (e) => {
     const { value, checked } = e.target;
@@ -24,11 +25,13 @@ const Filters = ({ onFilterChange, onClearAll, isFiltered }) => {
   };
 
   const handleLanguage = (lang) => {
-    setFilters(prev => ({
-      ...prev,
-      language: prev.language === lang ? '' : lang
-    }));
-  };
+  setFilters(prev => ({
+    ...prev,
+    language: prev.language.includes(lang)
+      ? prev.language.filter(l => l !== lang)  // désélectionner si déjà sélectionné
+      : [...prev.language, lang]                // ajouter sinon
+  }));
+};
 
   const handleExperience = (e) => {
     setFilters(prev => ({ ...prev, experience: parseInt(e.target.value) }));
@@ -39,7 +42,7 @@ const Filters = ({ onFilterChange, onClearAll, isFiltered }) => {
   };
 
   const clearFilters = () => {
-    const cleared = { category: [], gender: '', language: '', experience: 0 };
+    const cleared = { category: [], gender: '', language: [], experience: 0 };
     setFilters(cleared);
     onClearAll();
   };
@@ -60,24 +63,24 @@ const Filters = ({ onFilterChange, onClearAll, isFiltered }) => {
           <label>
             <input 
               type="checkbox" 
-              value="Individual" 
-              checked={filters.category.includes('Individual')} 
+              value="individual" 
+              checked={filters.category.includes('individual')} 
               onChange={handleCheckbox} 
             /> Individual Therapy
           </label>
           <label>
             <input 
               type="checkbox" 
-              value="Couples" 
-              checked={filters.category.includes('Couples')} 
+              value="couples" 
+              checked={filters.category.includes('couples')} 
               onChange={handleCheckbox} 
             /> Couples Therapy
           </label>
           <label>
             <input 
               type="checkbox" 
-              value="Adolescent" 
-              checked={filters.category.includes('Adolescent')} 
+              value="adolescent" 
+              checked={filters.category.includes('adolescent')} 
               onChange={handleCheckbox} 
             /> Adolescent Therapy
           </label>
@@ -113,14 +116,15 @@ const Filters = ({ onFilterChange, onClearAll, isFiltered }) => {
           <h3>Language Spoken</h3>
           <div className="buttons">
             {LANGUAGES.map((lang) => (
-              <button
-                key={lang}
-                className={filters.language === lang ? 'selected' : ''}
-                onClick={() => handleLanguage(lang)}
-              >
-                {lang}
+               <button
+                  key={lang}
+                  className={filters.language.includes(lang) ? 'selected' : ''}
+                   onClick={() => handleLanguage(lang)}
+               >
+                   {lang}
               </button>
-            ))}
+             ))}
+
           </div>
         </div>
 

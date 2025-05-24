@@ -64,6 +64,11 @@ const BooksSection = () => {
         <div className="book-info">
           <h3>{book.title}</h3>
           <p className="book-author"> <strong>by :</strong>  {book.author}</p>
+          <p className="book-category"><strong>Category:</strong>
+           {book.category && book.category.length > 0
+             ? book.category.map(cat => cat.name).join(", ")
+             : "Uncategorized"}
+          </p>   
           <span className="price">{book.price}</span>
         </div>
         <button className="add-to-cart">Add to cart</button>
@@ -90,6 +95,12 @@ const BooksSection = () => {
           <img src={book.cover} alt={book.title} />
           <div className="book-info">
             <h3>{book.title}</h3>
+            <p className="book-author"> <strong>by :</strong>  {book.author}</p>
+            <p className="book-category"><strong>Category:</strong>
+            {book.category && book.category.length > 0
+               ? book.category.map(cat => cat.name).join(", ")
+               : "Uncategorized"}
+            </p>   
             <span className="price">{book.price}</span>
           </div>
           <button className="add-to-cart">Add to cart</button>

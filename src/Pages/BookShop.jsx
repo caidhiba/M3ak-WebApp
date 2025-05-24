@@ -26,7 +26,10 @@ const BookShop = () => {
   const handleFilterChange = (newFilters) => {
     const filtered = booksData.filter(book => {
       return (
-        (!newFilters.language.length || newFilters.language.includes(book.language)) &&
+        (!newFilters.language.length === 0 || 
+            newFilters.language.some(lang => 
+              book.language.some(l => l.name === lang)
+            )) &&
         (!newFilters.author || book.author.toLowerCase().includes(newFilters.author.toLowerCase())) &&
         (!newFilters.stock || (newFilters.stock === 'in' ? book.stock > 0 : book.stock === 0)) &&
         (!newFilters.nmb_page || book.nmb_page >= parseInt(newFilters.nmb_page)) &&
@@ -45,7 +48,7 @@ const BookShop = () => {
     <>
       <Header />
       <div className="part"></div>
-      <div className="middle">
+      <div className="middle BookShop">
         <div className="left-menu">
           <FiltersBook onFilterChange={handleFilterChange} onClearFilters={handleClearFilters} />
         </div>
@@ -78,13 +81,13 @@ const BookShop = () => {
             </select>
           </div>
 
-          <div className="cards">
+          <div className="cards books">
             {filteredBooks.map((book) => (
               <BookCard
                 key={book.id}
                 id={book.id}
                 name={book.title}
-                category="Mental Health"
+                category={book.categories}//"Mental Health"
                 author={book.author}
                 price={book.price}
                 image={book.cover}

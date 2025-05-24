@@ -188,7 +188,7 @@ const eventStyleGetter = (event) => {
       {/* Mini calendrier visible uniquement si la vue actuelle est "agenda" */}
        {userinfo?.role === 'therapeute' && (
               <button className="submit-btn add-session-btn" onClick={() => setShowAddForm(true)} >
-                  Ajouter un créneau
+                  Add creneau
               </button>
         )}
       {view === 'agenda' && (
@@ -276,13 +276,13 @@ const eventStyleGetter = (event) => {
              <div className="session-info-box review-form-modal">
                <div className="box-content review-form-box">
                   <button className="close-button close-btn" onClick={() => setShowAddForm(false)}>✖</button>
-                  <h3>Ajouter un créneau</h3>
+                  <h3>Add creneau</h3>
                   <label>
-                     Jour :
+                     Day :
                       <input type="date" value={newSlot.date} onChange={e => setNewSlot({...newSlot, date: e.target.value})} min={new Date().toISOString().split('T')[0]} />
                   </label>
                   <label>
-                     Heure de début :
+                     Hour :
                        <input type="time" value={newSlot.time} onChange={e => setNewSlot({...newSlot, time: e.target.value})} />
                   </label>
                   <button className="submit-btn" onClick={handleCreateSlot}>Créer le créneau</button>

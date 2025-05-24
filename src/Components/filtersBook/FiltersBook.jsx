@@ -30,6 +30,7 @@ const FiltersBook = ({ onFilterChange, onClearFilters  }) => {
       stock: '',
       pages: '',
       price: 2000
+      
     });
     onClearFilters();
   };

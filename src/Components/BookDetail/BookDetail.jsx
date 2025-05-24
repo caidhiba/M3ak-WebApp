@@ -258,12 +258,25 @@ const fullListText = displayedNames.join(', ');
             <p>{book.description}</p>
           ) : (
             <div className='details'>
-              · Publisher:{book.description}<br />
-              · Publication date: March 27, 2025<br />
-              · Language: {book.language}<br />
-              · Print length: {book.nmb_page} pages<br />
-              · Stock: {book.stock}
-               <p><strong>Recommandé par :</strong> {fullListText}
+              {/*<p><strong>Publisher:</strong><br />
+                 {book.description}
+              </p> 
+              <p><strong>Publication date:</strong><br />
+                
+              </p>*/}
+              <p><strong>Language:</strong><br />
+                 {book.language && book.language.length > 0
+                  ? book.language.map(lan => lan.name).join(", ")
+                 : "Uncategorized"}
+                
+              </p>
+              <p><strong>Print length:</strong><br />
+                {book.nmb_page} pages
+              </p>
+              <p><strong>Stock</strong><br />
+                {book.stock}
+              </p>
+               <p><strong>Recommandé par :</strong><br /> {fullListText}
                   {book.recommande_par.length > 2 && (
                     <button
                       onClick={() => setShowAll(!showAll)}
@@ -272,6 +285,11 @@ const fullListText = displayedNames.join(', ');
                       {showAll ? 'Voir moins' : 'Voir plus >'}
                     </button>
                   )}
+              </p>
+              <p className="book-category"><strong>Category:</strong><br />
+                {book.category && book.category.length > 0
+                ? book.category.map(cat => cat.name).join(", ")
+                 : "Uncategorized"}
               </p>
             </div>
           )}

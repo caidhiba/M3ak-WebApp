@@ -16,28 +16,36 @@ const TherapistsList = () => {
       .then(response => {
         setTherapistsData(response.data);
         setFilteredData(response.data);
+        console.log(response.data)
       })
       .catch(error => {
         console.error("Erreur lors du chargement des thérapeutes :", error);
       });
   }, []);
 
-  const handleFilterChange = (newFilters) => {
-    const results = therapistsData.filter((therapist) => {
-      const matchCategory = newFilters.category.length === 0 || 
-        newFilters.category.some(cat =>
-          therapist.client_type.toLowerCase().includes(cat.toLowerCase())
-        );
-      const matchGender = !newFilters.gender || therapist.user.gender === newFilters.gender;
-      const matchLanguage = !newFilters.language || 
-        therapist.languages_spoken.includes(newFilters.language);
-      const matchExperience = therapist.experience_years >= newFilters.experience;
+const handleFilterChange = (newFilters) => {
+  const results = therapistsData.filter((therapist) => {
+    const matchCategory = newFilters.category.length === 0 || 
+      newFilters.category.some(cat =>
+        therapist.client_type.toLowerCase().includes(cat.toLowerCase())
+      );
 
-      return matchCategory && matchGender && matchLanguage && matchExperience;
-    });
-    setFilteredData(results);
-    setIsFiltered(true);
-  };
+    const matchGender = !newFilters.gender || therapist.user.sexe === newFilters.gender;
+
+    /*const matchLanguage = newFilters.language.length === 0 || 
+     newFilters.language.some(lang => therapist.languages_spoken.includes(lang));*/
+     const matchLanguage = newFilters.language.length === 0 || 
+            newFilters.language.some(lang => 
+              therapist.languages_spoken.some(l => l.name === lang)
+            );
+    const matchExperience = therapist.annees_experience >= newFilters.experience;
+
+    return matchCategory && matchGender && matchLanguage && matchExperience;
+  });
+  setFilteredData(results);
+  setIsFiltered(true);
+};
+
 
   const clearAllFilters = () => {
     setFilteredData(therapistsData);

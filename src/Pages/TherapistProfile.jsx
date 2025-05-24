@@ -234,7 +234,7 @@ return (
                 {activeTab === 'languages' && (
                   <div className="details">
                     <strong>Languages</strong>
-                    <p>{therapist.languages_spoken?.join(', ') || 'Language information not available.'}</p>
+                    <p>{therapist.languages_spoken?.map(lan => lan.name).join(", ")|| 'Language information not available.'}</p>
                   </div>
                 )}
                 <button className="see-more">See more</button>

@@ -119,9 +119,11 @@ const TeamSection = () => {
           <div className="team-card">
             <img src={`${therapists[currentIndex]?.user.photo}`} alt={therapists[currentIndex]?.user.first_name} />
             <h3>{therapists[currentIndex]?.user.first_name}{therapists[currentIndex]?.user.last_name}</h3>
+            
             {therapists[currentIndex]?.languages_spoken && therapists[currentIndex]?.languages_spoken.length > 0 && (
-                <p><strong>Langues parlées :</strong> {therapists[currentIndex]?.languages_spoken.join(', ')}</p>
+                <p><strong>Langues parlées :</strong> {therapists[currentIndex]?.languages_spoken.map(lan => lan.name).join(", ")} </p>
             )}
+
             {therapists[currentIndex]?.specialites?.length > 0 && (
                 <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   <strong>Specializations:</strong>{" "}
@@ -160,7 +162,9 @@ const TeamSection = () => {
             <h3>{member.user.first_name}{member.user.last_name}</h3>
             {/*<p>{member.job}</p>*/}
             {member.languages_spoken && member.languages_spoken.length > 0 && (
-            <p><strong>Langues parlées :</strong> {member.languages_spoken.join(', ')}</p>
+            <p><strong>Langues parlées :</strong>              
+                  {member.languages_spoken.map(lan => lan.name).join(", ")}                
+            </p>
             )}
             {member.specialites?.length > 0 && (
               <p style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

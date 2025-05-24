@@ -88,7 +88,7 @@ const ChatApp = ({onsetSessionId,onShowFichier}) => {
       }
     };
 useEffect(() => {
-  if (!finSession || isExpired) return;
+  if (!finSession || isExpired ) return;//|| conversation.statut == 'reservee'
   console.log(isExpired,finSession)
   const checkAndFinishSession = async () => {
     if (!finSession || isExpired) return;
@@ -129,7 +129,7 @@ useEffect(() => {
     /************************************************************ */
 useEffect(() => {
       const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-      if (!conversation || !conversation.id || isExpired  || conversation.statut == 'terminee') return;
+      if (!conversation || !conversation.id || isExpired  || conversation.statut == 'reservee' ||conversation.statut == 'terminee') return;
       if (!user || !user?.access) return;
           
       const socket = new WebSocket(`http://127.0.0.1:8000/ws/chat/${conversation.id}/?token=${user?.access}`); // Remplacez par votre URL de WebSocket

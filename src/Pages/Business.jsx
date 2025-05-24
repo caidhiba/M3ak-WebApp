@@ -14,21 +14,8 @@ const Business = () => {
 
   const {userinfo ,user,isLoading} = useContext(AuthContext);
   //const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
-  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
-  /*const AVAILABILITY_OPTIONS = [
-  "Lundi matin", "Lundi après-midi", 
-  "Mardi matin", "Mardi après-midi",
-  "Mercredi matin", "Mercredi après-midi",
-  "Jeudi matin", "Jeudi après-midi",
-  "Vendredi matin", "Vendredi après-midi"
-  ];*/
-  /*const AVAILABILITY_OPTIONS = [
-  "Monday morning", "Monday afternoon",
-  "Tuesday morning", "Tuesday afternoon",
-  "Wednesday morning", "Wednesday afternoon",
-  "Thursday morning", "Thursday afternoon",
-  "Friday morning", "Friday afternoon"
-];*/
+  //const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  const [LANGUAGES, setAvailableLanguages] = useState([]);
 const AVAILABILITY_OPTIONS = [
   "Monday",
   "Tuesday",
@@ -99,7 +86,7 @@ const AVAILABILITY_OPTIONS = [
     }
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchSpecializations = async () => {
       try {
         const response = await fetch('http://localhost:8000/api/gestion-mental-health/specialites/');
@@ -110,11 +97,22 @@ const AVAILABILITY_OPTIONS = [
         console.error('Erreur lors du chargement des spécialisations:', error);
       }
     };
-  
+    const fetchLanguages = async () => {
+      axios.get('http://localhost:8000/api/gestion-library/Languages/')
+      .then((response) => {
+        setAvailableLanguages(response.data);;
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+    };
+ 
     fetchSpecializations();
+    fetchLanguages();
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
     localStorage.setItem('therapistFormData', JSON.stringify(formData));
   }, [formData]);
 
@@ -144,7 +142,7 @@ const AVAILABILITY_OPTIONS = [
     const isChecked = e.target.checked;
     const updatedLanguages = isChecked
       ? [...formData.languages, langue]
-      : formData.languages.filter((l) => l !== langue);
+      : formData.languages.filter((l) => l.name !== langue.name);
   
     setFormData({ ...formData, languages: updatedLanguages });
   
@@ -179,7 +177,6 @@ const AVAILABILITY_OPTIONS = [
       setErrors({ ...errors, specializations: false });
     }
   };
-  
 
 
   const validateStep = () => {
@@ -311,20 +308,7 @@ const AVAILABILITY_OPTIONS = [
     setIsSubmitting(false);
   }
 
-
-
-
-
-    /*try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSubmitStatus({ success: true, message: 'Application submitted successfully!' });
-      localStorage.removeItem('therapistFormData');
-    } catch (error) {
-      setSubmitStatus({ success: false, message: 'Submission failed. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }*/
-  };
+};
 
   const renderProgressIndicator = () => (
     <div className={`progress-indicator ${isMobile ? 'mobile' : ''}`}>
@@ -371,55 +355,7 @@ const AVAILABILITY_OPTIONS = [
         return (
           <div className="form-step">
             <h2>Let's Get to Know You First</h2>
-            {/*<div className="form-group">
-              <label>Full Name <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="fullName" 
-                value={formData.fullName} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.fullName ? 'error' : ''}`} 
-                required 
-              />
-              {errors.fullName && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>Email <span className="required">*</span></label>
-              <input 
-                type="email" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.email ? 'error' : ''}`}
-                placeholder="hello@example.com" 
-                required 
-              />
-              {errors.email && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>Date of Birth <span className="required">*</span></label>
-              <input 
-                type="date" 
-                name="dateOfBirth" 
-                value={formData.dateOfBirth} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
-                required 
-              />
-              {errors.dateOfBirth && <span className="error-message">This field is required</span>}
-            </div>
-            <div className="form-group">
-              <label>City / Wilaya <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="city" 
-                value={formData.city} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.city ? 'error' : ''}`}
-                required 
-              />
-              {errors.city && <span className="error-message">This field is required</span>}
-            </div>*/}
+            
             <div className="form-group">
               <label>Upload Profile Picture</label>
               <input 
@@ -483,19 +419,7 @@ const AVAILABILITY_OPTIONS = [
         return (
           <div className="form-step">
             <h2>Professional Info</h2>
-            {/*<div className="form-group">
-              <label>Specializations <span className="required">*</span></label>
-              <input 
-                type="text" 
-                name="specializations" 
-                value={formData.specializations} 
-                onChange={handleInputChange} 
-                className={`form-input ${errors.specializations ? 'error' : ''}`}
-                required 
-              />
-              {errors.specializations && <span className="error-message">This field is required</span>}
-            </div>*/}
-
+           
             <div className="form-group" ref={dropdownRef}>
                 <label>Spécialisations <span className="required">*</span></label>
                 <button type="button" onClick={() => setDropdownOpen(!dropdownOpen)} className="dropdown-toggle">
@@ -504,7 +428,7 @@ const AVAILABILITY_OPTIONS = [
                 {dropdownOpen && (
                 <div className="dropdown-menu">   
                     {availableSpecializations.map((spec) => (
-                      <div key={spec} className="checkbox-option">
+                      <div key={spec.id_specialite} className="checkbox-option">
                         {console.log(spec)}
                         <input
                           type="checkbox"
@@ -578,15 +502,15 @@ const AVAILABILITY_OPTIONS = [
             <div className="form-group">
                     <label>Langues parlées :</label>
                     {LANGUAGES.map((langue) => (
-                      <div key={langue} className="checkbox-option">
+                      <div key={langue.id} className="checkbox-option">
                         <input
                           type="checkbox"
-                          value={langue}
+                          value={langue.name}
                           checked={formData.languages.includes(langue)}
                           onChange={(e) => handleCheckboxChange(e, langue)}
-                          id={`lang-${langue}`}
+                          id={`lang-${langue.id}`}
                         />
-                        <label htmlFor={`lang-${langue}`}>{langue}</label>
+                        <label htmlFor={`lang-${langue}`}>{langue.name}</label>
                       </div>
                     ))}
                     {errors.languages && <span className="error-message">Veuillez sélectionner au moins une langue</span>}
@@ -767,3 +691,67 @@ const AVAILABILITY_OPTIONS = [
 };
 
 export default Business;
+
+
+{/*<div className="form-group">
+              <label>Full Name <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="fullName" 
+                value={formData.fullName} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.fullName ? 'error' : ''}`} 
+                required 
+              />
+              {errors.fullName && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>Email <span className="required">*</span></label>
+              <input 
+                type="email" 
+                name="email" 
+                value={formData.email} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.email ? 'error' : ''}`}
+                placeholder="hello@example.com" 
+                required 
+              />
+              {errors.email && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>Date of Birth <span className="required">*</span></label>
+              <input 
+                type="date" 
+                name="dateOfBirth" 
+                value={formData.dateOfBirth} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.dateOfBirth ? 'error' : ''}`}
+                required 
+              />
+              {errors.dateOfBirth && <span className="error-message">This field is required</span>}
+            </div>
+            <div className="form-group">
+              <label>City / Wilaya <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="city" 
+                value={formData.city} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.city ? 'error' : ''}`}
+                required 
+              />
+              {errors.city && <span className="error-message">This field is required</span>}
+            </div>*/}
+
+             {/*<div className="form-group">
+              <label>Specializations <span className="required">*</span></label>
+              <input 
+                type="text" 
+                name="specializations" 
+                value={formData.specializations} 
+                onChange={handleInputChange} 
+                className={`form-input ${errors.specializations ? 'error' : ''}`}
+                required 
+              />
+              {errors.specializations && <span className="error-message">This field is required</span>}
+            </div>*/}

@@ -103,8 +103,9 @@ function AuthProvider({ children }) {
   
   // Fonction pour mettre à jour les informations utilisateur
 const updateUserInfo = async () => {//newInfo
-      const currentUser = authService.getCurrentUser();
-    if (currentUser) {
+  const currentUser = authService.getCurrentUser();
+  if (currentUser) {
+    if(authService.isTokenExpired(currentUser.refresh)){
       if (authService.isTokenExpired(currentUser.access)) {
         const refreshedUser = authService.refreshToken();
 
@@ -163,10 +164,13 @@ const updateUserInfo = async () => {//newInfo
           }
         setIsAuthenticated(true);
       });
-     }
-    }
+     } 
+   } else {
+          authService.logout();
+    }    
+  }
     setIsLoading(false);
-  };
+};
   
   return (
     <AuthContext.Provider

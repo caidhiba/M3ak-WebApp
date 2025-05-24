@@ -223,8 +223,8 @@ const SignIn = () => {
                     required
                   >
                     <option value="">Sélectionnez votre sexe</option>
-                    <option value="homme">Homme</option>
-                    <option value="femme">Femme</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                   </select>
                 </div>
                 

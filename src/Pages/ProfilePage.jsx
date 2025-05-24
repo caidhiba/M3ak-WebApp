@@ -13,7 +13,9 @@ import { AuthContext } from '../auth/AuthContext';
 export default function ProfilePage() {
   const [activeSection, setActiveSection] = useState("profile");
   //const LANGUAGES = ["Français", "Anglais", "Espagnol", "Allemand", "Arabe", "Chinois"];
-  const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  //const LANGUAGES = ["French", "English", "Spanish", "German", "Arabic", "Chinese"];
+  const [LANGUAGES, setAvailableLanguages] = useState([]);
+
   // États pour chaque section
   const [userData, setUserData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);//{}
@@ -30,10 +32,19 @@ export default function ProfilePage() {
   useEffect(() => {
     if (!isLoading && user) {
       fetchProfileData();
-    /*
-    fetchRecommendations();*/
+      fetchLanguages();     
    }
   }, [isLoading, user]);
+  const fetchLanguages = async () => {
+    axios.get('http://localhost:8000/api/gestion-library/Languages/')
+      .then((response) => {
+        setAvailableLanguages(response.data);;
+        //console.log(response.data)
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement des thérapeutes :", error);
+      });
+  };
   // 📥 Récupère les infos du profil utilisateur
   const fetchProfileData = () => {
     //console.log(user?.access)
@@ -67,15 +78,27 @@ export default function ProfilePage() {
       }
     }));
   };
-  const handleLanguageCheckboxChange = (e, langue) => {
+const handleLanguageCheckboxChange = (e, langue) => {
   const isChecked = e.target.checked;
-  setUserInfo((prev) => {
-    const currentLanguages = prev.languages_spoken || [];
-    const updatedLanguages = isChecked
-      ? [...currentLanguages, langue]
-      : currentLanguages.filter((l) => l !== langue);
 
-    return { ...prev, languages_spoken: updatedLanguages };
+  setUserInfo(prev => {
+    // Crée un nouveau tableau basé sur les langues actuelles ou un tableau vide si undefined
+    const currentLanguages = prev.languages_spoken ? [...prev.languages_spoken] : [];
+    
+    if (isChecked) {
+      // Ajoute la nouvelle langue seulement si elle n'est pas déjà présente
+      if (!currentLanguages.some(l => l.id === langue.id)) {
+        currentLanguages.push(langue);
+      }
+    } else {
+      // Retire la langue si elle existe
+      const index = currentLanguages.findIndex(l => l.id === langue.id);
+      if (index !== -1) {
+        currentLanguages.splice(index, 1);
+      }
+    }
+
+    return { ...prev, languages_spoken: currentLanguages };
   });
 };
 // 📷 Changement de photo de profil
@@ -88,6 +111,7 @@ export default function ProfilePage() {
     console.log(URL.createObjectURL(file))
    }
   };
+
 
 // 💾 Sauvegarde des modifications
   const handleSaveProfile = (e) => {
@@ -111,16 +135,40 @@ export default function ProfilePage() {
      // Si rôle = patient, rien de plus à ajouter
      if (userinfo.role === "therapeute") {
          for (let key in current) {
-             if (key === 'user' || key === 'id' || key==="languages_spoken") continue; // Déjà traité|| key === 'id'
+             if (key === 'user' || key === 'id' || key==="languages_spoken") continue; // Déjà traité|| key === 'id' 
              if (current[key] !== editData[key]) {
                  // modifiedData[key] = current[key];
                  formData.append(`${key}`, current[key] || "");
              }
           } 
      
-        if (Array.isArray(current.languages_spoken)) {
-           formData.append("languages_spoken", JSON.stringify(current.languages_spoken));
-        }
+        /*if (Array.isArray(current.languages_spoken)) {
+           //formData.append("languages_spoken", JSON.stringify(current.languages_spoken));
+           
+        }*/
+       /*if (userInfo.languages_spoken && userInfo.languages_spoken.length > 0) {
+          formData.append("languages_spoken", JSON.stringify(
+                userInfo.languages_spoken.map(lang => lang.id) // ou lang.name selon ce qu'attend le backend
+           ));
+       }*/
+              /*if (Array.isArray(current.languages_spoken)) {
+               const languageIds = current.languages_spoken.map(lang => typeof lang === 'object' ? lang.id : lang);
+                formData.append("languages_spoken", JSON.stringify(languageIds));*/
+                // Crée un tableau d'IDs uniquement
+                /* const languageIds = userInfo.languages_spoken.map(lang => {
+                    if (typeof lang === 'object' && lang !== null) {
+                       return lang.id; // on prend l'id si c'est un objet
+                    }
+                    return lang.id; // sinon la valeur telle quelle (id déjà)
+                 });
+                 formData.append("languages_spoken", JSON.stringify(languageIds));
+                 
+            }*/
+           if (Array.isArray(userInfo.languages_spoken)) {
+                  userInfo.languages_spoken.forEach(lang => {
+                    formData.append('languages_spoken', lang.id.toString()); // envoie un id à la fois
+            });
+  }
      }
     
      if (profilePicture) {//
@@ -138,6 +186,9 @@ export default function ProfilePage() {
       alert("Informations sauvegardées avec succès.");
     }).catch(console.error);
   };
+
+
+
 
   if (!user || isLoading || !userInfo) return <div>Chargement...</div>;
   return (
@@ -277,16 +328,15 @@ export default function ProfilePage() {
              {/* Nouveau champ Langues parlées */}
                  <label>Langues parlées :</label>
                  {LANGUAGES.map((langue) => (
-                   <div key={langue} className="checkbox-option">
-                     <input
-                       type="checkbox"
-                       value={langue}
-                       checked={userInfo.languages_spoken?.includes(langue)}
-                       onChange={(e) => handleLanguageCheckboxChange(e, langue)}
-                       id={`lang-${langue}`}
-                     />
-                     <label htmlFor={`lang-${langue}`}>{langue}</label>
-                   </div>
+                    <div key={langue.id} className="checkbox-option">
+                        <input
+                          type="checkbox"
+                          id={`lang-${langue.id}`}
+                         checked={userInfo.languages_spoken?.some(l => l.id === langue.id) || false}
+                         onChange={(e) => handleLanguageCheckboxChange(e, langue)}
+                       />
+                         <label htmlFor={`lang-${langue.id}`}>{langue.name}</label>
+                     </div>
                  ))}
             <label>Mes Specialites :</label>
             {userInfo.specialites.map((spec) => (

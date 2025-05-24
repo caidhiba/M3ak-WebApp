@@ -15,9 +15,13 @@ export default function TherapistCard({id ,name, client_type, description, image
         <span className="card-category">
              <strong>Type client:</strong> {client_type }
         </span>
-        {languages && languages.length > 0 && (
+        {/*languages && languages.length > 0 && (
             <p><strong>Langues parlées :</strong> {languages.join(', ')}</p>
-         )}
+         )*/}
+         {languages && languages.length > 0
+                ? languages.map(lan => lan.name).join(", ")
+                 : "Uncategorized"}
+
         <span className="card-category">
           {/*categories && categories.length > 0 ? categories.join(", ") : "Uncategorized"*/}
         </span>

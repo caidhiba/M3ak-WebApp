@@ -34,7 +34,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-
+   
   const user = localStorage.getItem('user');
   return user ? JSON.parse(user) : null;  // retun le user sous forme d'objet JS contenant le token access et refresh 
 };
